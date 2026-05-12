@@ -1,0 +1,1 @@
+-- Manages lists of resources for all players. Handles adding and removing of resources.

@@ -1,0 +1,1 @@
+-- Handles the spawn phase of the game, iterating through entities and applying spawn logic such as creating new entities.

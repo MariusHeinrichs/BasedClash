@@ -1,0 +1,1 @@
+-- Handles the combat phase of the game, iterating through entities and applying combat logic such as damage and health updates.

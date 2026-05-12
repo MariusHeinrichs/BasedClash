@@ -1,0 +1,1 @@
+-- Manages user inputs and translates it into game actions.

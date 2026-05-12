@@ -1,0 +1,1 @@
+-- Manages lists for all entities. Handles adding and removing of entities.

@@ -1,0 +1,1 @@
+-- Handles the movement phase of the game, iterating through entities and applying movement logic such as position updates and collision detection.
