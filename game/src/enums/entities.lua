@@ -9,6 +9,12 @@ EntityEnums.DamageTypes = {
 	PURE = "Pure",
 }
 
+--- @enum EntityEnums.ProjectileTypes
+EntityEnums.ProjectileTypes = {
+	ARROW = "Arrow",
+	FIREBALL = "Fireball",
+}
+
 --- @enum EntityEnums.ArmorTypes
 EntityEnums.ArmorTypes = {
 	LEATHER = "Leather",

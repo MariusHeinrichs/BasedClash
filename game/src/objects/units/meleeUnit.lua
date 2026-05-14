@@ -1,8 +1,11 @@
 --- MeleeUnit class, representing a melee unit in the game.
 
 local Unit = require("src.objects.units.unit")
+local EntityEnums = require("src.enums.entities")
 
 ---@class MeleeUnit : Unit
+---@field Damage number -- The damage dealt by the melee unit.
+---@field DamageType EntityEnums.DamageTypes -- The type of damage dealt by the melee unit.
 local MeleeUnit = {}
 MeleeUnit.__index = MeleeUnit
 
@@ -10,27 +13,40 @@ setmetatable(MeleeUnit, { __index = Unit })
 
 --- Creates a new melee unit.
 --- @generic T : MeleeUnit
---- @param Name string | nil
---- @param MaxHealth number | nil
---- @param Damage number | nil
---- @param DamageType EntityEnums.DamageTypes | nil
---- @param AttackSpeed number | nil
---- @param AttackRange number | nil
---- @param AggroRange number | nil
---- @param TargetPriority EntityEnums.TargetPriorities | nil
---- @param Armor number | nil
---- @param ArmorType EntityEnums.ArmorTypes | nil
---- @param MovementSpeed number | nil
---- @param Size number | nil
---- @param IsFlying boolean | nil
---- @param Bounty number | nil
---- @param PlayerID number | nil
+--- @param Name string | nil -- The name of the unit.
+--- @param MaxHealth number | nil -- The maximum health of the unit.
+--- @param Damage number | nil -- The damage dealt by the unit.
+--- @param DamageType EntityEnums.DamageTypes | nil -- The type of damage dealt by the unit.
+--- @param AttackSpeed number | nil -- The attack speed of the unit.
+--- @param AttackRange number | nil -- The attack range of the unit.
+--- @param AggroRange number | nil -- The aggro range of the unit.
+--- @param TargetPriority EntityEnums.TargetPriorities | nil -- The target priority of the unit.
+--- @param Armor number | nil -- The armor value of the unit.
+--- @param ArmorType EntityEnums.ArmorTypes | nil -- The type of armor of the unit.
+--- @param MovementSpeed number | nil -- The movement speed of the unit.
+--- @param Size number | nil -- The size of the unit.
+--- @param IsFlying boolean | nil -- Whether the unit is flying.
+--- @param Bounty number | nil -- The bounty awarded for defeating the unit.
+--- @param PlayerID number | nil -- The ID of the player controlling the unit.
 --- @return T
 function MeleeUnit:new(Name, MaxHealth, Damage, DamageType, AttackSpeed, AttackRange, AggroRange, TargetPriority, Armor,
 					   ArmorType, MovementSpeed, Size, IsFlying, Bounty, PlayerID)
-	local newMeleeUnit = Unit.new(self, Name, MaxHealth, Damage, DamageType, AttackSpeed, AttackRange, AggroRange,
-		TargetPriority, Armor,
-		ArmorType, MovementSpeed, Size, IsFlying, Bounty, PlayerID)
+	local newMeleeUnit = Unit.new(self,
+		Name,
+		MaxHealth,
+		AttackSpeed,
+		AttackRange,
+		AggroRange,
+		TargetPriority,
+		Armor,
+		ArmorType,
+		MovementSpeed,
+		Size,
+		IsFlying,
+		Bounty,
+		PlayerID)
+	newMeleeUnit.Damage = Damage or 10
+	newMeleeUnit.DamageType = DamageType or EntityEnums.DamageTypes.PHYSICAL
 	return newMeleeUnit
 end
 

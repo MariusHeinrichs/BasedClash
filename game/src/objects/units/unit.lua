@@ -6,8 +6,6 @@ local Object = require("src.objects.object")
 ---@class Unit : Object
 ---@field Health number
 ---@field MaxHealth number
----@field Damage number
----@field DamageType EntityEnums.DamageTypes
 ---@field AttackSpeed number
 ---@field AttackRange number
 ---@field AggroRange number
@@ -28,29 +26,25 @@ setmetatable(Unit, { __index = Object })
 --- Creates a new Unit.
 --- @generic T : Unit
 --- @param self T
---- @param Name string | nil
---- @param MaxHealth number | nil
---- @param Damage number | nil
---- @param DamageType EntityEnums.DamageTypes | nil
---- @param AttackSpeed number | nil
---- @param AttackRange number | nil
---- @param AggroRange number | nil
---- @param TargetPriority EntityEnums.TargetPriorities | nil
---- @param Armor number | nil
---- @param ArmorType EntityEnums.ArmorTypes | nil
---- @param MovementSpeed number | nil
---- @param Size number | nil
---- @param IsFlying boolean | nil
---- @param Bounty number | nil
---- @param PlayerID number | nil
+--- @param Name string | nil -- The name of the unit.
+--- @param MaxHealth number | nil -- The maximum health of the unit.
+--- @param AttackSpeed number | nil -- The attack speed of the unit.
+--- @param AttackRange number | nil -- The attack range of the unit.
+--- @param AggroRange number | nil -- The aggro range of the unit.
+--- @param TargetPriority EntityEnums.TargetPriorities | nil -- The target priority of the unit.
+--- @param Armor number | nil -- The armor value of the unit.
+--- @param ArmorType EntityEnums.ArmorTypes | nil -- The type of armor of the unit.
+--- @param MovementSpeed number | nil -- The movement speed of the unit.
+--- @param Size number | nil -- The size of the unit.
+--- @param IsFlying boolean | nil -- Whether the unit is flying.
+--- @param Bounty number | nil -- The bounty awarded for defeating the unit.
+--- @param PlayerID number | nil -- The ID of the player controlling the unit.
 --- @return T
-function Unit:new(Name, MaxHealth, Damage, DamageType, AttackSpeed, AttackRange, AggroRange, TargetPriority, Armor,
+function Unit:new(Name, MaxHealth, AttackSpeed, AttackRange, AggroRange, TargetPriority, Armor,
 				  ArmorType, MovementSpeed, Size, IsFlying, Bounty, PlayerID)
 	local newUnit = Object.new(self, Name or "Unit")
 	newUnit.MaxHealth = MaxHealth or 100
 	newUnit.Health = newUnit.MaxHealth
-	newUnit.Damage = Damage or 10
-	newUnit.DamageType = DamageType or EntityEnums.DamageTypes.PHYSICAL
 	newUnit.AttackSpeed = AttackSpeed or 1
 	newUnit.AttackRange = AttackRange or 1
 	newUnit.AggroRange = AggroRange or 5
