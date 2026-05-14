@@ -1,11 +1,13 @@
 --- Shared game state mode constants.
+local GameStateEnums = {}
 
-local GameStateModes = {
-	START = "start",
-	MENU = "menu",
+--- @enum GameStateEnums.Names
+GameStateEnums.Names = {
+	STARTMENU = "start_menu",
+	MAINMENU = "main_menu",
 	RUNNING = "running",
 	PAUSE = "pause",
 	GAME_OVER = "game_over",
 }
 
-return GameStateModes
+return GameStateEnums
