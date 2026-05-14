@@ -21,7 +21,7 @@ function Barbarian:new(PlayerID)
 		0.7,
 		0.25,
 		0.75,
-		UnitConstants.TargetPriorities.Unit,
+		UnitConstants.TargetPriorities.UNIT,
 		3,
 		UnitConstants.ArmorTypes.CHAINMAIL,
 		10,
@@ -31,10 +31,6 @@ function Barbarian:new(PlayerID)
 		PlayerID
 	)
 	return newBarbarian
-end
-
-function Barbarian:Draw()
-
 end
 
 return Barbarian

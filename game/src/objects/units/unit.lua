@@ -49,7 +49,7 @@ function Unit:new(Name, MaxHealth, AttackSpeed, AttackRange, AggroRange, TargetP
 	newUnit.AttackRange = AttackRange or 1
 	newUnit.AggroRange = AggroRange or 5
 	newUnit.Target = nil
-	newUnit.TargetPriority = TargetPriority or EntityEnums.TargetPriorities.Unit
+	newUnit.TargetPriority = TargetPriority or EntityEnums.TargetPriorities.UNIT
 	newUnit.Armor = Armor or 0
 	newUnit.ArmorType = ArmorType or EntityEnums.ArmorTypes.LEATHER
 	newUnit.MovementSpeed = MovementSpeed or 1

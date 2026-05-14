@@ -20,7 +20,7 @@ function Archer:new(PlayerID)
 		0.5,
 		0.25,
 		0.75,
-		UnitConstants.TargetPriorities.Unit,
+		UnitConstants.TargetPriorities.UNIT,
 		2,
 		UnitConstants.ArmorTypes.LEATHER,
 		10,
@@ -30,10 +30,6 @@ function Archer:new(PlayerID)
 		PlayerID
 	)
 	return newArcher
-end
-
-function Archer:Draw()
-
 end
 
 return Archer

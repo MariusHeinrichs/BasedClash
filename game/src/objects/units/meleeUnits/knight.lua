@@ -21,7 +21,7 @@ function Knight:new(PlayerID)
 		0.6,
 		0.25,
 		0.75,
-		UnitConstants.TargetPriorities.Unit,
+		UnitConstants.TargetPriorities.UNIT,
 		4,
 		UnitConstants.ArmorTypes.PLATE,
 		10,
@@ -31,10 +31,6 @@ function Knight:new(PlayerID)
 		PlayerID
 	)
 	return newKnight
-end
-
-function Knight:Draw()
-
 end
 
 return Knight

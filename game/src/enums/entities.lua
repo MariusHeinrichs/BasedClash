@@ -20,12 +20,21 @@ EntityEnums.ArmorTypes = {
 	LEATHER = "Leather",
 	CHAINMAIL = "Chainmail",
 	PLATE = "Plate",
+	STRUCTURE = "Structure",
 }
 
 --- @enum EntityEnums.TargetPriorities
 EntityEnums.TargetPriorities = {
-	Unit = "Unit",
-	Structure = "Structure",
+	UNIT = "Unit",
+	STRUCTURE = "Structure",
+}
+
+--- @enum EntityEnums.Units
+EntityEnums.Units = {
+	KNIGHT = "Knight",
+	BARBARIAN = "Barbarian",
+	ARCHER = "Archer",
+	MAGE = "Mage",
 }
 
 return EntityEnums

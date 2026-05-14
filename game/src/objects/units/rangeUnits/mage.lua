@@ -20,7 +20,7 @@ function Mage:new(PlayerID)
 		0.3,
 		0.25,
 		1,
-		UnitConstants.TargetPriorities.Unit,
+		UnitConstants.TargetPriorities.UNIT,
 		1,
 		UnitConstants.ArmorTypes.LEATHER,
 		10,
@@ -30,10 +30,6 @@ function Mage:new(PlayerID)
 		PlayerID
 	)
 	return newMage
-end
-
-function Mage:Draw()
-
 end
 
 return Mage
