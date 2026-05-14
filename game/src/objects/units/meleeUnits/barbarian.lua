@@ -10,12 +10,11 @@ Barbarian.__index = Barbarian
 setmetatable(Barbarian, { __index = MeleeUnit })
 
 --- Creates a new Barbarian.
---- @param Name string | nil -- The name of the barbarian.
 --- @param PlayerID number | nil -- The ID of the player controlling the barbarian.
 --- @return Barbarian
-function Barbarian:new(Name, PlayerID)
+function Barbarian:new(PlayerID)
 	local newBarbarian = MeleeUnit.new(self,
-		Name or "Barbarian",
+		"Barbarian",
 		50,
 		15,
 		UnitConstants.DamageTypes.PHYSICAL,

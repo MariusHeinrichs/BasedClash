@@ -9,16 +9,19 @@ Fireball.__index = Fireball
 setmetatable(Fireball, { __index = Projectile })
 
 --- Creates a new Fireball.
---- @param Name string | nil
---- @param Velocity {X: number, Y: number} | nil
---- @param Source Unit | Structure | nil
---- @param Target Unit | Structure | nil
---- @param SplashRadius number | nil
---- @param SplashDamageMultiplier number | nil
+--- @param Source Unit | Structure | nil -- The source unit or structure that fired the fireball.
+--- @param Target Unit | Structure | nil -- The target unit or structure that the fireball is aimed at.
 --- @return Fireball
-function Fireball:new(Name, Velocity, Source, Target, SplashRadius, SplashDamageMultiplier)
-	local newFireball = Projectile.new(self, Name or "Fireball", Velocity, Source, Target, SplashRadius,
-		SplashDamageMultiplier)
+function Fireball:new(Source, Target)
+	local newFireball = Projectile.new(self,
+		"Fireball",
+		100,
+		10,
+		50,
+		0.5,
+		Source,
+		Target
+	)
 	return newFireball
 end
 
@@ -34,3 +37,5 @@ function Fireball:Draw()
 	love.graphics.circle("fill", x, y, math.max(1.2, r * 0.62))
 	love.graphics.setColor(1, 1, 1)
 end
+
+return Fireball

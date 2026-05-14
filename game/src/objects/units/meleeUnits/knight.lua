@@ -10,12 +10,11 @@ Knight.__index = Knight
 setmetatable(Knight, { __index = MeleeUnit })
 
 --- Creates a new Knight.
---- @param Name string | nil -- The name of the knight.
 --- @param PlayerID number | nil -- The ID of the player controlling the knight.
 --- @return Knight
-function Knight:new(Name, PlayerID)
+function Knight:new(PlayerID)
 	local newKnight = MeleeUnit.new(self,
-		Name or "Knight",
+		"Knight",
 		60,
 		20,
 		UnitConstants.DamageTypes.PHYSICAL,

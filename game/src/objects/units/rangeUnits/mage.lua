@@ -10,12 +10,11 @@ Mage.__index = Mage
 setmetatable(Mage, { __index = RangeUnit })
 
 --- Creates a new Mage.
---- @param Name string | nil -- The name of the mage.
 --- @param PlayerID number | nil -- The ID of the player controlling the mage.
 --- @return Mage
-function Mage:new(Name, PlayerID)
+function Mage:new(PlayerID)
 	local newMage = RangeUnit.new(self,
-		Name or "Mage",
+		"Mage",
 		30,
 		UnitConstants.ProjectileTypes.FIREBALL,
 		0.3,

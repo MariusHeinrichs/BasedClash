@@ -10,12 +10,11 @@ Archer.__index = Archer
 setmetatable(Archer, { __index = RangeUnit })
 
 --- Creates a new Archer.
---- @param Name string | nil -- The name of the archer.
 --- @param PlayerID number | nil -- The ID of the player controlling the archer.
 --- @return Archer
-function Archer:new(Name, PlayerID)
+function Archer:new(PlayerID)
 	local newArcher = RangeUnit.new(self,
-		Name or "Archer",
+		"Archer",
 		40,
 		UnitConstants.ProjectileTypes.ARROW,
 		0.5,

@@ -9,15 +9,19 @@ Arrow.__index = Arrow
 setmetatable(Arrow, { __index = Projectile })
 
 --- Creates a new Arrow.
---- @param Name string | nil
---- @param Velocity {X: number, Y: number} | nil
---- @param Source Unit | Structure | nil
---- @param Target Unit | Structure | nil
---- @param SplashRadius number | nil
---- @param SplashDamageMultiplier number | nil
+--- @param Source Unit | Structure | nil -- The source unit or structure that fired the arrow.
+--- @param Target Unit | Structure | nil -- The target unit or structure that the arrow is aimed at.
 --- @return Arrow
-function Arrow:new(Name, Velocity, Source, Target, SplashRadius, SplashDamageMultiplier)
-	local newArrow = Projectile.new(self, Name or "Arrow", Velocity, Source, Target, SplashRadius, SplashDamageMultiplier)
+function Arrow:new(Source, Target)
+	local newArrow = Projectile.new(self,
+		"Arrow",
+		100,
+		15,
+		0,
+		0,
+		Source,
+		Target
+	)
 	return newArrow
 end
 
@@ -46,3 +50,5 @@ function Arrow:Draw()
 		y - py * wing
 	)
 end
+
+return Arrow
