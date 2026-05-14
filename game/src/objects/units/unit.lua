@@ -16,6 +16,7 @@ local Object = require("src.objects.object")
 ---@field Armor number
 ---@field ArmorType EntityEnums.ArmorTypes
 ---@field MovementSpeed number
+---@field Size number
 ---@field IsFlying boolean
 ---@field Bounty number
 ---@field PlayerID number
@@ -38,12 +39,13 @@ setmetatable(Unit, { __index = Object })
 --- @param Armor number | nil
 --- @param ArmorType EntityEnums.ArmorTypes | nil
 --- @param MovementSpeed number | nil
+--- @param Size number | nil
 --- @param IsFlying boolean | nil
 --- @param Bounty number | nil
 --- @param PlayerID number | nil
 --- @return T
 function Unit:new(Name, MaxHealth, Damage, DamageType, AttackSpeed, AttackRange, AggroRange, TargetPriority, Armor,
-				  ArmorType, MovementSpeed, IsFlying, Bounty, PlayerID)
+				  ArmorType, MovementSpeed, Size, IsFlying, Bounty, PlayerID)
 	local newUnit = Object.new(self, Name or "Unit")
 	newUnit.MaxHealth = MaxHealth or 100
 	newUnit.Health = newUnit.MaxHealth
