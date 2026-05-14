@@ -13,21 +13,11 @@ function love.load()
 end
 
 function love.update()
-	print("Hello!")
 end
 
 function love.draw()
 	love.graphics.printf("FPS: " .. love.timer.getFPS(), 10, 10, 200, "left")
-
-	local gameState = gameStateManager:GetGameState()
-
-	if gameState == GameStateEnums.Names.STARTMENU then
-		interfaceManager:Draw(InterfaceEnums.Names.STARTMENU)
-	elseif gameState == GameStateEnums.Names.MAINMENU then
-		interfaceManager:Draw(InterfaceEnums.Names.MAINMENU)
-	elseif gameState == GameStateEnums.Names.RUNNING then
-		interfaceManager:Draw(InterfaceEnums.Names.BATTLEMENU)
-	end
+	interfaceManager:Draw()
 end
 
 function love.resize(w, h)

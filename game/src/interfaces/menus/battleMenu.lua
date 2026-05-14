@@ -5,6 +5,22 @@ local BASE_BUTTON_HEIGHT = 50
 local BASE_SPACING_X = 20
 local BASE_BOTTOM_MARGIN = 24
 
+local function onBarbarianPressed()
+	-- Placeholder for Barbarian button action
+end
+
+local function onKnightPressed()
+	-- Placeholder for Knight button action
+end
+
+local function onArcherPressed()
+	-- Placeholder for Archer button action
+end
+
+local function onMagePressed()
+	-- Placeholder for Mage button action
+end
+
 --- battle menu interface.
 --- @class BattleMenu
 --- @field BarbarianButton Button
@@ -20,10 +36,10 @@ function BattleMenu:new()
 	local battleMenu = setmetatable({}, self)
 
 	local definitions = {
-		{ key = "BarbarianButton", name = "Barbarian", text = "Barbarian", action = function() end },
-		{ key = "KnightButton",    name = "Knight",    text = "Knight",    action = function() end },
-		{ key = "ArcherButton",    name = "Archer",    text = "Archer",    action = function() end },
-		{ key = "MageButton",      name = "Mage",      text = "Mage",      action = function() end },
+		{ key = "BarbarianButton", name = "Barbarian", text = "Barbarian", action = onBarbarianPressed },
+		{ key = "KnightButton",    name = "Knight",    text = "Knight",    action = onKnightPressed },
+		{ key = "ArcherButton",    name = "Archer",    text = "Archer",    action = onArcherPressed },
+		{ key = "MageButton",      name = "Mage",      text = "Mage",      action = onMagePressed },
 	}
 
 	for index, definition in ipairs(definitions) do
@@ -102,6 +118,18 @@ end
 ---@param PositionMouse {X: number, Y: number}
 ---@param CursorRadius number
 function BattleMenu:IsPressed(PositionMouse, CursorRadius)
+	if self.BarbarianButton:IsPressed(PositionMouse, CursorRadius) then
+		return true
+	end
+	if self.KnightButton:IsPressed(PositionMouse, CursorRadius) then
+		return true
+	end
+	if self.ArcherButton:IsPressed(PositionMouse, CursorRadius) then
+		return true
+	end
+	if self.MageButton:IsPressed(PositionMouse, CursorRadius) then
+		return true
+	end
 	return false
 end
 

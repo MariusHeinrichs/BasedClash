@@ -1,0 +1,1 @@
+--- Coordinates the game systems and manages the game loop.
