@@ -1,26 +1,26 @@
---- main menu interface.
 local Button = require("src.interfaces.components.button")
-local GameStateManager = require("src.managers.gamestate").getInstance()
+local gameStateManager = require("src.managers.gamestate").getInstance()
 
 local BASE_BUTTON_WIDTH = 200
 local BASE_BUTTON_HEIGHT = 50
 local BASE_SPACING_Y = 60
 
 local function onStartGamePressed()
-	GameStateManager:EnterNewGame()
+	gameStateManager:EnterNewGame()
 end
 
---- @class MainMenuInterface
+--- main menu interface.
+--- @class MainMenu
 --- @field StartButton Button
 --- @field SettingsButton Button
 --- @field QuitButton Button
-local MainMenuInterface = {}
-MainMenuInterface.__index = MainMenuInterface
+local MainMenu = {}
+MainMenu.__index = MainMenu
 
---- Creates a new MainMenuInterface table.
----@return MainMenuInterface
-function MainMenuInterface:new()
-	local newButtons = setmetatable({}, self)
+--- Creates a new MainMenu.
+---@return MainMenu
+function MainMenu:new()
+	local mainMenu = setmetatable({}, self)
 
 	local definitions = {
 		{ key = "StartButton",    name = "Start",    text = "Start Game", action = function() onStartGamePressed() end },
@@ -29,7 +29,7 @@ function MainMenuInterface:new()
 	}
 
 	for index, definition in ipairs(definitions) do
-		newButtons[definition.key] = Button:new(
+		mainMenu[definition.key] = Button:new(
 			definition.name,
 			BASE_BUTTON_WIDTH,
 			BASE_BUTTON_HEIGHT,
@@ -41,13 +41,13 @@ function MainMenuInterface:new()
 		)
 	end
 
-	newButtons:RebuildLayout()
+	mainMenu:RebuildLayout()
 
-	return newButtons
+	return mainMenu
 end
 
 --- Recomputes button positions based on current window size.
-function MainMenuInterface:RebuildLayout()
+function MainMenu:RebuildLayout()
 	local width, height = love.graphics.getDimensions()
 	local scale = math.min(width / 1280, height / 720)
 	scale = math.max(0.75, math.min(1.6, scale))
@@ -83,7 +83,7 @@ function MainMenuInterface:RebuildLayout()
 end
 
 --- Draws all the Menu buttons
-function MainMenuInterface:Draw()
+function MainMenu:Draw()
 	self.StartButton:Draw()
 	self.SettingsButton:Draw()
 	self.QuitButton:Draw()
@@ -94,7 +94,7 @@ end
 ---@param PositionMouse {X: number, Y: number}
 ---@param CursorRadius number
 ---@return boolean True if any menu button was pressed, otherwise false.
-function MainMenuInterface:IsPressed(PositionMouse, CursorRadius)
+function MainMenu:IsPressed(PositionMouse, CursorRadius)
 	if self.StartButton:IsPressed(PositionMouse, CursorRadius) then
 		return true
 	end
@@ -112,7 +112,7 @@ end
 ---@param y number
 ---@param button number
 ---@return boolean True if a menu button handled the click.
-function MainMenuInterface:HandleMousePressed(x, y, button)
+function MainMenu:HandleMousePressed(x, y, button)
 	if button ~= 1 then
 		return false
 	end
@@ -120,4 +120,4 @@ function MainMenuInterface:HandleMousePressed(x, y, button)
 end
 
 
-return MainMenuInterface
+return MainMenu

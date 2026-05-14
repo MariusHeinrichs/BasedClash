@@ -7,30 +7,38 @@ local instance = nil
 local GameStateManager = {}
 GameStateManager.__index = GameStateManager
 
+--- Transitions to the startmenu gamestate
 function GameStateManager:EnterStartMenu()
 	self.CurrentGameState = GameStateEnums.Names.STARTMENU
 end
 
+--- Transitions to the mainmenu gamestate
 function GameStateManager:EnterMainMenu()
 	self.CurrentGameState = GameStateEnums.Names.MAINMENU
 end
 
+--- Transitions to the newgame gamestate
 function GameStateManager:EnterNewGame()
 	self.CurrentGameState = GameStateEnums.Names.RUNNING
 end
 
+--- Transitions to the running gamestate
 function GameStateManager:EnterRunning()
 	self.CurrentGameState = GameStateEnums.Names.RUNNING
 end
 
+--- Transitions to the pause gamestate
 function GameStateManager:EnterPause()
 	self.CurrentGameState = GameStateEnums.Names.PAUSE
 end
 
+--- Transitions to the game over gamestate
 function GameStateManager:EnterGameOver()
 	self.CurrentGameState = GameStateEnums.Names.GAME_OVER
 end
 
+--- Returns the current game state
+--- @return GameStateEnums.Names
 function GameStateManager:GetGameState()
 	return self.CurrentGameState
 end
