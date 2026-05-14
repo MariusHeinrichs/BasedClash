@@ -29,3 +29,7 @@ function love.draw()
 		interfaceManager:Draw(InterfaceEnums.Names.BATTLEMENU)
 	end
 end
+
+function love.resize(w, h)
+	interfaceManager:Resize()
+end

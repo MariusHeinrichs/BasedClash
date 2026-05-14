@@ -28,16 +28,15 @@ function InterfaceManager:Draw(InterfaceName)
 	end
 end
 
-function love.resize(w, h)
-	local o = InterfaceManager:getInstance()
-	if o.Interfaces.MainMenu then
-		o.Interfaces.MainMenu:RebuildLayout()
+function InterfaceManager:Resize()
+	if self.Interfaces.MainMenu then
+		self.Interfaces.MainMenu:RebuildLayout()
 	end
-	if o.Interfaces.StartMenu then
-		o.Interfaces.StartMenu:RebuildLayout()
+	if self.Interfaces.StartMenu then
+		self.Interfaces.StartMenu:RebuildLayout()
 	end
-	if o.Interfaces.BattleMenu then
-		o.Interfaces.BattleMenu:RebuildLayout()
+	if self.Interfaces.BattleMenu then
+		self.Interfaces.BattleMenu:RebuildLayout()
 	end
 end
 
