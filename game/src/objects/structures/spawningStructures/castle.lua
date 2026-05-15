@@ -23,6 +23,7 @@ function Castle:new(PlayerID)
 		{ Gold = 200, Metal = 0, Aether = 0 },
 		6,
 		EntityEnums.Units.KNIGHT,
+		1,
 		15,
 		50,
 		PlayerID

@@ -49,4 +49,11 @@ function Structure:Draw()
 	love.graphics.setColor(1, 1, 1)
 end
 
+--- Base spawn function for structures, can be overridden by specific structure types like SpawningStructure.
+--- @param dt number
+--- @return Unit[] | nil
+function Structure:Spawn(dt)
+	return nil
+end
+
 return Structure

@@ -23,6 +23,7 @@ function BarbarianCamp:new(PlayerID)
 		{ Gold = 160, Metal = 0, Aether = 0 },
 		5,
 		EntityEnums.Units.BARBARIAN,
+		1,
 		10,
 		50,
 		PlayerID

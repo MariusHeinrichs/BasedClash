@@ -23,6 +23,7 @@ function ArcherCamp:new(PlayerID)
 		{ Gold = 160, Metal = 0, Aether = 0 },
 		4,
 		EntityEnums.Units.ARCHER,
+		1,
 		10,
 		50,
 		PlayerID

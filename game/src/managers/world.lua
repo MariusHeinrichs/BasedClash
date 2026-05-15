@@ -1,5 +1,6 @@
 local EntityManager = require("src.managers.entities").getInstance()
 local GameStateManager = require("src.managers.gamestate").getInstance()
+local SpawnSystem = require("src.systems.spawn")
 
 local GameStateEnums = require("src.enums.gameStates")
 
@@ -27,7 +28,7 @@ function WorldManager:Update(dt)
 	-- ProjectileSystem.Update(self.Entities, dt)
 
 	-- Phase 4: structure-based spawns and structure cleanup.
-	-- SpawnSystem.Update(self.Entities, structures, dt)
+	SpawnSystem:Update(dt)
 end
 
 -- Render the game world, entities, and interfaces based on the current game state.

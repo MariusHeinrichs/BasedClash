@@ -23,6 +23,7 @@ function Library:new(PlayerID)
 		{ Gold = 200, Metal = 0, Aether = 0 },
 		4,
 		EntityEnums.Units.MAGE,
+		1,
 		15,
 		50,
 		PlayerID
