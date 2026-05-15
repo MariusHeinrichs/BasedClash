@@ -1,11 +1,13 @@
 local GameStateEnums = require("src.enums.gameStates")
 local GameStateManager = require("src.managers.gamestate").getInstance()
 local InterfaceManager = require("src.managers.interfaces").getInstance()
+local StructurePlacement = require("src.systems.structurePlacement").getInstance()
 
 -- Singleton-Instanz
 local instance = nil
 
 --- Manages player inputs and routes them to the appropriate handlers based on the current game state.
+--- @class InputManager
 local InputManager = {}
 InputManager.__index = InputManager
 
@@ -57,8 +59,13 @@ function InputManager:HandleMousePressed(x, y, button)
 	end
 
 	if GameState == GameStateEnums.Names.RUNNING then
-		if InterfaceManager.Interfaces.Battle then
-			-- InterfaceManager.Interfaces.Battle:HandleMousePressed(x, y, button)
+		if InterfaceManager.Interfaces.BattleMenu then
+			--- check if a button has been pressed and execute its action if so.
+			local pressed = InterfaceManager.Interfaces.BattleMenu:HandleMousePressed(x, y, button)
+			--- if no button was pressed, we can allow the click to interact with the game world (e.g., for structure placement).
+			if not pressed then
+				StructurePlacement:HandleMousePressed(x, y, button)
+			end
 		end
 		return true
 	end

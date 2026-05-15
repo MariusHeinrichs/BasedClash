@@ -4,6 +4,8 @@ local GameStateEnums = require("src.enums.gameStates")
 local instance = nil
 
 --- Manages the current game state and transitions between states.
+--- @class GameStateManager
+--- @field CurrentGameState GameStateEnums.Names
 local GameStateManager = {}
 GameStateManager.__index = GameStateManager
 

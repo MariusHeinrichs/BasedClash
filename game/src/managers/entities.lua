@@ -4,6 +4,10 @@
 local instance = nil
 
 -- Manages tables for all entities. Handles adding and removing of entities.
+--- @class EntityManager
+--- @field Units Unit[]
+--- @field Projectiles Projectile[]
+--- @field Structures Structure[]
 local EntityManager = {}
 EntityManager.__index = EntityManager
 

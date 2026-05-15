@@ -8,6 +8,8 @@ local gameStateManager = require("src.managers.gamestate").getInstance()
 local instance = nil
 
 --- Manages the different user interfaces (menus, HUDs, etc.) and their rendering.
+--- @class InterfaceManager
+--- @field Interfaces table<string, any>
 local InterfaceManager = {}
 InterfaceManager.__index = InterfaceManager
 

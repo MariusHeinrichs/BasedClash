@@ -37,4 +37,12 @@ EntityEnums.Units = {
 	MAGE = "Mage",
 }
 
+--- @enum EntityEnums.Structures
+EntityEnums.Structures = {
+	CASTLE = "Castle",
+	BARBARIAN_CAMP = "BarbarianCamp",
+	ARCHER_CAMP = "ArcherCamp",
+	LIBRARY = "Library",
+}
+
 return EntityEnums

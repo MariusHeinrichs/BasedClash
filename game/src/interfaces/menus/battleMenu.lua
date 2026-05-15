@@ -1,24 +1,27 @@
 local Button = require("src.interfaces.components.button")
 
+local StructurePlacement = require("src.systems.structurePlacement").getInstance()
+local EntityEnums = require("src.enums.entities")
+
 local BASE_BUTTON_WIDTH = 200
 local BASE_BUTTON_HEIGHT = 50
 local BASE_SPACING_X = 20
 local BASE_BOTTOM_MARGIN = 24
 
 local function onBarbarianPressed()
-	-- Placeholder for Barbarian button action
+	StructurePlacement:SetSelectedStructureType(EntityEnums.Structures.BARBARIAN_CAMP)
 end
 
 local function onKnightPressed()
-	-- Placeholder for Knight button action
+	StructurePlacement:SetSelectedStructureType(EntityEnums.Structures.CASTLE)
 end
 
 local function onArcherPressed()
-	-- Placeholder for Archer button action
+	StructurePlacement:SetSelectedStructureType(EntityEnums.Structures.ARCHER_CAMP)
 end
 
 local function onMagePressed()
-	-- Placeholder for Mage button action
+	StructurePlacement:SetSelectedStructureType(EntityEnums.Structures.LIBRARY)
 end
 
 --- battle menu interface.
@@ -120,14 +123,11 @@ end
 function BattleMenu:IsPressed(PositionMouse, CursorRadius)
 	if self.BarbarianButton:IsPressed(PositionMouse, CursorRadius) then
 		return true
-	end
-	if self.KnightButton:IsPressed(PositionMouse, CursorRadius) then
+	elseif self.KnightButton:IsPressed(PositionMouse, CursorRadius) then
 		return true
-	end
-	if self.ArcherButton:IsPressed(PositionMouse, CursorRadius) then
+	elseif self.ArcherButton:IsPressed(PositionMouse, CursorRadius) then
 		return true
-	end
-	if self.MageButton:IsPressed(PositionMouse, CursorRadius) then
+	elseif self.MageButton:IsPressed(PositionMouse, CursorRadius) then
 		return true
 	end
 	return false

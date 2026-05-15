@@ -2,6 +2,8 @@
 local instance = nil
 
 -- Manages tables of resources for all players. Handles adding and removing of resources.
+--- @class ResourceManager
+--- @field Resources table<number, {Gold: number, Metal: number, Aether: number}>
 local ResourceManager = {}
 ResourceManager.__index = ResourceManager
 
