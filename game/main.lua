@@ -1,23 +1,19 @@
 --- Initialize Managers
-local gameStateManager = require("src.managers.gamestate").getInstance()
 local interfaceManager = require("src.managers.interfaces").getInstance()
+local worldManager = require("src.managers.world").getInstance()
 local inputManager = require("src.managers.inputs").getInstance()
-local entityManager = require("src.managers.entities").getInstance()
-local resourceManager = require("src.managers.resources").getInstance()
-
-local InterfaceEnums = require("src.enums.interfaces")
-local GameStateEnums = require("src.enums.gameStates")
-
 
 function love.load()
 end
 
-function love.update()
+function love.update(dt)
+	worldManager:Update(dt)
 end
 
 function love.draw()
 	love.graphics.printf("FPS: " .. love.timer.getFPS(), 10, 10, 200, "left")
 	interfaceManager:Draw()
+	worldManager:Draw()
 end
 
 function love.resize(w, h)
