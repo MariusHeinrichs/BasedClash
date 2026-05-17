@@ -1,6 +1,7 @@
 --- Fireball class, represents a fireball projectile in the game.
 
 local Projectile = require("src.objects.projectiles.projectile")
+local ProjectileStats = require("src.data.projectileStats").Fireball
 
 --- @class Fireball : Projectile
 local Fireball = {}
@@ -15,10 +16,10 @@ setmetatable(Fireball, { __index = Projectile })
 function Fireball:new(Source, Target)
 	local newFireball = Projectile.new(self,
 		"Fireball",
-		100,
-		10,
-		50,
-		0.5,
+		ProjectileStats.Velocity,
+		ProjectileStats.Damage,
+		ProjectileStats.SplashRadius,
+		ProjectileStats.SplashDamageMultiplier,
 		Source,
 		Target
 	)

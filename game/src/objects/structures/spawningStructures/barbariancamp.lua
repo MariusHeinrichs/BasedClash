@@ -1,7 +1,7 @@
 --- BarbarianCamp class, representing a structure that can spawn barbarian units in the game.
 
 local SpawningStructure = require("src.objects.structures.spawningStructure")
-local EntityEnums = require("src.enums.entities")
+local StructureStats = require("src.data.structureStats").SpawningStructures.BarbarianCamp
 
 ---@class BarbarianCamp : SpawningStructure
 local BarbarianCamp = {}
@@ -17,15 +17,15 @@ setmetatable(BarbarianCamp, { __index = SpawningStructure })
 function BarbarianCamp:new(PlayerID)
 	local newBarbarianCamp = SpawningStructure.new(self,
 		"Barbarian Camp",
-		500,
-		5,
-		EntityEnums.ArmorTypes.STRUCTURE,
-		{ Gold = 160, Metal = 0, Aether = 0 },
-		5,
-		EntityEnums.Units.BARBARIAN,
-		1,
-		10,
-		50,
+		StructureStats.MaxHealth,
+		StructureStats.Armor,
+		StructureStats.ArmorType,
+		StructureStats.Costs,
+		StructureStats.Size,
+		StructureStats.SpawnUnit,
+		StructureStats.SpawnAmount,
+		StructureStats.SpawnRate,
+		StructureStats.Bounty,
 		PlayerID
 	)
 

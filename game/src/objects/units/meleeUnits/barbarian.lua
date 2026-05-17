@@ -1,7 +1,7 @@
 --- Barbarian class, represents a barbarian unit in the game.
 
 local MeleeUnit = require("src.objects.units.meleeUnit")
-local UnitConstants = require("src.enums.entities")
+local UnitStats = require("src.data.unitStats").MeleeUnits.Barbarian
 
 --- @class Barbarian : MeleeUnit
 local Barbarian = {}
@@ -15,19 +15,19 @@ setmetatable(Barbarian, { __index = MeleeUnit })
 function Barbarian:new(PlayerID)
 	local newBarbarian = MeleeUnit.new(self,
 		"Barbarian",
-		50,
-		15,
-		UnitConstants.DamageTypes.PHYSICAL,
-		0.7,
-		0.25,
-		0.75,
-		UnitConstants.TargetPriorities.UNIT,
-		3,
-		UnitConstants.ArmorTypes.CHAINMAIL,
-		10,
-		2,
-		false,
-		5,
+		UnitStats.MaxHealth,
+		UnitStats.Damage,
+		UnitStats.DamageType,
+		UnitStats.AttackSpeed,
+		UnitStats.AttackRange,
+		UnitStats.AggroRange,
+		UnitStats.TargetPriority,
+		UnitStats.Armor,
+		UnitStats.ArmorType,
+		UnitStats.MovementSpeed,
+		UnitStats.Size,
+		UnitStats.IsFlying,
+		UnitStats.Bounty,
 		PlayerID
 	)
 	return newBarbarian

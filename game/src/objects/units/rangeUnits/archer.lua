@@ -1,7 +1,7 @@
 --- Archer class, represents an archer unit in the game.
 
 local RangeUnit = require("src.objects.units.rangeUnit")
-local UnitConstants = require("src.enums.entities")
+local UnitStats = require("src.data.unitStats").RangeUnits.Archer
 
 --- @class Archer : RangeUnit
 local Archer = {}
@@ -15,18 +15,18 @@ setmetatable(Archer, { __index = RangeUnit })
 function Archer:new(PlayerID)
 	local newArcher = RangeUnit.new(self,
 		"Archer",
-		40,
-		UnitConstants.ProjectileTypes.ARROW,
-		0.5,
-		0.25,
-		150,
-		UnitConstants.TargetPriorities.UNIT,
-		2,
-		UnitConstants.ArmorTypes.LEATHER,
-		10,
-		2,
-		false,
-		4,
+		UnitStats.MaxHealth,
+		UnitStats.Projectile,
+		UnitStats.AttackSpeed,
+		UnitStats.AttackRange,
+		UnitStats.AggroRange,
+		UnitStats.TargetPriority,
+		UnitStats.Armor,
+		UnitStats.ArmorType,
+		UnitStats.MovementSpeed,
+		UnitStats.Size,
+		UnitStats.IsFlying,
+		UnitStats.Bounty,
 		PlayerID
 	)
 	return newArcher

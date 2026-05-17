@@ -1,6 +1,7 @@
 --- Arrow class, represents an arrow projectile in the game.
 
 local Projectile = require("src.objects.projectiles.projectile")
+local ProjectileStats = require("src.data.projectileStats").Arrow
 
 --- @class Arrow : Projectile
 local Arrow = {}
@@ -15,10 +16,10 @@ setmetatable(Arrow, { __index = Projectile })
 function Arrow:new(Source, Target)
 	local newArrow = Projectile.new(self,
 		"Arrow",
-		100,
-		15,
-		0,
-		0,
+		ProjectileStats.Velocity,
+		ProjectileStats.Damage,
+		ProjectileStats.SplashRadius,
+		ProjectileStats.SplashDamageMultiplier,
 		Source,
 		Target
 	)
@@ -27,8 +28,8 @@ end
 
 function Arrow:Draw()
 	local x, y = self.Position.X, self.Position.Y
-	local dx = self.Velocity.X
-	local dy = self.Velocity.Y
+	local dx = self.Velocity
+	local dy = self.Velocity
 	local len = math.sqrt(dx * dx + dy * dy)
 	if len < 0.001 then
 		dx, dy = 1, 0

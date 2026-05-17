@@ -1,7 +1,7 @@
 --- Library class, representing a structure that can spawn mage units in the game.
 
 local SpawningStructure = require("src.objects.structures.spawningStructure")
-local EntityEnums = require("src.enums.entities")
+local StructureStats = require("src.data.structureStats").SpawningStructures.Library
 
 ---@class Library : SpawningStructure
 local Library = {}
@@ -17,15 +17,15 @@ setmetatable(Library, { __index = SpawningStructure })
 function Library:new(PlayerID)
 	local newLibrary = SpawningStructure.new(self,
 		"Library",
-		500,
-		5,
-		EntityEnums.ArmorTypes.STRUCTURE,
-		{ Gold = 200, Metal = 0, Aether = 0 },
-		4,
-		EntityEnums.Units.MAGE,
-		1,
-		15,
-		50,
+		StructureStats.MaxHealth,
+		StructureStats.Armor,
+		StructureStats.ArmorType,
+		StructureStats.Costs,
+		StructureStats.Size,
+		StructureStats.SpawnUnit,
+		StructureStats.SpawnAmount,
+		StructureStats.SpawnRate,
+		StructureStats.Bounty,
 		PlayerID
 	)
 

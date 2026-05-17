@@ -1,7 +1,7 @@
 --- Mage class, represents a mage unit in the game.
 
 local RangeUnit = require("src.objects.units.rangeUnit")
-local UnitConstants = require("src.enums.entities")
+local UnitStats = require("src.data.unitStats").RangeUnits.Mage
 
 --- @class Mage : RangeUnit
 local Mage = {}
@@ -15,18 +15,18 @@ setmetatable(Mage, { __index = RangeUnit })
 function Mage:new(PlayerID)
 	local newMage = RangeUnit.new(self,
 		"Mage",
-		30,
-		UnitConstants.ProjectileTypes.FIREBALL,
-		0.3,
-		0.25,
-		1,
-		UnitConstants.TargetPriorities.UNIT,
-		1,
-		UnitConstants.ArmorTypes.LEATHER,
-		10,
-		2,
-		false,
-		7,
+		UnitStats.MaxHealth,
+		UnitStats.Projectile,
+		UnitStats.AttackSpeed,
+		UnitStats.AttackRange,
+		UnitStats.AggroRange,
+		UnitStats.TargetPriority,
+		UnitStats.Armor,
+		UnitStats.ArmorType,
+		UnitStats.MovementSpeed,
+		UnitStats.Size,
+		UnitStats.IsFlying,
+		UnitStats.Bounty,
 		PlayerID
 	)
 	return newMage

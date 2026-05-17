@@ -1,7 +1,7 @@
 --- Knight class, represents a knight unit in the game.
 
 local MeleeUnit = require("src.objects.units.meleeUnit")
-local UnitConstants = require("src.enums.entities")
+local UnitStats = require("src.data.unitStats").MeleeUnits.Knight
 
 --- @class Knight : MeleeUnit
 local Knight = {}
@@ -15,19 +15,19 @@ setmetatable(Knight, { __index = MeleeUnit })
 function Knight:new(PlayerID)
 	local newKnight = MeleeUnit.new(self,
 		"Knight",
-		60,
-		20,
-		UnitConstants.DamageTypes.PHYSICAL,
-		0.6,
-		0.25,
-		0.75,
-		UnitConstants.TargetPriorities.UNIT,
-		4,
-		UnitConstants.ArmorTypes.PLATE,
-		10,
-		2,
-		false,
-		6,
+		UnitStats.MaxHealth,
+		UnitStats.Damage,
+		UnitStats.DamageType,
+		UnitStats.AttackSpeed,
+		UnitStats.AttackRange,
+		UnitStats.AggroRange,
+		UnitStats.TargetPriority,
+		UnitStats.Armor,
+		UnitStats.ArmorType,
+		UnitStats.MovementSpeed,
+		UnitStats.Size,
+		UnitStats.IsFlying,
+		UnitStats.Bounty,
 		PlayerID
 	)
 	return newKnight
