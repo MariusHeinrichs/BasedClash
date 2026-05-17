@@ -19,7 +19,7 @@ function Archer:new(PlayerID)
 		UnitConstants.ProjectileTypes.ARROW,
 		0.5,
 		0.25,
-		0.75,
+		150,
 		UnitConstants.TargetPriorities.UNIT,
 		2,
 		UnitConstants.ArmorTypes.LEATHER,

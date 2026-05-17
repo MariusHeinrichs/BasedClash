@@ -9,6 +9,8 @@ function TargetingSystem:Update(dt)
 	local units = entityManager:GetUnits()
 	local structures = entityManager:GetStructures()
 
+	spatialHashGrid:Rebuild() -- Rebuild the spatial hash grid to ensure it reflects the current positions of entities.
+
 	for _, unit in ipairs(units) do
 		unit:SetTarget(spatialHashGrid:FindClosestEnemyInAggroRange(unit))
 	end
