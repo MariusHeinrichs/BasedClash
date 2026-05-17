@@ -4,6 +4,7 @@ local ArcherCamp = require("src.objects.structures.spawningStructures.archercamp
 local Library = require("src.objects.structures.spawningStructures.library")
 local BarbarianCamp = require("src.objects.structures.spawningStructures.barbarianCamp")
 local Castle = require("src.objects.structures.spawningStructures.castle")
+local Townhall = require("src.objects.structures.defensiveStructures.townhall")
 
 local EntityEnums = require("src.enums.entities")
 
@@ -22,6 +23,8 @@ function StructureFactory:CreateStructure(structureType, playerID)
 		return BarbarianCamp:new(playerID)
 	elseif structureType == EntityEnums.Structures.CASTLE then
 		return Castle:new(playerID)
+	elseif structureType == EntityEnums.Structures.TOWNHALL then
+		return Townhall:new(playerID)
 	else
 		error("Unknown structure type: " .. tostring(structureType))
 	end

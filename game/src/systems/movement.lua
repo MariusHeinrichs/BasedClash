@@ -3,7 +3,7 @@ local entityManager = require("src.managers.entities").getInstance()
 -- Handles the movement phase of the game, iterating through entities and applying movement logic such as position updates and collision detection.
 local MovementSystem = {}
 
--- Iterate through units and apply movement logic.
+--- Iterate through units and apply movement logic.
 function MovementSystem:Update(dt)
 	local units = entityManager:GetUnits()
 

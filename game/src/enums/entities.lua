@@ -43,6 +43,7 @@ EntityEnums.Structures = {
 	BARBARIAN_CAMP = "BarbarianCamp",
 	ARCHER_CAMP = "ArcherCamp",
 	LIBRARY = "Library",
+	TOWNHALL = "Townhall",
 }
 
 return EntityEnums

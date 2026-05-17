@@ -43,6 +43,7 @@ function WorldManager:Draw()
 	if GameStateManager:GetGameState() ~= GameStateEnums.Names.RUNNING then
 		return
 	end
+
 	local structures = EntityManager:GetStructures()
 	local units = EntityManager:GetUnits()
 	local projectiles = EntityManager:GetProjectiles()

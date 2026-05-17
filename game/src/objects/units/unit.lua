@@ -18,6 +18,7 @@ local Object = require("src.objects.object")
 ---@field IsFlying boolean
 ---@field Bounty number
 ---@field PlayerID number
+---@field AttackTimer number
 local Unit = {}
 Unit.__index = Unit
 
@@ -57,6 +58,7 @@ function Unit:new(Name, MaxHealth, AttackSpeed, AttackRange, AggroRange, TargetP
 	newUnit.IsFlying = IsFlying or false
 	newUnit.Bounty = Bounty or 10
 	newUnit.PlayerID = PlayerID or 0
+	newUnit.AttackTimer = 0
 	return newUnit
 end
 

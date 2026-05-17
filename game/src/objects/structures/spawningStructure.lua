@@ -1,9 +1,9 @@
---- SpawningStructure class, representing a structure that can spawn units in the game.
 
 local Structure = require("src.objects.structures.structure")
 local UnitFactory = require("src.objects.units.unitFactory")
 local EntityEnums = require("src.enums.entities")
 
+--- SpawningStructure class, representing a structure that can spawn units in the game.
 ---@class SpawningStructure : Structure
 ---@field SpawnUnit EntityEnums.Units
 ---@field SpawnAmount number

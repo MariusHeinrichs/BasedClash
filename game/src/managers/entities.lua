@@ -47,6 +47,31 @@ function EntityManager:GetStructures()
 	return self.Structures
 end
 
+--- Returns a table with all townhalls
+--- @return Structure[]
+function EntityManager:GetTownhalls()
+	local townhalls = {}
+	for _, structure in ipairs(self.Structures) do
+		if structure.Name == "Townhall" then
+			table.insert(townhalls, structure)
+		end
+	end
+	return townhalls
+end
+
+--- Returns a table with all enemy townhalls for a given player ID
+--- @param playerID number
+--- @return Structure[]
+function EntityManager:GetEnemyTownhalls(playerID)
+	local enemyTownhalls = {}
+	for _, structure in ipairs(self.Structures) do
+		if structure.Name == "Townhall" and structure.PlayerID ~= playerID then
+			table.insert(enemyTownhalls, structure)
+		end
+	end
+	return enemyTownhalls
+end
+
 --- Removes a unit from the entity manager
 --- @param Unit Unit
 function EntityManager:RemoveUnit(Unit)
