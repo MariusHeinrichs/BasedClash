@@ -9,6 +9,12 @@ function SpawnSystem:Update(dt)
 	for _, structure in ipairs(structures) do
 		if structure.Spawn then
 			local spawnedUnits = structure:Spawn(dt)
+
+			if spawnedUnits then
+				for _, unit in ipairs(spawnedUnits) do
+					entityManager:SetUnit(unit)
+				end
+			end
 		end
 	end
 end

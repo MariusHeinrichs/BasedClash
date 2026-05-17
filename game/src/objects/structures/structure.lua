@@ -56,4 +56,10 @@ function Structure:Spawn(dt)
 	return nil
 end
 
+--- Sets the target for the structure. Structures typically don't have targets, but this can be overridden by specific structure types if needed.
+--- @param Target Object | nil
+function Structure:SetTarget(Target)
+	-- Structures typically don't have targets, but this can be overridden by specific structure types if needed.
+end
+
 return Structure

@@ -1,12 +1,14 @@
 --- SpawningStructure class, representing a structure that can spawn units in the game.
 
 local Structure = require("src.objects.structures.structure")
+local UnitFactory = require("src.objects.units.unitFactory")
 local EntityEnums = require("src.enums.entities")
 
 ---@class SpawningStructure : Structure
 ---@field SpawnUnit EntityEnums.Units
 ---@field SpawnAmount number
 ---@field SpawnRate number
+---@field SpawnTimer number
 local SpawningStructure = {}
 SpawningStructure.__index = SpawningStructure
 
@@ -41,6 +43,7 @@ function SpawningStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, Size, S
 	newSpawningStructure.SpawnUnit = SpawnUnit or EntityEnums.Units.KNIGHT
 	newSpawningStructure.SpawnRate = SpawnRate or 10
 	newSpawningStructure.SpawnAmount = SpawnAmount or 1
+	newSpawningStructure.SpawnTimer = 0
 	return newSpawningStructure
 end
 
@@ -49,6 +52,24 @@ end
 --- @return Unit[] | nil -- An array of newly spawned units.
 function SpawningStructure:Spawn(dt)
 	local newUnits = {}
+
+	if not self.SpawnUnit then
+		return nil
+	end
+	if not self.SpawnRate or self.SpawnRate <= 0 then
+		return nil
+	end
+
+	self.SpawnTimer = self.SpawnTimer + dt
+	if self.SpawnTimer >= self.SpawnRate then
+		self.SpawnTimer = self.SpawnTimer - self.SpawnRate
+		for i = 1, self.SpawnAmount do
+			local newUnit = UnitFactory:CreateUnit(self.SpawnUnit, self.PlayerID)
+			table.insert(newUnits, newUnit)
+			-- Position the new unit at the structure's location
+			newUnit.Position = { X = self.Position.X + 5, Y = self.Position.Y }
+		end
+	end
 
 	return newUnits
 end

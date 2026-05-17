@@ -67,4 +67,27 @@ function Unit:Draw()
 	love.graphics.setColor(1, 1, 1)
 end
 
+--- Moves the unit closer to its target.
+---@param dt any
+function Unit:MoveToTarget(dt)
+	if self.Target then
+		local dx = self.Target.Position.X - self.Position.X
+		local dy = self.Target.Position.Y - self.Position.Y
+		local distance = math.sqrt(dx * dx + dy * dy)
+
+		if distance > 0 then
+			local moveX = (dx / distance) * self.MovementSpeed * dt
+			local moveY = (dy / distance) * self.MovementSpeed * dt
+
+			self:SetPosition({ X = self.Position.X + moveX, Y = self.Position.Y + moveY })
+		end
+	end
+end
+
+--- Sets the target for the unit.
+--- @param Target Object | nil -- The target to set for the unit.
+function Unit:SetTarget(Target)
+	self.Target = Target
+end
+
 return Unit

@@ -1,6 +1,8 @@
 local EntityManager = require("src.managers.entities").getInstance()
 local GameStateManager = require("src.managers.gamestate").getInstance()
 local SpawnSystem = require("src.systems.spawn")
+local MovementSystem = require("src.systems.movement")
+local TargetingSystem = require("src.systems.targeting")
 
 local GameStateEnums = require("src.enums.gameStates")
 
@@ -18,17 +20,21 @@ function WorldManager:Update(dt)
 	if GameStateManager:GetGameState() ~= GameStateEnums.Names.RUNNING then
 		return
 	end
-	-- Phase 1: movement and pathing.
-	-- MovementSystem.Update(self.Entities, units)
 
-	-- Phase 2: direct combat resolution.
+	-- Phase 1: structure-based spawns and structure cleanup.
+	SpawnSystem:Update(dt)
+
+	-- Phase 2: targeting and aggro management.
+	TargetingSystem:Update(dt)
+
+	-- Phase 3: movement and pathing.
+	MovementSystem:Update(dt)
+
+	-- Phase 4: direct combat resolution.
 	-- CombatSystem.Update(self.Entities, units, structures, dt)
 
-	-- Phase 3: projectile simulation and post-combat cleanup.
+	-- Phase 5: projectile simulation and post-combat cleanup.
 	-- ProjectileSystem.Update(self.Entities, dt)
-
-	-- Phase 4: structure-based spawns and structure cleanup.
-	SpawnSystem:Update(dt)
 end
 
 -- Render the game world, entities, and interfaces based on the current game state.
