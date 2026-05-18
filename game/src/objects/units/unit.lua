@@ -9,7 +9,7 @@ local Object = require("src.objects.object")
 ---@field AttackSpeed number
 ---@field AttackRange number
 ---@field AggroRange number
----@field Target Object | nil
+---@field Target Unit | Structure | nil
 ---@field TargetPriority EntityEnums.TargetPriorities
 ---@field Armor number
 ---@field ArmorType EntityEnums.ArmorTypes
@@ -87,9 +87,14 @@ function Unit:MoveToTarget(dt)
 end
 
 --- Sets the target for the unit.
---- @param Target Object | nil -- The target to set for the unit.
+--- @param Target Unit | Structure | nil -- The target to set for the unit.
 function Unit:SetTarget(Target)
 	self.Target = Target
+end
+
+--- Executes an attack on the unit's current target.
+function Unit:Attack(dt)
+	-- Attack logic will be implemented in MeleeUnit and RangeUnit subclasses.
 end
 
 return Unit

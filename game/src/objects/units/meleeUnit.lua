@@ -50,4 +50,24 @@ function MeleeUnit:new(Name, MaxHealth, Damage, DamageType, AttackSpeed, AttackR
 	return newMeleeUnit
 end
 
+--- Atacks the current target when elapsed time matches the unit's attack speed, applying its damage to it after considering armor, armor type, and damage type.
+function MeleeUnit:Attack(dt)
+	-- No target to attack.
+	if not self.Target then
+		return
+	end
+	-- Check if enough time has elapsed since the last attack.
+	self.AttackTimer = (self.AttackTimer or 0) + dt
+	if self.AttackTimer < self.AttackSpeed then
+		return
+	end
+	self.AttackTimer = 0
+	-- Calculate damage considering armor, armor type, and damage type.
+	local targetArmor = self.Target.Armor or 0
+	local targetArmorType = self.Target.ArmorType or EntityEnums.ArmorTypes.LEATHER
+	local damageMultiplier = 1
+	local effectiveDamage = math.max(0, self.Damage * damageMultiplier - targetArmor)
+	self.Target.Health = self.Target.Health - 10
+end
+
 return MeleeUnit

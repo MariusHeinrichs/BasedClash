@@ -4,6 +4,7 @@ local ResourceManager = require("src.managers.resources").getInstance()
 local SpawnSystem = require("src.systems.spawn")
 local MovementSystem = require("src.systems.movement")
 local TargetingSystem = require("src.systems.targeting")
+local CombatSystem = require("src.systems.combat")
 local StructureFactory = require("src.objects.structures.structureFactory")
 local EntityEnums = require("src.enums.entities")
 
@@ -24,7 +25,7 @@ function WorldManager:Update(dt)
 		return
 	end
 
-	-- Phase 1: structure-based spawns and structure cleanup.
+	-- Phase 1: structure-based spawns.
 	SpawnSystem:Update(dt)
 
 	-- Phase 2: targeting and aggro management.
@@ -34,10 +35,11 @@ function WorldManager:Update(dt)
 	MovementSystem:Update(dt)
 
 	-- Phase 4: direct combat resolution.
-	-- CombatSystem.Update(self.Entities, units, structures, dt)
+	CombatSystem:Update(dt)
 
-	-- Phase 5: projectile simulation and post-combat cleanup.
+	-- Phase 5: projectile simulation.
 	-- ProjectileSystem.Update(self.Entities, dt)
+
 end
 
 --- Resets the world's units and resources and creates a fresh world.
