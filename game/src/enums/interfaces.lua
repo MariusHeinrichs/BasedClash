@@ -6,7 +6,7 @@ local InterfaceEnums = {}
 InterfaceEnums.Names = {
 	MAINMENU = "MainMenu",
 	STARTMENU = "StartMenu",
-	BATTLEMENU = "BattleMenu",
+	BATTLEHUD = "BattleHUD",
 }
 
 return InterfaceEnums

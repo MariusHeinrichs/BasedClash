@@ -1,6 +1,9 @@
 local Button = require("src.interfaces.components.button")
+local Healthbar = require("src.interfaces.components.healthbar")
 
 local StructurePlacement = require("src.systems.structurePlacement").getInstance()
+local ResourceManager = require("src.managers.resources").getInstance()
+local EntityManager = require("src.managers.entities").getInstance()
 local EntityEnums = require("src.enums.entities")
 
 local BASE_BUTTON_WIDTH = 200
@@ -25,18 +28,18 @@ local function onMagePressed()
 end
 
 --- battle menu interface.
---- @class BattleMenu
+--- @class BattleHUD
 --- @field BarbarianButton Button
 --- @field KnightButton Button
 --- @field ArcherButton Button
 --- @field MageButton Button
-local BattleMenu = {}
-BattleMenu.__index = BattleMenu
+local BattleHUD = {}
+BattleHUD.__index = BattleHUD
 
---- Creates a new BattleMenu.
---- @returns BattleMenu
-function BattleMenu:new()
-	local battleMenu = setmetatable({}, self)
+--- Creates a new BattleHUD.
+--- @return BattleHUD
+function BattleHUD:new()
+	local battleHUD = setmetatable({}, self)
 
 	local definitions = {
 		{ key = "BarbarianButton", name = "Barbarian", text = "Barbarian", action = onBarbarianPressed },
@@ -46,7 +49,7 @@ function BattleMenu:new()
 	}
 
 	for index, definition in ipairs(definitions) do
-		battleMenu[definition.key] = Button:new(
+		battleHUD[definition.key] = Button:new(
 			definition.name,
 			BASE_BUTTON_WIDTH,
 			BASE_BUTTON_HEIGHT,
@@ -58,12 +61,13 @@ function BattleMenu:new()
 		)
 	end
 
-	battleMenu:RebuildLayout()
+	battleHUD:RebuildLayout()
 
-	return battleMenu
+	return battleHUD
 end
 
-function BattleMenu:RebuildLayout()
+--- Rebuilds the HUD to the window size
+function BattleHUD:RebuildLayout()
 	local width, height = love.graphics.getDimensions()
 	local scale = math.min(width / 1280, height / 720)
 	scale = math.max(0.75, math.min(1.6, scale))
@@ -108,19 +112,48 @@ function BattleMenu:RebuildLayout()
 	self.MageButton.PositionButton.Y = y
 end
 
---- Draws the BattleMenu
-function BattleMenu:Draw()
+--- Draws the BattleHUD
+function BattleHUD:Draw()
 	self.BarbarianButton:Draw()
 	self.KnightButton:Draw()
 	self.ArcherButton:Draw()
 	self.MageButton:Draw()
+
+	-- Draw the resource counts
+	local width, _ = love.graphics.getDimensions()
+	local rightX = width - 20
+	local columnWidth = 120
+	local topY = 10
+
+	local goldColumnX = rightX - (columnWidth * 3)
+	local metalColumnX = rightX - (columnWidth * 2)
+	local aetherColumnX = rightX - columnWidth
+
+	local resources = ResourceManager:GetPlayerResources(1)
+
+	love.graphics.printf(string.format("Gold: %d", resources.Gold), goldColumnX, topY, columnWidth, "right")
+	love.graphics.printf(string.format("Metal: %d", resources.Metal), metalColumnX, topY, columnWidth, "right")
+	love.graphics.printf(string.format("Aether: %d", resources.Aether), aetherColumnX, topY, columnWidth,
+		"right")
+
+	-- Draw healthbars for player's units and structures
+	local entities = EntityManager:GetUnits()
+	for _, entity in ipairs(entities) do
+		local healthbar = Healthbar:new(entity)
+		healthbar:Draw()
+	end
+	local structures = EntityManager:GetStructures()
+	for _, structure in ipairs(structures) do
+		local healthbar = Healthbar:new(structure)
+		healthbar:Draw()
+	end
 end
 
 --- Checks if any of the buttons are pressed based on the mouse position and cursor radius.
 --- if a button is pressed, its associated action will be executed.
 ---@param PositionMouse {X: number, Y: number}
 ---@param CursorRadius number
-function BattleMenu:IsPressed(PositionMouse, CursorRadius)
+function BattleHUD:IsPressed(PositionMouse, CursorRadius)
 	if self.BarbarianButton:IsPressed(PositionMouse, CursorRadius) then
 		return true
 	elseif self.KnightButton:IsPressed(PositionMouse, CursorRadius) then
@@ -138,11 +171,11 @@ end
 ---@param y number
 ---@param button number
 ---@return boolean True if a menu button handled the click.
-function BattleMenu:HandleMousePressed(x, y, button)
+function BattleHUD:HandleMousePressed(x, y, button)
 	if button ~= 1 then
 		return false
 	end
 	return self:IsPressed({ X = x, Y = y }, 0)
 end
 
-return BattleMenu
+return BattleHUD

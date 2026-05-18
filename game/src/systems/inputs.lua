@@ -59,9 +59,9 @@ function InputManager:HandleMousePressed(x, y, button)
 	end
 
 	if GameState == GameStateEnums.Names.RUNNING then
-		if InterfaceManager.Interfaces.BattleMenu then
+		if InterfaceManager.Interfaces.BattleHUD then
 			--- check if a button has been pressed and execute its action if so.
-			local pressed = InterfaceManager.Interfaces.BattleMenu:HandleMousePressed(x, y, button)
+			local pressed = InterfaceManager.Interfaces.BattleHUD:HandleMousePressed(x, y, button)
 			--- if no button was pressed, we can allow the click to interact with the game world (e.g., for structure placement).
 			if not pressed then
 				StructurePlacement:HandleMousePressed(x, y, button)
