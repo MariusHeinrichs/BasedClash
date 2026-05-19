@@ -38,6 +38,10 @@ function CombatSystem:MeleeAttack(Unit, dt)
 	if Unit.AttackTimer < Unit.AttackSpeed then
 		return
 	end
+	-- Check if the target is still in attack range.
+	if not Unit:IsTargetInRange() then
+		return
+	end
 	Unit.AttackTimer = 0
 	-- Calculate damage considering armor and armor type of the target, and damage type of the attacker.
 	local targetArmor = Unit.Target.Armor or 0
@@ -52,6 +56,10 @@ function CombatSystem:MeleeAttack(Unit, dt)
 	if dead then
 		Unit.Target = nil
 	end
+end
+
+function CombatSystem:RangeAttack(Unit, dt)
+	-- Range attack logic would go here, but is currently not implemented.
 end
 
 return CombatSystem

@@ -56,12 +56,6 @@ function Structure:Spawn(dt)
 	return nil
 end
 
---- Sets the target for the structure. Structures typically don't have targets, but this can be overridden by specific structure types if needed.
---- @param Target Object | nil
-function Structure:SetTarget(Target)
-	-- Structures typically don't have targets, but this can be overridden by specific structure types if needed.
-end
-
 --- Reduces the structure's health by the specified amount of damage.
 ---@param Amount number -- The amount of damage to apply to the structure.
 ---@return boolean dead -- Returns true if the structure dies from the damage, false otherwise.

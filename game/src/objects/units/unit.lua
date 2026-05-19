@@ -86,6 +86,18 @@ function Unit:MoveToTarget(dt)
 	end
 end
 
+---Checks if the current target is in attack range
+---@return boolean inRange -- Returns true if the target is in attack range, false otherwise.
+function Unit:IsTargetInRange()
+	if not self.Target then
+		return false
+	end
+	local dx = self.Target.Position.X - self.Position.X
+	local dy = self.Target.Position.Y - self.Position.Y
+	local distance = math.sqrt(dx * dx + dy * dy)
+	return distance <= self.AttackRange
+end
+
 --- Sets the target for the unit.
 --- @param Target Unit | Structure | nil -- The target to set for the unit.
 function Unit:SetTarget(Target)

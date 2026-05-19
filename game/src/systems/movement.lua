@@ -8,7 +8,9 @@ function MovementSystem:Update(dt)
 	local units = entityManager:GetUnits()
 
 	for _, unit in ipairs(units) do
-		unit:MoveToTarget(dt)
+		if not unit:IsTargetInRange() then
+			unit:MoveToTarget(dt)
+		end
 	end
 end
 
