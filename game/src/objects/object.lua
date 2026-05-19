@@ -39,4 +39,18 @@ function Object:Draw()
 	-- Base draw method, can be overridden by subclasses
 end
 
+--- Checks if the object is of the specified type
+--- @param Class any
+--- @return boolean true if the object is an instance of the specified class or any of its subclasses, false otherwise.
+function Object:IsInstanceOf(Class)
+	local mt = getmetatable(self)
+	while mt do
+		if mt.__index == Class then
+			return true
+		end
+		mt = getmetatable(mt)
+	end
+	return false
+end
+
 return Object

@@ -62,4 +62,17 @@ function Structure:SetTarget(Target)
 	-- Structures typically don't have targets, but this can be overridden by specific structure types if needed.
 end
 
+--- Reduces the structure's health by the specified amount of damage.
+---@param Amount number -- The amount of damage to apply to the structure.
+---@return boolean dead -- Returns true if the structure dies from the damage, false otherwise.
+function Structure:TakeDamage(Amount)
+	local dead = false
+	self.Health = self.Health - Amount
+	if self.Health <= 0 then
+		self.Health = 0
+		dead = true
+	end
+	return dead
+end
+
 return Structure

@@ -23,6 +23,27 @@ EntityEnums.ArmorTypes = {
 	STRUCTURE = "Structure",
 }
 
+EntityEnums.DamageMultipliers = {
+	[EntityEnums.DamageTypes.PHYSICAL] = {
+		[EntityEnums.ArmorTypes.LEATHER] = 1.0,
+		[EntityEnums.ArmorTypes.CHAINMAIL] = 0.75,
+		[EntityEnums.ArmorTypes.PLATE] = 0.5,
+		[EntityEnums.ArmorTypes.STRUCTURE] = 0.5,
+	},
+	[EntityEnums.DamageTypes.MAGICAL] = {
+		[EntityEnums.ArmorTypes.LEATHER] = 0.25,
+		[EntityEnums.ArmorTypes.CHAINMAIL] = 0.75,
+		[EntityEnums.ArmorTypes.PLATE] = 1.0,
+		[EntityEnums.ArmorTypes.STRUCTURE] = 0.5,
+	},
+	[EntityEnums.DamageTypes.PURE] = {
+		[EntityEnums.ArmorTypes.LEATHER] = 1.0,
+		[EntityEnums.ArmorTypes.CHAINMAIL] = 1.0,
+		[EntityEnums.ArmorTypes.PLATE] = 1.0,
+		[EntityEnums.ArmorTypes.STRUCTURE] = 1.0,
+	},
+}
+
 --- @enum EntityEnums.TargetPriorities
 EntityEnums.TargetPriorities = {
 	UNIT = "Unit",

@@ -5,7 +5,7 @@ return {
 	MeleeUnits = {
 		Barbarian = {
 			MaxHealth = 120,
-			Damage = 1.2,
+			Damage = 30,
 			DamageType = UnitConstants.DamageTypes.PHYSICAL,
 			AttackSpeed = 1.0,
 			AttackRange = 1.0,
@@ -20,7 +20,7 @@ return {
 		},
 		Knight = {
 			MaxHealth = 160,
-			Damage = 2.0,
+			Damage = 40,
 			DamageType = UnitConstants.DamageTypes.PHYSICAL,
 			AttackSpeed = 1.0,
 			AttackRange = 1.0,

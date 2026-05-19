@@ -47,9 +47,4 @@ function RangeUnit:new(Name, MaxHealth, Projectile, AttackSpeed, AttackRange, Ag
 	return newRangeUnit
 end
 
---- Attacks the current target, fireing a projectile at it.
-function RangeUnit:Attack(dt)
-	-- Ranged attack logic will be implemented here, such as creating a projectile and launching it towards the target.
-end
-
 return RangeUnit

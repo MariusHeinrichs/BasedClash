@@ -97,4 +97,17 @@ function Unit:Attack(dt)
 	-- Attack logic will be implemented in MeleeUnit and RangeUnit subclasses.
 end
 
+--- Reduces the unit's health by the specified amount of damage.
+---@param Amount number -- The amount of damage to apply to the unit.
+---@return boolean dead -- Returns true if the unit dies from the damage, false otherwise.
+function Unit:TakeDamage(Amount)
+	local dead = false
+	self.Health = self.Health - Amount
+	if self.Health <= 0 then
+		self.Health = 0
+		dead = true
+	end
+	return dead
+end
+
 return Unit
