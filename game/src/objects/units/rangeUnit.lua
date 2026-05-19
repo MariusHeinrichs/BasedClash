@@ -1,6 +1,7 @@
 --- RangeUnit class, representing a ranged unit in the game.
 
 local Unit = require("src.objects.units.unit")
+local ProjectileFactory = require("src.objects.projectiles.projectileFactory")
 local EntityEnums = require("src.enums.entities")
 
 ---@class RangeUnit : Unit
@@ -45,6 +46,29 @@ function RangeUnit:new(Name, MaxHealth, Projectile, AttackSpeed, AttackRange, Ag
 		PlayerID)
 	newRangeUnit.Projectile = Projectile or EntityEnums.ProjectileTypes.ARROW
 	return newRangeUnit
+end
+
+--- Executes a ranged attack, shooting a projectile at the target.
+--- @param dt number -- The delta time since the last update, used for timing attacks based on attack speed.
+--- @return Projectile | nil projectile -- Returns the created projectile if an attack was executed, nil otherwise.
+function RangeUnit:Attack(dt)
+	-- No target to attack.
+	if not self.Target then
+		return
+	end
+	-- Check if enough time has elapsed since the last attack.
+	self.AttackTimer = (self.AttackTimer or 0) + dt
+	if self.AttackTimer < self.AttackSpeed then
+		return
+	end
+	-- Check if the target is still in attack range.
+	if not self:IsTargetInRange() then
+		return
+	end
+	self.AttackTimer = 0
+	-- Create a projectile
+	local projectile = ProjectileFactory:CreateProjectile(self.Projectile, self, self.Target)
+	return projectile
 end
 
 return RangeUnit

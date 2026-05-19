@@ -7,6 +7,7 @@ local Object = require("src.objects.object")
 ---@field Damage number
 ---@field SplashRadius number
 ---@field SplashDamageMultiplier number
+---@field Position { X: number, Y: number }
 ---@field Source Unit | Structure | nil
 ---@field Target Unit | Structure | nil
 local Projectile = {}
@@ -33,7 +34,24 @@ function Projectile:new(Name, Velocity, Damage, SplashRadius, SplashDamageMultip
 	newProjectile.SplashRadius = SplashRadius or 0
 	newProjectile.SplashDamageMultiplier = SplashDamageMultiplier or 0
 	newProjectile.Damage = Damage or 0
+	newProjectile.Position = { X = newProjectile.Source.Position.X, Y = newProjectile.Source.Position.Y }
 	return newProjectile
+end
+
+--- Moves the projectile towards its target based on its velocity and the delta time.
+function Projectile:MoveToTarget(dt)
+	if self.Target then
+		local dx = self.Target.Position.X - self.Position.X
+		local dy = self.Target.Position.Y - self.Position.Y
+		local distance = math.sqrt(dx * dx + dy * dy)
+
+		if distance > 0 then
+			local moveX = (dx / distance) * self.Velocity * dt
+			local moveY = (dy / distance) * self.Velocity * dt
+
+			self:SetPosition({ X = self.Position.X + moveX, Y = self.Position.Y + moveY })
+		end
+	end
 end
 
 function Projectile:Draw()
