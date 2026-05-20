@@ -127,6 +127,43 @@ function SpatialHashGrid:FindClosestEnemyInAggroRange(Object)
 	return closestEnemy
 end
 
+---Returns all entities in the radius at the given position
+---@param position {X: number, Y: number} -- The center position to check around, with properties X and Y.
+---@param radius number -- The radius within which to search for entities.
+---@return table -- A list of entities within the specified radius.
+function SpatialHashGrid:GetEntitiesInRadius(position, radius)
+	local entities = {}
+	local px, py = position.X, position.Y
+	local cellX, cellY = self:GetCellCoords(px, py)
+	local cellsToCheck = {}
+
+	-- Determine how many cells are within the radius and add those cell keys to the list of cells to check
+	local cellRadius = math.ceil(radius / self.CellSize)
+	for dx = -cellRadius, cellRadius do
+		for dy = -cellRadius, cellRadius do
+			table.insert(cellsToCheck, self:GetCellKey(cellX + dx, cellY + dy))
+		end
+	end
+
+	for _, key in ipairs(cellsToCheck) do
+		local cell = self.Cells[key]
+		if cell then
+			for _, entity in ipairs(cell) do
+				if entity.Position then
+					local ex, ey = entity.Position.X, entity.Position.Y
+					local dx, dy = ex - px, ey - py
+					local distSq = dx * dx + dy * dy
+					if distSq <= radius * radius then
+						table.insert(entities, entity)
+					end
+				end
+			end
+		end
+	end
+
+	return entities
+end
+
 local function getInstance()
 	if not instance then
 		instance = setmetatable({

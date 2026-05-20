@@ -18,6 +18,7 @@ function Arrow:new(Source, Target)
 		"Arrow",
 		ProjectileStats.Velocity,
 		ProjectileStats.Damage,
+		ProjectileStats.DamageType,
 		ProjectileStats.SplashRadius,
 		ProjectileStats.SplashDamageMultiplier,
 		Source,

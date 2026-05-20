@@ -18,6 +18,7 @@ function Fireball:new(Source, Target)
 		"Fireball",
 		ProjectileStats.Velocity,
 		ProjectileStats.Damage,
+		ProjectileStats.DamageType,
 		ProjectileStats.SplashRadius,
 		ProjectileStats.SplashDamageMultiplier,
 		Source,

@@ -37,9 +37,7 @@ function WorldManager:Update(dt)
 	-- Phase 4: direct combat resolution.
 	CombatSystem:Update(dt)
 
-	-- Phase 5: projectile simulation.
-	-- ProjectileSystem.Update(self.Entities, dt)
-
+	-- Phase 5: win condition checks and game state transitions.
 end
 
 --- Resets the world's units and resources and creates a fresh world.
@@ -49,12 +47,15 @@ function WorldManager:Reset()
 
 	local playerTownhall = StructureFactory:CreateStructure(EntityEnums.Structures.TOWNHALL, 1)
 	local enemyTownhall = StructureFactory:CreateStructure(EntityEnums.Structures.TOWNHALL, 2)
+	local enemyTownhall2 = StructureFactory:CreateStructure(EntityEnums.Structures.TOWNHALL, 2)
 
 	EntityManager:SetStructure(playerTownhall)
 	EntityManager:SetStructure(enemyTownhall)
+	EntityManager:SetStructure(enemyTownhall2)
 
 	playerTownhall.Position = { X = 200, Y = 300 }
 	enemyTownhall.Position = { X = 600, Y = 300 }
+	enemyTownhall2.Position = { X = 625, Y = 300 }
 
 	ResourceManager:SetPlayerResources(1, {Gold = 500, Metal =  250, Aether = 100})
 	ResourceManager:SetPlayerResources(2, {Gold = 500, Metal =  250, Aether = 100})

@@ -1,4 +1,5 @@
 local entityManager = require("src.managers.entities").getInstance()
+local SpatialHashGrid = require("src.utilities.spatialHashGrid").getInstance()
 local MeleeUnit = require("src.objects.units.meleeUnit")
 local RangeUnit = require("src.objects.units.rangeUnit")
 
@@ -6,6 +7,12 @@ local RangeUnit = require("src.objects.units.rangeUnit")
 local CombatSystem = {}
 
 function CombatSystem:Update(dt)
+	self:AttackPhase(dt)
+	self:CleanupPhase()
+end
+
+--- Trigger attacks from units, projectiles and structures
+function CombatSystem:AttackPhase(dt)
 	local units = entityManager:GetUnits()
 	local structures = entityManager:GetStructures()
 	local projectiles = entityManager:GetProjectiles()
@@ -14,7 +21,7 @@ function CombatSystem:Update(dt)
 		if unit.Target then
 			if unit:IsInstanceOf(MeleeUnit) then
 				--- trigger the unit's attack logic, which will apply damage to its target and update health values accordingly.
-				local targetKilled = unit:Attack(dt)
+				unit:Attack(dt)
 			end
 			if unit:IsInstanceOf(RangeUnit) then
 				--- trigger the unit's attack logic, which will create a projectile that moves towards the target and applies damage upon impact.
@@ -28,10 +35,48 @@ function CombatSystem:Update(dt)
 
 	for _, projectile in ipairs(projectiles) do
 		--- Check if the projectile has reached its target and apply damage if so, then remove the projectile from the game.
-		-- if projectile:HasReachedTarget() then
-		-- 	local targetKilled = projectile:Attack()
-		-- 	entityManager:RemoveProjectile(projectile)
-		-- end
+		if projectile:HasReachedTarget() then
+			projectile:Attack()
+			self:ApplyProjectileSplash(projectile)
+		end
+	end
+end
+
+--- Removes any entities that have been reduced to 0 or less health during the attack phase, ensuring that the game state remains accurate and up-to-date.
+function CombatSystem:CleanupPhase()
+	local units = entityManager:GetUnits()
+	local structures = entityManager:GetStructures()
+	local projectiles = entityManager:GetProjectiles()
+
+	for _, structure in ipairs(structures) do
+		if structure.Health <= 0 then
+			entityManager:RemoveStructure(structure)
+		end
+	end
+	for _, unit in ipairs(units) do
+		if unit.Health <= 0 then
+			entityManager:RemoveUnit(unit)
+		end
+	end
+	for _, projectile in ipairs(projectiles) do
+		if projectile:HasReachedTarget() then
+			entityManager:RemoveProjectile(projectile)
+		end
+	end
+end
+
+--- Apply splash to surounding units and structures
+--- @param projectile Projectile --- The projectile that has hit its target and is applying splash damage to nearby units and structures.
+function CombatSystem:ApplyProjectileSplash(projectile)
+	--- find surounding units and structures within the projectile's splash radius and apply damage based on the projectile's SplashDamageMultiplier
+	if projectile.SplashRadius > 0 then
+		local nearbyEntities = SpatialHashGrid:GetEntitiesInRadius(projectile.Position, projectile.SplashRadius)
+		for _, entity in ipairs(nearbyEntities) do
+			if entity ~= projectile.Target then
+				local splashDamage = projectile.Damage * projectile.SplashDamageMultiplier
+				entity:TakeDamage(splashDamage)
+			end
+		end
 	end
 end
 
