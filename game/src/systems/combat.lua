@@ -73,8 +73,11 @@ function CombatSystem:ApplyProjectileSplash(projectile)
 		local nearbyEntities = SpatialHashGrid:GetEntitiesInRadius(projectile.Position, projectile.SplashRadius)
 		for _, entity in ipairs(nearbyEntities) do
 			if entity ~= projectile.Target then
-				local splashDamage = projectile.Damage * projectile.SplashDamageMultiplier
-				entity:TakeDamage(splashDamage)
+				if entity.PlayerID ~= projectile.Source.PlayerID then
+					--- apply splash damage to the entity based on the projectile's damage and splash damage multiplier, reducing its health accordingly.
+					local splashDamage = projectile.Damage * projectile.SplashDamageMultiplier
+					entity:TakeDamage(splashDamage)
+				end
 			end
 		end
 	end

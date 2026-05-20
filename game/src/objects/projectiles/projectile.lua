@@ -67,7 +67,7 @@ function Projectile:HasReachedTarget()
 		local distance = math.sqrt(dx * dx + dy * dy)
 		return distance <= self.Velocity * 0.1 -- Consider it reached if it's within a small threshold
 	end
-	return false
+	return true -- If there's no target, consider it has reached its target for cleanup purposes
 end
 
 --- Executes an attack, applying damage to its target and returning whether the target was killed.

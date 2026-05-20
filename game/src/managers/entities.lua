@@ -112,6 +112,18 @@ function EntityManager:ClearAll()
 	self.Structures = {}
 end
 
+function EntityManager:Draw()
+	for _, structure in ipairs(self.Structures) do
+		structure:Draw()
+	end
+	for _, unit in ipairs(self.Units) do
+		unit:Draw()
+	end
+	for _, projectile in ipairs(self.Projectiles) do
+		projectile:Draw()
+	end
+end
+
 local function getInstance()
 	if not instance then
 		instance = setmetatable({

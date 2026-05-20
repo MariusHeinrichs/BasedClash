@@ -130,7 +130,7 @@ end
 ---Returns all entities in the radius at the given position
 ---@param position {X: number, Y: number} -- The center position to check around, with properties X and Y.
 ---@param radius number -- The radius within which to search for entities.
----@return table -- A list of entities within the specified radius.
+---@return Unit[] | Structure[] -- A list of entities within the specified radius.
 function SpatialHashGrid:GetEntitiesInRadius(position, radius)
 	local entities = {}
 	local px, py = position.X, position.Y
