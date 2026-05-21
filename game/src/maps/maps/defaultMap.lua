@@ -2,6 +2,8 @@
 local Map = require("src.maps.components.map")
 local Path = require("src.maps.components.path")
 local Boundary = require("src.maps.components.boundary")
+local StructureFactory = require("src.objects.structures.structureFactory")
+local EntityEnums = require("src.enums.entities")
 
 ---@class DefaultMap : Map
 local defaultMap = {}
@@ -31,7 +33,11 @@ function defaultMap:new()
 		[1] = { Gold = 1000, Metal = 500, Aether = 200 },
 		[2] = { Gold = 1000, Metal = 500, Aether = 200 }
 	}
-	return Map:new({ width = 800, height = 600 }, { path }, { boundary }, teamStarts, teamResources)
+	local teamStructures = {
+		{ Structure = StructureFactory:CreateStructure(EntityEnums.Structures.CASTLE, 2),  X = 550, Y = 300 },
+		{ Structure = StructureFactory:CreateStructure(EntityEnums.Structures.LIBRARY, 2), X = 550, Y = 400 }
+	}
+	return Map:new({ width = 800, height = 600 }, { path }, { boundary }, teamStarts, teamResources, teamStructures)
 end
 
 return defaultMap

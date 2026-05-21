@@ -8,9 +8,10 @@ local EntityManager = require("src.managers.entities").getInstance()
 ---@class Map
 ---@field Size { width: number, height: number } -- Dimensions of the map
 ---@field Paths Path[] -- List of paths on the map
----@field Boundaries Boundary[] -- List of boundaries on the map
+---@field Boundaries Boundary[] | nil -- List of boundaries on the map
 ---@field TeamStarts table<integer, { X: number, Y: number }> -- Start points for teams
 ---@field TeamResources table<integer, { Gold: number, Metal: number, Aether: number }> -- Start resources per team
+---@field TeamStructures {Structure: Structure, X: number, Y: number}[] | nil -- Optional initial structures for each team
 local Map = {}
 Map.__index = Map
 
@@ -18,17 +19,19 @@ Map.__index = Map
 ---@generic T : Map
 ---@param Size { width: number, height: number } -- Dimensions of the map
 ---@param Paths Path[] -- List of paths on the map
----@param Boundaries Boundary[] -- List of boundaries on the map
----@param TeamStarts table<integer, { X: number, Y: number }>
+---@param Boundaries Boundary[] | nil -- List of boundaries on the map
+---@param TeamStarts table<integer, { X: number, Y: number }> -- Start points for teams townhalls
 ---@param TeamResources table<integer, { Gold: number, Metal: number, Aether: number }>
+---@param TeamStructures {Structure: Structure, X: number, Y: number}[] | nil -- Optional initial structures for each team
 ---@return T
-function Map:new(Size, Paths, Boundaries, TeamStarts, TeamResources)
+function Map:new(Size, Paths, Boundaries, TeamStarts, TeamResources, TeamStructures)
 	local newMap = setmetatable({}, self)
 	newMap.Size = Size or { width = 0, height = 0 }
 	newMap.Boundaries = Boundaries or {}
 	newMap.Paths = Paths or {}
 	newMap.TeamStarts = TeamStarts or {}
 	newMap.TeamResources = TeamResources or {}
+	newMap.TeamStructures = TeamStructures or {}
 	return newMap
 end
 
@@ -44,18 +47,6 @@ end
 --- @return { Gold: number, Metal: number, Aether: number }
 function Map:getTeamResources(PlayerID)
 	return self.TeamResources[PlayerID]
-end
-
---- Adds a Path to the map
---- @param Path Path
-function Map:SetPath(Path)
-	table.insert(self.Paths, Path)
-end
-
---- Adds a boundary to the map.
----@param Boundary Boundary
-function Map:SetBoundary(Boundary)
-	table.insert(self.Boundaries, Boundary)
 end
 
 --- returns the paths on the map
@@ -91,6 +82,18 @@ function Map:GetClosestPath(x, y)
 	return bestPath
 end
 
+--- Adds a Path to the map
+--- @param Path Path
+function Map:SetPath(Path)
+	table.insert(self.Paths, Path)
+end
+
+--- Adds a boundary to the map.
+---@param Boundary Boundary
+function Map:SetBoundary(Boundary)
+	table.insert(self.Boundaries, Boundary)
+end
+
 --- Creates a fresh world by resetting units, resources, and setting up the map.
 function Map:Setup()
 	EntityManager:ClearAll()
@@ -104,6 +107,11 @@ function Map:Setup()
 		local playerTownhall = StructureFactory:CreateStructure(EntityEnums.Structures.TOWNHALL, playerID)
 		EntityManager:SetStructure(playerTownhall)
 		playerTownhall.Position = { X = startPos.X, Y = startPos.Y }
+	end
+
+	for _, structureData in pairs(self.TeamStructures) do
+		EntityManager:SetStructure(structureData.Structure)
+		structureData.Structure.Position = { X = structureData.X, Y = structureData.Y }
 	end
 end
 
