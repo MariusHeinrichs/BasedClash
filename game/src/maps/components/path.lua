@@ -26,7 +26,7 @@ function Path:AddWaypoint(x, y)
 end
 
 --- Returns the list of waypoints for the path.
----@return table
+---@return { X: number, Y: number }[]
 function Path:GetWaypoints()
 	return self.Waypoints
 end
@@ -57,9 +57,25 @@ end
 
 --- Returns the waypoint at the given index.
 ---@param index number
----@return table | nil
+---@return { X: number, Y: number } | nil
 function Path:GetWaypoint(index)
 	return self.Waypoints[index]
+end
+
+--- Checks if the given coordinates are close enough to the waypoint to be considered "at" the waypoint.
+--- @param index number -- The index of the waypoint to check against.
+--- @param x number -- The X coordinate to check.
+--- @param y number -- The Y coordinate to check.
+--- @return boolean
+function Path:IsAtWaypoint(index, x, y)
+	local waypoint = self:GetWaypoint(index)
+	if not waypoint then
+		return false
+	end
+	local dx = waypoint.X - x
+	local dy = waypoint.Y - y
+	local distanceSq = dx * dx + dy * dy
+	return distanceSq < 10
 end
 
 --- Draws the path graph.

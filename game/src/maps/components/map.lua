@@ -32,26 +32,64 @@ function Map:new(Size, Paths, Boundaries, TeamStarts, TeamResources)
 	return newMap
 end
 
--- Beispielmethode: Gibt die Startposition eines Teams zurück
+--- Returns the starting Position of the given Player
+--- @param PlayerID number
+--- @return { X: number, Y: number }
 function Map:getTeamStart(PlayerID)
 	return self.TeamStarts[PlayerID]
 end
 
--- Beispielmethode: Gibt die Startressourcen eines Teams zurück
+--- Returns the starting resources of the given Player
+--- @param PlayerID number
+--- @return { Gold: number, Metal: number, Aether: number }
 function Map:getTeamResources(PlayerID)
 	return self.TeamResources[PlayerID]
 end
 
--- Beispielmethode: Fügt einen neuen Pfad hinzu
-function Map:addPath(Path)
+--- Adds a Path to the map
+--- @param Path Path
+function Map:SetPath(Path)
 	table.insert(self.Paths, Path)
 end
 
--- Beispielmethode: Fügt eine neue Grenze hinzu
-function Map:addBoundary(Boundary)
+--- Adds a boundary to the map.
+---@param Boundary Boundary
+function Map:SetBoundary(Boundary)
 	table.insert(self.Boundaries, Boundary)
 end
 
+--- returns the paths on the map
+--- @return Path[]
+function Map:GetPaths()
+	return self.Paths
+end
+
+---Findes the closest path to the given coordinates
+---@param x number
+---@param y number
+---@return Path|nil
+function Map:GetClosestPath(x, y)
+	local bestPath = nil
+	local bestDistSq = math.huge
+
+	for _, path in ipairs(self.Paths) do
+		local closestWaypointIndex = path:GetClosestWaypointIndex(x, y)
+		if closestWaypointIndex then
+			local waypoint = path:GetWaypoint(closestWaypointIndex)
+			if waypoint then
+				local dx = waypoint.X - x
+				local dy = waypoint.Y - y
+				local distSq = dx * dx + dy * dy
+				if distSq < bestDistSq then
+					bestDistSq = distSq
+					bestPath = path
+				end
+			end
+		end
+	end
+
+	return bestPath
+end
 
 --- Creates a fresh world by resetting units, resources, and setting up the map.
 function Map:Setup()
@@ -69,6 +107,7 @@ function Map:Setup()
 	end
 end
 
+--- Draws Paths and Boundarys of the Map
 function Map:Draw()
 	for _, boundary in ipairs(self.Boundaries) do
 		boundary:Draw()

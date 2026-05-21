@@ -31,7 +31,7 @@ function WorldManager:Update(dt)
 	TargetingSystem:Update(dt)
 
 	-- Phase 3: movement and pathing.
-	MovementSystem:Update(dt)
+	MovementSystem:Update(dt, self.Map)
 
 	-- Phase 4: direct combat resolution.
 	CombatSystem:Update(dt)

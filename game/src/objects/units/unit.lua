@@ -19,6 +19,8 @@ local Object = require("src.objects.object")
 ---@field Bounty number
 ---@field PlayerID number
 ---@field AttackTimer number
+---@field Path Path | nil
+---@field CurrentWayPointIndex number
 local Unit = {}
 Unit.__index = Unit
 
@@ -59,6 +61,8 @@ function Unit:new(Name, MaxHealth, AttackSpeed, AttackRange, AggroRange, TargetP
 	newUnit.Bounty = Bounty or 10
 	newUnit.PlayerID = PlayerID or 0
 	newUnit.AttackTimer = 0
+	newUnit.Path = nil
+	newUnit.CurrentWayPointIndex = nil
 	return newUnit
 end
 
@@ -86,6 +90,36 @@ function Unit:MoveToTarget(dt)
 	end
 end
 
+function Unit:MoveAlongPath(dt)
+	if self.Path then
+		--- unit does not have a current waypoint index, we need to find the closest waypoint to the unit's current position and set it as the current waypoint index.
+		if not self.CurrentWayPointIndex then
+			local currentWaypointIndex = self.Path:GetClosestWaypointIndex(self.Position.X, self.Position.Y)
+			self.CurrentWayPointIndex = currentWaypointIndex or 1
+		end
+		local isAtWaypoint = self.Path:IsAtWaypoint(self.CurrentWayPointIndex, self.Position.X, self.Position.Y)
+		if isAtWaypoint then
+			--- If the unit is at the current waypoint, we need to move to the next waypoint in the path.
+			local direction = self.PlayerID == 1 and 1 or -1
+			self.CurrentWayPointIndex = self.CurrentWayPointIndex + direction
+		end
+		-- If the unit has a current waypoint index, we need to move towards the current waypoint.
+		local waypoint = self.Path:GetWaypoint(self.CurrentWayPointIndex)
+		if waypoint then
+			local dx = waypoint.X - self.Position.X
+			local dy = waypoint.Y - self.Position.Y
+			local distance = math.sqrt(dx * dx + dy * dy)
+
+			if distance > 0 then
+				local moveX = (dx / distance) * self.MovementSpeed * dt
+				local moveY = (dy / distance) * self.MovementSpeed * dt
+
+				self:SetPosition({ X = self.Position.X + moveX, Y = self.Position.Y + moveY })
+			end
+		end
+	end
+end
+
 ---Checks if the current target is in attack range
 ---@return boolean inRange -- Returns true if the target is in attack range, false otherwise.
 function Unit:IsTargetInRange()
@@ -102,6 +136,24 @@ end
 --- @param Target Unit | Structure | nil -- The target to set for the unit.
 function Unit:SetTarget(Target)
 	self.Target = Target
+end
+
+---Sets the current path the unit should follow.
+---@param Path Path
+function Unit:SetPath(Path)
+	self.Path = Path
+end
+
+---Returns the current target of the unit
+---@return Structure|Unit|nil
+function Unit:GetTarget()
+	return self.Target
+end
+
+---Returns the current path the unit is following
+---@return Path|nil
+function Unit:GetPath()
+	return self.Path
 end
 
 --- Executes an attack on the unit's current target.
