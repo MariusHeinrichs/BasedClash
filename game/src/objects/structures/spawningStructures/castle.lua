@@ -21,6 +21,7 @@ function Castle:new(PlayerID)
 		StructureStats.Armor,
 		StructureStats.ArmorType,
 		StructureStats.Costs,
+		StructureStats.IncomeBonus,
 		StructureStats.Size,
 		StructureStats.SpawnUnit,
 		StructureStats.SpawnAmount,

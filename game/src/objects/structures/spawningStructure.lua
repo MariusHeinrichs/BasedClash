@@ -22,6 +22,7 @@ setmetatable(SpawningStructure, { __index = Structure })
 --- @param Armor number | nil -- The armor value of the structure.
 --- @param ArmorType EntityEnums.ArmorTypes | nil -- The type of armor of the structure.
 --- @param Costs {Gold: number, Metal: number, Aether: number} | nil -- The resource costs to build the structure.
+--- @param IncomeBonus {Gold: number, Metal: number, Aether: number} | nil -- The income bonus provided by the structure.
 --- @param Size number | nil -- The size of the structure.
 --- @param SpawnUnit EntityEnums.Units | nil -- The unit that the structure spawns.
 --- @param SpawnAmount number | nil -- The amount of units the structure spawns at a time.
@@ -29,13 +30,14 @@ setmetatable(SpawningStructure, { __index = Structure })
 --- @param Bounty number | nil -- The bounty awarded for defeating the structure.
 --- @param PlayerID number | nil -- The ID of the player controlling the structure.
 --- @return T
-function SpawningStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, Size, SpawnUnit, SpawnAmount, SpawnRate, Bounty, PlayerID)
+function SpawningStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, IncomeBonus, Size, SpawnUnit, SpawnAmount, SpawnRate, Bounty, PlayerID)
 	local newSpawningStructure = Structure.new(self,
 		Name,
 		MaxHealth,
 		Armor,
 		ArmorType,
 		Costs,
+		IncomeBonus,
 		Size,
 		Bounty,
 		PlayerID

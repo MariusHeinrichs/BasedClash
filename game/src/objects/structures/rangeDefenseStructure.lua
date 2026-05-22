@@ -22,6 +22,7 @@ setmetatable(RangeDefenseStructure, { __index = Structure })
 --- @param Armor number | nil -- The armor value of the structure.
 --- @param ArmorType EntityEnums.ArmorTypes | nil -- The type of armor of the structure.
 --- @param Costs {Gold: number, Metal: number, Aether: number} | nil -- The resource costs to build the structure.
+--- @param IncomeBonus {Gold: number, Metal: number, Aether: number} | nil -- The income bonus provided by the structure.
 --- @param Size number | nil -- The size of the structure.
 --- @param Projectile EntityEnums.ProjectileTypes | nil -- The projectile used by the structure.
 --- @param AttackSpeed number | nil -- The attack speed of the structure (attacks per second).
@@ -30,13 +31,14 @@ setmetatable(RangeDefenseStructure, { __index = Structure })
 --- @param Bounty number | nil -- The bounty awarded for defeating the structure.
 --- @param PlayerID number | nil -- The ID of the player controlling the structure.
 --- @return T
-function RangeDefenseStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, Size, Projectile, AttackSpeed, AttackRange, TargetPriority, Bounty, PlayerID)
+function RangeDefenseStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, IncomeBonus, Size, Projectile, AttackSpeed, AttackRange, TargetPriority, Bounty, PlayerID)
 	local newRangeDefenseStructure = Structure.new(self,
 		Name,
 		MaxHealth,
 		Armor,
 		ArmorType,
 		Costs,
+		IncomeBonus,
 		Size,
 		Bounty,
 		PlayerID

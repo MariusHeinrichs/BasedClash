@@ -147,6 +147,8 @@ function BattleHUD:Draw()
 		local healthbar = Healthbar:new(structure)
 		healthbar:Draw()
 	end
+
+	--- Draw the resource income
 end
 
 --- Checks if any of the buttons are pressed based on the mouse position and cursor radius.

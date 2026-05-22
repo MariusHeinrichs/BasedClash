@@ -8,7 +8,8 @@ local Object = require("src.objects.object")
 ---@field MaxHealth number
 ---@field Armor number
 ---@field ArmorType EntityEnums.ArmorTypes
----@field Costs table
+---@field Costs {Gold: number, Metal: number, Aether: number}
+---@field IncomeBonus {Gold: number, Metal: number, Aether: number}
 ---@field Size number
 ---@field Bounty number
 ---@field PlayerID number
@@ -25,17 +26,19 @@ setmetatable(Structure, { __index = Object })
 --- @param Armor number | nil -- The armor value of the structure.
 --- @param ArmorType EntityEnums.ArmorTypes | nil -- The type of armor of the structure.
 --- @param Costs {Gold: number, Metal: number, Aether: number} | nil -- The resource costs to build the structure.
+--- @param IncomeBonus {Gold: number, Metal: number, Aether: number} | nil -- The income bonus provided by the structure.
 --- @param Size number | nil -- The size of the structure.
 --- @param Bounty number | nil -- The bounty awarded for defeating the structure.
 --- @param PlayerID number | nil -- The ID of the player controlling the structure.
 --- @return T
-function Structure:new(Name, MaxHealth, Armor, ArmorType, Costs, Size, Bounty, PlayerID)
+function Structure:new(Name, MaxHealth, Armor, ArmorType, Costs, IncomeBonus, Size, Bounty, PlayerID)
 	local newStructure = Object.new(self, Name or "Structure")
 	newStructure.MaxHealth = MaxHealth or 500
 	newStructure.Health = newStructure.MaxHealth
 	newStructure.Armor = Armor or 5
 	newStructure.ArmorType = ArmorType or EntityEnums.ArmorTypes.STRUCTURE
 	newStructure.Costs = Costs or { Gold = 100, Metal = 50, Aether = 25 }
+	newStructure.IncomeBonus = IncomeBonus or { Gold = 0, Metal = 0, Aether = 0 }
 	newStructure.Size = Size or 4
 	newStructure.Bounty = Bounty or 50
 	newStructure.PlayerID = PlayerID or 0

@@ -21,6 +21,7 @@ function Townhall:new(PlayerID)
 		StructureStats.Armor,
 		StructureStats.ArmorType,
 		StructureStats.Costs,
+		StructureStats.IncomeBonus,
 		StructureStats.Size,
 		StructureStats.Projectile,
 		StructureStats.AttackSpeed,

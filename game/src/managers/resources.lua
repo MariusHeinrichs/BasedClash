@@ -41,12 +41,20 @@ end
 --- Substracts resources from a player's existing resources
 --- @param PlayerID number
 --- @param Resources {Gold: number, Metal: number, Aether: number}
+--- @return boolean true if resources were successfully subtracted, false if the player did not have enough resources.
 function ResourceManager:SubstractPlayerResources(PlayerID, Resources)
 	local PlayerResources = self:GetPlayerResources(PlayerID)
+	--- Check if the player has enough resources before subtracting
+	if PlayerResources.Gold < (Resources.Gold or 0) or
+		PlayerResources.Metal < (Resources.Metal or 0) or
+		PlayerResources.Aether < (Resources.Aether or 0) then
+		return false -- Not enough resources, return false to indicate failure.
+	end
 	PlayerResources.Gold = PlayerResources.Gold - (Resources.Gold or 0)
 	PlayerResources.Metal = PlayerResources.Metal - (Resources.Metal or 0)
 	PlayerResources.Aether = PlayerResources.Aether - (Resources.Aether or 0)
 	self:SetPlayerResources(PlayerID, PlayerResources)
+	return true -- Resources successfully subtracted.
 end
 
 --- Clears all player resources
