@@ -1,6 +1,7 @@
 --- Handles the creation and placement of structures in the world.
 local entityManager = require("src.managers.entities").getInstance()
 local resourceManager = require("src.managers.resources").getInstance()
+local structureHashGrid = require("src.utilities.structureHashGrid").getInstance()
 local StructureFactory = require("src.objects.structures.structureFactory")
 
 
@@ -19,11 +20,12 @@ function StructurePlacement:SetSelectedStructureType(StructureType)
 	self.SelectedStructureType = StructureType
 end
 
---- Places the currently selected Structure at the given position
+--- Places the currently selected Structure at the given position if possible
 --- @param Position { X: number, Y: number } the position to place the structure
 --- @param PlayerID number the ID of the player placing the structure
 function StructurePlacement:PlaceStructure(Position, PlayerID)
-
+	structureHashGrid:Rebuild() -- Ensure the structure hash grid is up to date before checking for occupied cells.
+	
 	if Position == nil or PlayerID == nil then
 		error("Position and PlayerID must be provided to place a structure.")
 	end
@@ -32,9 +34,16 @@ function StructurePlacement:PlaceStructure(Position, PlayerID)
 		return -- No structure type selected, do nothing.
 	end
 
-	--- create the strucutre
+	if not structureHashGrid:IsCellOccupied(Position.X, Position.Y) then
+		structureHashGrid:MarkCellAsOccupied(Position.X, Position.Y)
+	else
+		return -- Cell is already occupied, do not place the structure.
+	end
+
+	--- create the strucutre and set its position to the center of the cell
 	local newStructure = StructureFactory:CreateStructure(self.SelectedStructureType, PlayerID)
-	newStructure.Position = Position
+	local cellCenterX, cellCenterY = structureHashGrid:GetCellCenter(Position.X, Position.Y)
+	newStructure.Position = { X = cellCenterX, Y = cellCenterY }
 
 	if not resourceManager:SubstractPlayerResources(PlayerID, newStructure.Costs) then
 		return -- Not enough resources, do not place the structure in the world.
@@ -83,4 +92,3 @@ end
 return {
 	getInstance = getInstance
 }
-

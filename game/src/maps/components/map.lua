@@ -3,7 +3,8 @@ local StructureFactory = require("src.objects.structures.structureFactory")
 local EntityEnums = require("src.enums.entities")
 local resourceManager = require("src.managers.resources").getInstance()
 local entityManager = require("src.managers.entities").getInstance()
-
+local structureHashGrid = require("src.utilities.structureHashGrid").getInstance()
+local unitHashGrid = require("src.utilities.unitHashGrid").getInstance()
 
 ---@class Map
 ---@field Size { width: number, height: number } -- Dimensions of the map
@@ -127,6 +128,10 @@ function Map:Setup()
 		entityManager:SetStructure(structureData.Structure)
 		structureData.Structure.Position = { X = structureData.X, Y = structureData.Y }
 	end
+
+	structureHashGrid:SetMapSize(self.Size.width, self.Size.height)
+	structureHashGrid:Rebuild()
+	unitHashGrid:Rebuild()
 end
 
 --- Draws Paths and Boundarys of the Map
