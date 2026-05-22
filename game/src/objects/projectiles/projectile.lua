@@ -82,6 +82,8 @@ function Projectile:Attack()
 		local effectiveDamage = math.max(0, self.Damage * damageMultiplier - targetArmor)
 		targetKilled = self.Target:TakeDamage(effectiveDamage)
 		if targetKilled then
+			self.Source.Target = nil -- Clear the source's target if the target was killed to prevent it from trying to attack a dead target.
+			self.Source.Path = nil -- Clear the source's path so it can recalculate a new path if needed after the target is killed.
 			self.Target = nil
 		end
 	end

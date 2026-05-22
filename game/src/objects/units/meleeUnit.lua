@@ -74,12 +74,13 @@ function MeleeUnit:Attack(dt)
 	local damageMultiplier = EntityEnums.DamageMultipliers[self.DamageType][targetArmorType] or 1
 	local effectiveDamage = math.max(0, self.Damage * damageMultiplier - targetArmor)
 	--- Apply damage to the target and check if it died.
-	local dead = self.Target:TakeDamage(effectiveDamage)
+	local targetKilled = self.Target:TakeDamage(effectiveDamage)
 	-- Target is dead
-	if dead then
+	if targetKilled then
 		self.Target = nil
+		self.Path = nil -- Clear the unit's path so it can recalculate a new path if needed after the target is
 	end
-	return dead
+	return targetKilled
 end
 
 return MeleeUnit
