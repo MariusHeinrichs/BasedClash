@@ -1,7 +1,7 @@
 local GameStateEnums = require("src.enums.gameStates")
-local GameStateManager = require("src.managers.gamestate").getInstance()
-local InterfaceManager = require("src.managers.interfaces").getInstance()
-local StructurePlacement = require("src.systems.structurePlacement").getInstance()
+local gameStateManager = require("src.managers.gamestate").getInstance()
+local interfaceManager = require("src.managers.interfaces").getInstance()
+local structurePlacement = require("src.systems.structurePlacement").getInstance()
 
 -- Singleton-Instanz
 local instance = nil
@@ -12,11 +12,11 @@ local InputManager = {}
 InputManager.__index = InputManager
 
 function InputManager:HandleKeyPressed(key)
-	local GameState = GameStateManager:GetGameState()
+	local GameState = gameStateManager:GetGameState()
 
 	if GameState == GameStateEnums.Names.STARTMENU then
 		if key == "return" then
-			GameStateManager:EnterMainMenu()
+			gameStateManager:EnterMainMenu()
 			return true
 		end
 		if key == "escape" then
@@ -25,22 +25,22 @@ function InputManager:HandleKeyPressed(key)
 		end
 	elseif GameState == GameStateEnums.Names.MAINMENU then
 		if key == "escape" then
-			GameStateManager:EnterStartMenu()
+			gameStateManager:EnterStartMenu()
 			return true
 		end
 	elseif GameState == GameStateEnums.Names.RUNNING then
 		if key == "escape" then
-			GameStateManager:EnterPause()
+			gameStateManager:EnterPause()
 			return true
 		end
 	elseif GameState == GameStateEnums.Names.PAUSE then
 		if key == "escape" then
-			GameStateManager:EnterRunning()
+			gameStateManager:EnterRunning()
 			return true
 		end
 	elseif GameState == GameStateEnums.Names.GAME_OVER then
 		if key == "escape" then
-			GameStateManager:EnterMainMenu()
+			gameStateManager:EnterMainMenu()
 			return true
 		end
 	end
@@ -49,36 +49,36 @@ function InputManager:HandleKeyPressed(key)
 end
 
 function InputManager:HandleMousePressed(x, y, button)
-	local GameState = GameStateManager:GetGameState()
+	local GameState = gameStateManager:GetGameState()
 
 	if GameState == GameStateEnums.Names.MAINMENU then
-		if InterfaceManager.Interfaces.MainMenu then
-			InterfaceManager.Interfaces.MainMenu:HandleMousePressed(x, y, button)
+		if interfaceManager.Interfaces.MainMenu then
+			interfaceManager.Interfaces.MainMenu:HandleMousePressed(x, y, button)
 		end
 		return true
 	end
 
 	if GameState == GameStateEnums.Names.RUNNING then
-		if InterfaceManager.Interfaces.BattleHUD then
+		if interfaceManager.Interfaces.BattleHUD then
 			--- check if a button has been pressed and execute its action if so.
-			local pressed = InterfaceManager.Interfaces.BattleHUD:HandleMousePressed(x, y, button)
+			local pressed = interfaceManager.Interfaces.BattleHUD:HandleMousePressed(x, y, button)
 			--- if no button was pressed, we can allow the click to interact with the game world (e.g., for structure placement).
 			if not pressed then
-				StructurePlacement:HandleMousePressed(x, y, button)
+				structurePlacement:HandleMousePressed(x, y, button)
 			end
 		end
 		return true
 	end
 
 	if GameState == GameStateEnums.Names.PAUSE then
-		if InterfaceManager.Interfaces.Pause then
+		if interfaceManager.Interfaces.Pause then
 			-- InterfaceManager.Interfaces.Pause:HandleMousePressed(x, y, button)
 		end
 		return true
 	end
 
 	if GameState == GameStateEnums.Names.GAME_OVER then
-		if InterfaceManager.Interfaces.GameOver then
+		if interfaceManager.Interfaces.GameOver then
 			-- InterfaceManager.Interfaces.GameOver:HandleMousePressed(x, y, button)
 		end
 		return true

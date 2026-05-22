@@ -1,4 +1,4 @@
-local EntityManager = require("src.managers.entities").getInstance()
+local entityManager = require("src.managers.entities").getInstance()
 
 local DEFAULTS = {
 	CellSize = 128 -- Size of each cell in the spatial hash grid
@@ -8,17 +8,17 @@ local DEFAULTS = {
 local instance = nil
 
 --- Spatial hash grid for fast entity lookups.
----@class SpatialHashGrid
+---@class UnitHashGrid
 ---@field CellSize number
 ---@field Cells table<string, table> -- Table of cells, each containing a list of entities
-local SpatialHashGrid = {}
-SpatialHashGrid.__index = SpatialHashGrid
+local UnitHashGrid = {}
+UnitHashGrid.__index = UnitHashGrid
 
 --- Generates a unique key for a cell based on its coordinates.
 ---@param cellX number
 ---@param cellY number
 ---@return string
-function SpatialHashGrid:GetCellKey(cellX, cellY)
+function UnitHashGrid:GetCellKey(cellX, cellY)
 	return tostring(cellX) .. ":" .. tostring(cellY)
 end
 
@@ -26,14 +26,14 @@ end
 ---@param x number -- The x-coordinate in world space.
 ---@param y number -- The y-coordinate in world space.
 ---@return number, number -- The cell coordinates (cellX, cellY).
-function SpatialHashGrid:GetCellCoords(x, y)
+function UnitHashGrid:GetCellCoords(x, y)
 	return math.floor(x / self.CellSize), math.floor(y / self.CellSize)
 end
 
 ---@param cellX number -- The x-coordinate of the cell.
 ---@param cellY number -- The y-coordinate of the cell.
 ---@param entity Object -- The entity to insert into the cell.
-function SpatialHashGrid:InsertCellEntity(cellX, cellY, entity)
+function UnitHashGrid:InsertCellEntity(cellX, cellY, entity)
 	local key = self:GetCellKey(cellX, cellY)
 	if not self.Cells[key] then
 		self.Cells[key] = {}
@@ -42,10 +42,10 @@ function SpatialHashGrid:InsertCellEntity(cellX, cellY, entity)
 end
 
 --- Rebuilds the spatial hash grid by clearing existing cells and re-inserting all entities based on their current positions.
-function SpatialHashGrid:Rebuild()
+function UnitHashGrid:Rebuild()
 	self.Cells = {}
-	local units = EntityManager:GetUnits()
-	local structures = EntityManager:GetStructures()
+	local units = entityManager:GetUnits()
+	local structures = entityManager:GetStructures()
 
 	for _, unit in ipairs(units) do
 		local cellX, cellY = self:GetCellCoords(unit.Position.X, unit.Position.Y)
@@ -61,7 +61,7 @@ end
 --- Returns the closest enemy to the given Object that passes the aggro and priority check.
 --- @param Object Unit | Structure -- The unit or structure for which to find a target.
 --- @return Unit | Structure | nil -- The closest enemy object that is within aggro range and meets the targeting criteria, or nil if no valid target is found.
-function SpatialHashGrid:FindClosestEnemyInAggroRange(Object)
+function UnitHashGrid:FindClosestEnemyInAggroRange(Object)
 	local closestEnemy = nil
 	local closestDistSq = math.huge
 	if not Object or not Object.Position or not Object.PlayerID or not Object.AggroRange or not Object.TargetPriority then
@@ -131,7 +131,7 @@ end
 ---@param position {X: number, Y: number} -- The center position to check around, with properties X and Y.
 ---@param radius number -- The radius within which to search for entities.
 ---@return Unit[] | Structure[] -- A list of entities within the specified radius.
-function SpatialHashGrid:GetEntitiesInRadius(position, radius)
+function UnitHashGrid:GetEntitiesInRadius(position, radius)
 	local entities = {}
 	local px, py = position.X, position.Y
 	local cellX, cellY = self:GetCellCoords(px, py)
@@ -169,7 +169,7 @@ local function getInstance()
 		instance = setmetatable({
 			CellSize = DEFAULTS.CellSize,
 			Cells = {}
-		}, SpatialHashGrid)
+		}, UnitHashGrid)
 	end
 	return instance
 end

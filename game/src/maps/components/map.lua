@@ -1,8 +1,8 @@
 -- Map Class represented by paths, boundaries, and team start positions/resources.
 local StructureFactory = require("src.objects.structures.structureFactory")
 local EntityEnums = require("src.enums.entities")
-local ResourceManager = require("src.managers.resources").getInstance()
-local EntityManager = require("src.managers.entities").getInstance()
+local resourceManager = require("src.managers.resources").getInstance()
+local entityManager = require("src.managers.entities").getInstance()
 
 
 ---@class Map
@@ -106,25 +106,25 @@ end
 
 --- Creates a fresh world by resetting units, resources, and setting up the map.
 function Map:Setup()
-	EntityManager:ClearAll()
-	ResourceManager:ClearAll()
+	entityManager:ClearAll()
+	resourceManager:ClearAll()
 
 	for playerID, resources in pairs(self.TeamResources) do
-		ResourceManager:SetPlayerResources(playerID, resources)
+		resourceManager:SetPlayerResources(playerID, resources)
 	end
 
 	for playerID, income in pairs(self.TeamIncomes) do
-		ResourceManager:SetPlayerIncome(playerID, income)
+		resourceManager:SetPlayerIncome(playerID, income)
 	end
 
 	for playerID, startPos in pairs(self.TeamStarts) do
 		local playerTownhall = StructureFactory:CreateStructure(EntityEnums.Structures.TOWNHALL, playerID)
-		EntityManager:SetStructure(playerTownhall)
+		entityManager:SetStructure(playerTownhall)
 		playerTownhall.Position = { X = startPos.X, Y = startPos.Y }
 	end
 
 	for _, structureData in pairs(self.TeamStructures) do
-		EntityManager:SetStructure(structureData.Structure)
+		entityManager:SetStructure(structureData.Structure)
 		structureData.Structure.Position = { X = structureData.X, Y = structureData.Y }
 	end
 end

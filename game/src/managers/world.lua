@@ -1,5 +1,5 @@
-local EntityManager = require("src.managers.entities").getInstance()
-local GameStateManager = require("src.managers.gamestate").getInstance()
+local entityManager = require("src.managers.entities").getInstance()
+local gameStateManager = require("src.managers.gamestate").getInstance()
 local SpawnSystem = require("src.systems.spawn")
 local MovementSystem = require("src.systems.movement")
 local TargetingSystem = require("src.systems.targeting")
@@ -21,7 +21,7 @@ WorldManager.__index = WorldManager
 -- Update game logic, entities, etc. based on the current game state.
 function WorldManager:Update(dt)
 	-- Only update the game world when in the RUNNING state.
-	if GameStateManager:GetGameState() ~= GameStateEnums.Names.RUNNING then
+	if gameStateManager:GetGameState() ~= GameStateEnums.Names.RUNNING then
 		return
 	end
 
@@ -53,11 +53,11 @@ end
 -- Render the game world, entities, and interfaces based on the current game state.
 function WorldManager:Draw()
 	-- Only draw the game world when in the RUNNING state.
-	if GameStateManager:GetGameState() ~= GameStateEnums.Names.RUNNING then
+	if gameStateManager:GetGameState() ~= GameStateEnums.Names.RUNNING then
 		return
 	end
 	-- Draw entities
-	EntityManager:Draw()
+	entityManager:Draw()
 	-- Draw the map components.
 	if self.Map then
 		self.Map:Draw()

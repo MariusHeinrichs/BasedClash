@@ -1,6 +1,6 @@
 --- Handles the creation and placement of structures in the world.
-local EntityManager = require("src.managers.entities").getInstance()
-local ResourceManager = require("src.managers.resources").getInstance()
+local entityManager = require("src.managers.entities").getInstance()
+local resourceManager = require("src.managers.resources").getInstance()
 local StructureFactory = require("src.objects.structures.structureFactory")
 
 
@@ -36,15 +36,15 @@ function StructurePlacement:PlaceStructure(Position, PlayerID)
 	local newStructure = StructureFactory:CreateStructure(self.SelectedStructureType, PlayerID)
 	newStructure.Position = Position
 
-	if not ResourceManager:SubstractPlayerResources(PlayerID, newStructure.Costs) then
+	if not resourceManager:SubstractPlayerResources(PlayerID, newStructure.Costs) then
 		return -- Not enough resources, do not place the structure in the world.
 	end
 
 	-- structure passed all checks we can place it in the world
-	EntityManager:SetStructure(newStructure)
+	entityManager:SetStructure(newStructure)
 
 	-- Add the structure's income bonus to the player's resources
-	ResourceManager:AddPlayerIncome(PlayerID, newStructure.IncomeBonus)
+	resourceManager:AddPlayerIncome(PlayerID, newStructure.IncomeBonus)
 
 	-- Clear the selected structure type after placing.
 	self:CancelPlacement()

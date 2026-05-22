@@ -1,9 +1,9 @@
 local Button = require("src.interfaces.components.button")
 local Healthbar = require("src.interfaces.components.healthbar")
 
-local StructurePlacement = require("src.systems.structurePlacement").getInstance()
-local ResourceManager = require("src.managers.resources").getInstance()
-local EntityManager = require("src.managers.entities").getInstance()
+local structurePlacement = require("src.systems.structurePlacement").getInstance()
+local resourceManager = require("src.managers.resources").getInstance()
+local entityManager = require("src.managers.entities").getInstance()
 local EntityEnums = require("src.enums.entities")
 
 local BASE_BUTTON_WIDTH = 200
@@ -12,19 +12,19 @@ local BASE_SPACING_X = 20
 local BASE_BOTTOM_MARGIN = 24
 
 local function onBarbarianPressed()
-	StructurePlacement:SetSelectedStructureType(EntityEnums.Structures.BARBARIAN_CAMP)
+	structurePlacement:SetSelectedStructureType(EntityEnums.Structures.BARBARIAN_CAMP)
 end
 
 local function onKnightPressed()
-	StructurePlacement:SetSelectedStructureType(EntityEnums.Structures.CASTLE)
+	structurePlacement:SetSelectedStructureType(EntityEnums.Structures.CASTLE)
 end
 
 local function onArcherPressed()
-	StructurePlacement:SetSelectedStructureType(EntityEnums.Structures.ARCHER_CAMP)
+	structurePlacement:SetSelectedStructureType(EntityEnums.Structures.ARCHER_CAMP)
 end
 
 local function onMagePressed()
-	StructurePlacement:SetSelectedStructureType(EntityEnums.Structures.LIBRARY)
+	structurePlacement:SetSelectedStructureType(EntityEnums.Structures.LIBRARY)
 end
 
 --- battle menu interface.
@@ -129,7 +129,7 @@ function BattleHUD:Draw()
 	local metalColumnX = rightX - (columnWidth * 2)
 	local aetherColumnX = rightX - columnWidth
 
-	local resources = ResourceManager:GetPlayerResources(1)
+	local resources = resourceManager:GetPlayerResources(1)
 
 	love.graphics.printf(string.format("Gold: %d", resources.Gold), goldColumnX, topY, columnWidth, "right")
 	love.graphics.printf(string.format("Metal: %d", resources.Metal), metalColumnX, topY, columnWidth, "right")
@@ -137,18 +137,18 @@ function BattleHUD:Draw()
 		"right")
 
 	--- Draw the resource income
-	local incomes = ResourceManager:GetPlayerIncome(1)
+	local incomes = resourceManager:GetPlayerIncome(1)
 	love.graphics.printf(string.format("Gold Income: %d", incomes.Gold), goldColumnX, topY + 20, columnWidth, "right")
 	love.graphics.printf(string.format("Metal Income: %d", incomes.Metal), metalColumnX, topY + 20, columnWidth, "right")
 	love.graphics.printf(string.format("Aether Income: %d", incomes.Aether), aetherColumnX, topY + 20, columnWidth, "right")
 
 	-- Draw healthbars for player's units and structures
-	local entities = EntityManager:GetUnits()
+	local entities = entityManager:GetUnits()
 	for _, entity in ipairs(entities) do
 		local healthbar = Healthbar:new(entity)
 		healthbar:Draw()
 	end
-	local structures = EntityManager:GetStructures()
+	local structures = entityManager:GetStructures()
 	for _, structure in ipairs(structures) do
 		local healthbar = Healthbar:new(structure)
 		healthbar:Draw()
