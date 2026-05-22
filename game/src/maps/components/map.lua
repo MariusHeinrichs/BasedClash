@@ -11,6 +11,7 @@ local EntityManager = require("src.managers.entities").getInstance()
 ---@field Boundaries Boundary[] | nil -- List of boundaries on the map
 ---@field TeamStarts table<integer, { X: number, Y: number }> -- Start points for teams
 ---@field TeamResources table<integer, { Gold: number, Metal: number, Aether: number }> -- Start resources per team
+---@field TeamIncomes table<integer, { Gold: number, Metal: number, Aether: number }> -- Start income per team
 ---@field TeamStructures {Structure: Structure, X: number, Y: number}[] | nil -- Optional initial structures for each team
 local Map = {}
 Map.__index = Map
@@ -22,15 +23,17 @@ Map.__index = Map
 ---@param Boundaries Boundary[] | nil -- List of boundaries on the map
 ---@param TeamStarts table<integer, { X: number, Y: number }> -- Start points for teams townhalls
 ---@param TeamResources table<integer, { Gold: number, Metal: number, Aether: number }>
+---@param TeamIncomes table<integer, { Gold: number, Metal: number, Aether: number }> -- Start income per team
 ---@param TeamStructures {Structure: Structure, X: number, Y: number}[] | nil -- Optional initial structures for each team
 ---@return T
-function Map:new(Size, Paths, Boundaries, TeamStarts, TeamResources, TeamStructures)
+function Map:new(Size, Paths, Boundaries, TeamStarts, TeamResources, TeamIncomes, TeamStructures)
 	local newMap = setmetatable({}, self)
 	newMap.Size = Size or { width = 0, height = 0 }
 	newMap.Boundaries = Boundaries or {}
 	newMap.Paths = Paths or {}
 	newMap.TeamStarts = TeamStarts or {}
 	newMap.TeamResources = TeamResources or {}
+	newMap.TeamIncomes = TeamIncomes or {}
 	newMap.TeamStructures = TeamStructures or {}
 	return newMap
 end
@@ -47,6 +50,13 @@ end
 --- @return { Gold: number, Metal: number, Aether: number }
 function Map:getTeamResources(PlayerID)
 	return self.TeamResources[PlayerID]
+end
+
+--- Returns the starting income of the given Player
+--- @param PlayerID number
+--- @return { Gold: number, Metal: number, Aether: number }
+function Map:getTeamIncome(PlayerID)
+	return self.TeamIncomes[PlayerID]
 end
 
 --- returns the paths on the map
@@ -101,6 +111,10 @@ function Map:Setup()
 
 	for playerID, resources in pairs(self.TeamResources) do
 		ResourceManager:SetPlayerResources(playerID, resources)
+	end
+
+	for playerID, income in pairs(self.TeamIncomes) do
+		ResourceManager:SetPlayerIncome(playerID, income)
 	end
 
 	for playerID, startPos in pairs(self.TeamStarts) do

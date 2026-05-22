@@ -136,6 +136,12 @@ function BattleHUD:Draw()
 	love.graphics.printf(string.format("Aether: %d", resources.Aether), aetherColumnX, topY, columnWidth,
 		"right")
 
+	--- Draw the resource income
+	local incomes = ResourceManager:GetPlayerIncome(1)
+	love.graphics.printf(string.format("Gold Income: %d", incomes.Gold), goldColumnX, topY + 20, columnWidth, "right")
+	love.graphics.printf(string.format("Metal Income: %d", incomes.Metal), metalColumnX, topY + 20, columnWidth, "right")
+	love.graphics.printf(string.format("Aether Income: %d", incomes.Aether), aetherColumnX, topY + 20, columnWidth, "right")
+
 	-- Draw healthbars for player's units and structures
 	local entities = EntityManager:GetUnits()
 	for _, entity in ipairs(entities) do
@@ -147,8 +153,6 @@ function BattleHUD:Draw()
 		local healthbar = Healthbar:new(structure)
 		healthbar:Draw()
 	end
-
-	--- Draw the resource income
 end
 
 --- Checks if any of the buttons are pressed based on the mouse position and cursor radius.

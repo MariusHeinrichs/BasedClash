@@ -44,6 +44,7 @@ function StructurePlacement:PlaceStructure(Position, PlayerID)
 	EntityManager:SetStructure(newStructure)
 
 	-- Add the structure's income bonus to the player's resources
+	ResourceManager:AddPlayerIncome(PlayerID, newStructure.IncomeBonus)
 
 	-- Clear the selected structure type after placing.
 	self:CancelPlacement()

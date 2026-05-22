@@ -33,11 +33,16 @@ function defaultMap:new()
 		[1] = { Gold = 1000, Metal = 500, Aether = 200 },
 		[2] = { Gold = 1000, Metal = 500, Aether = 200 }
 	}
+	local teamIncomes = {
+		[1] = { Gold = 10, Metal = 5, Aether = 0 },
+		[2] = { Gold = 10, Metal = 5, Aether = 0 }
+	}
 	local teamStructures = {
 		{ Structure = StructureFactory:CreateStructure(EntityEnums.Structures.CASTLE, 2),  X = 550, Y = 300 },
 		{ Structure = StructureFactory:CreateStructure(EntityEnums.Structures.LIBRARY, 2), X = 550, Y = 400 }
 	}
-	return Map:new({ width = 800, height = 600 }, { path }, { boundary }, teamStarts, teamResources, teamStructures)
+	return Map:new({ width = 800, height = 600 }, { path }, { boundary }, teamStarts, teamResources, teamIncomes,
+	teamStructures)
 end
 
 return defaultMap

@@ -4,6 +4,7 @@ local SpawnSystem = require("src.systems.spawn")
 local MovementSystem = require("src.systems.movement")
 local TargetingSystem = require("src.systems.targeting")
 local CombatSystem = require("src.systems.combat")
+local IncomeSystem = require("src.systems.income")
 
 
 local GameStateEnums = require("src.enums.gameStates")
@@ -36,7 +37,10 @@ function WorldManager:Update(dt)
 	-- Phase 4: direct combat resolution.
 	CombatSystem:Update(dt)
 
-	-- Phase 5: win condition checks and game state transitions.
+	-- Phase 5: income generation.
+	IncomeSystem:Update(dt)
+
+	-- Phase 6: win condition checks and game state transitions.
 end
 
 --- Resets the world's units and resources and creates a fresh world.
