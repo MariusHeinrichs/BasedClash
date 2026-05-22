@@ -18,21 +18,25 @@ function StructurePlacementHUD:Draw()
 	if not structurePlacement.SelectedStructureType then
 		return
 	end
-local mapSize = structureHashGrid.MapSize
-local cellSize = structureHashGrid.CellSize
+	local mapSize = structureHashGrid.MapSize
+	local cellSize = structureHashGrid.CellSize
 
-local cols = math.ceil(mapSize.Width / cellSize)
-local rows = math.ceil(mapSize.Height / cellSize)
+	local cols = math.ceil(mapSize.Width / cellSize)
+	local rows = math.ceil(mapSize.Height / cellSize)
 
-for x = 0, cols - 1 do
-    for y = 0, rows - 1 do
-        local cellX = x * cellSize
-        local cellY = y * cellSize
-        love.graphics.setColor(1, 1, 1, 0.2)
-        love.graphics.rectangle("line", cellX, cellY, cellSize, cellSize)
-    end
-end
-love.graphics.setColor(1, 1, 1, 1)
+	for x = 0, cols - 1 do
+		for y = 0, rows - 1 do
+			local cellX = x * cellSize
+			local cellY = y * cellSize
+			if structureHashGrid:IsCellOccupied(cellX, cellY) then
+				love.graphics.setColor(1, 0, 0, 0.5)
+			else
+				love.graphics.setColor(1, 1, 0, 0.25)
+			end
+			love.graphics.rectangle("line", cellX, cellY, cellSize, cellSize)
+		end
+	end
+	love.graphics.setColor(1, 1, 1, 1)
 end
 
 return StructurePlacementHUD
