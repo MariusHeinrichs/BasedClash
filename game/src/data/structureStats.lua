@@ -63,9 +63,23 @@ return {
 			Projectile = EntityEnums.ProjectileTypes.ARROW,
 			AttackSpeed = 0.5,
 			AttackRange = 200.0,
+			AggroRange = 200.0,
 			TargetPriority = EntityEnums.TargetPriorities.UNIT,
-			Bounty = 300,
-			PlayerID = 0
+			Bounty = 300
 		},
+		Lookout = {
+			MaxHealth = 600,
+			Armor = 5,
+			ArmorType = EntityEnums.ArmorTypes.STRUCTURE,
+			Costs = { Gold = 150, Metal = 0, Aether = 0 },
+			IncomeBonus = { Gold = 5, Metal = 1, Aether = 0 },
+			Size = 10,
+			Projectile = EntityEnums.ProjectileTypes.ARROW,
+			AttackSpeed = 1,
+			AttackRange = 200.0,
+			AggroRange = 200.0,
+			TargetPriority = EntityEnums.TargetPriorities.UNIT,
+			Bounty = 50
+		}
 	}
 }

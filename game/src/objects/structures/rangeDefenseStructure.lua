@@ -1,11 +1,13 @@
 local Structure = require("src.objects.structures.structure")
 local EntityEnums = require("src.enums.entities")
+local ProjectileFactory = require("src.objects.projectiles.projectileFactory")
 
 --- RangeDefenseStructure class, representing a structure that can attack units at a range in the game.
 ---@class RangeDefenseStructure : Structure
 ---@field Projectile EntityEnums.ProjectileTypes -- The projectile used by the structure.
 ---@field AttackSpeed number -- The attack speed of the structure (attacks per second).
 ---@field AttackRange number -- The attack range of the structure.
+---@field AggroRange number -- The aggro range of the structure, within which it will detect and target enemies.
 ---@field Target Unit | Structure | nil -- The current target of the structure, which can be a unit, another structure, or nil if no target is selected.
 ---@field TargetPriority EntityEnums.TargetPriorities -- The target priority of the structure.
 ---@field AttackTimer number -- Timer to manage attack cooldowns.
@@ -27,11 +29,12 @@ setmetatable(RangeDefenseStructure, { __index = Structure })
 --- @param Projectile EntityEnums.ProjectileTypes | nil -- The projectile used by the structure.
 --- @param AttackSpeed number | nil -- The attack speed of the structure (attacks per second).
 --- @param AttackRange number | nil -- The attack range of the structure.
+--- @param AggroRange number | nil -- The aggro range of the structure, within which it will detect and target enemies.
 --- @param TargetPriority EntityEnums.TargetPriorities | nil -- The target priority of the structure.
 --- @param Bounty number | nil -- The bounty awarded for defeating the structure.
 --- @param PlayerID number | nil -- The ID of the player controlling the structure.
 --- @return T
-function RangeDefenseStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, IncomeBonus, Size, Projectile, AttackSpeed, AttackRange, TargetPriority, Bounty, PlayerID)
+function RangeDefenseStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, IncomeBonus, Size, Projectile, AttackSpeed, AttackRange, AggroRange, TargetPriority, Bounty, PlayerID)
 	local newRangeDefenseStructure = Structure.new(self,
 		Name,
 		MaxHealth,
@@ -46,6 +49,7 @@ function RangeDefenseStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, Inc
 	newRangeDefenseStructure.Projectile = Projectile or EntityEnums.ProjectileTypes.ARROW
 	newRangeDefenseStructure.AttackRange = AttackRange or 5
 	newRangeDefenseStructure.AttackSpeed = AttackSpeed or 1
+	newRangeDefenseStructure.AggroRange = AggroRange or 200
 	newRangeDefenseStructure.Target = nil
 	newRangeDefenseStructure.TargetPriority = TargetPriority or EntityEnums.TargetPriorities.UNIT
 	newRangeDefenseStructure.AttackTimer = 0
@@ -67,6 +71,29 @@ function RangeDefenseStructure:IsTargetInRange()
 	local dy = self.Target.Position.Y - self.Position.Y
 	local distanceSquared = dx * dx + dy * dy
 	return distanceSquared <= self.AttackRange * self.AttackRange
+end
+
+--- Executes a ranged attack, shooting a projectile at the target.
+--- @param dt number -- The delta time since the last update, used for timing attacks based on attack speed.
+--- @return Projectile | nil projectile -- Returns the created projectile if an attack was executed, nil otherwise.
+function RangeDefenseStructure:Attack(dt)
+	-- No target to attack.
+	if not self.Target then
+		return
+	end
+	-- Check if enough time has elapsed since the last attack.
+	self.AttackTimer = (self.AttackTimer or 0) + dt
+	if self.AttackTimer < self.AttackSpeed then
+		return
+	end
+	-- Check if the target is still in attack range.
+	if not self:IsTargetInRange() then
+		return
+	end
+	self.AttackTimer = 0
+	-- Create a projectile
+	local projectile = ProjectileFactory:CreateProjectile(self.Projectile, self, self.Target)
+	return projectile
 end
 
 return RangeDefenseStructure

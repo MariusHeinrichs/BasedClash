@@ -26,6 +26,7 @@ function Townhall:new(PlayerID)
 		StructureStats.Projectile,
 		StructureStats.AttackSpeed,
 		StructureStats.AttackRange,
+		StructureStats.AggroRange,
 		StructureStats.TargetPriority,
 		StructureStats.Bounty,
 		PlayerID

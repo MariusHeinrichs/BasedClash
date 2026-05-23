@@ -65,6 +65,7 @@ EntityEnums.Structures = {
 	ARCHER_CAMP = "ArcherCamp",
 	LIBRARY = "Library",
 	TOWNHALL = "Townhall",
+	LOOKOUT = "Lookout",
 }
 
 return EntityEnums

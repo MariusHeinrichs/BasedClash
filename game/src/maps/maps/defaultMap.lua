@@ -39,7 +39,8 @@ function defaultMap:new()
 	}
 	local teamStructures = {
 		{ Structure = StructureFactory:CreateStructure(EntityEnums.Structures.CASTLE, 2),  X = 550, Y = 300 },
-		{ Structure = StructureFactory:CreateStructure(EntityEnums.Structures.LIBRARY, 2), X = 550, Y = 400 }
+		{ Structure = StructureFactory:CreateStructure(EntityEnums.Structures.LIBRARY, 2), X = 550, Y = 400 },
+		{ Structure = StructureFactory:CreateStructure(EntityEnums.Structures.LOOKOUT, 2), X = 300, Y = 300 }
 	}
 	return Map:new({ width = 800, height = 600 }, { path }, { boundary }, teamStarts, teamResources, teamIncomes,
 	teamStructures)
