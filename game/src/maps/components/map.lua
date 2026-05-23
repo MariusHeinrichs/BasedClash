@@ -8,6 +8,7 @@ local unitHashGrid = require("src.utilities.unitHashGrid").getInstance()
 
 ---@class Map
 ---@field Size { width: number, height: number } -- Dimensions of the map
+---@field BuildZones table<integer, {X: number, Y: number}[]> | nil -- Optional build zones defined as polygons per team
 ---@field Paths Path[] -- List of paths on the map
 ---@field Boundaries Boundary[] | nil -- List of boundaries on the map
 ---@field TeamStarts table<integer, { X: number, Y: number }> -- Start points for teams
@@ -20,6 +21,7 @@ Map.__index = Map
 -- Constructor for creating a new Map instance.
 ---@generic T : Map
 ---@param Size { width: number, height: number } -- Dimensions of the map
+---@param BuildZones table<integer, {X: number, Y: number}[]> | nil -- Optional build zones defined as polygons per team
 ---@param Paths Path[] -- List of paths on the map
 ---@param Boundaries Boundary[] | nil -- List of boundaries on the map
 ---@param TeamStarts table<integer, { X: number, Y: number }> -- Start points for teams townhalls
@@ -27,9 +29,10 @@ Map.__index = Map
 ---@param TeamIncomes table<integer, { Gold: number, Metal: number, Aether: number }> -- Start income per team
 ---@param TeamStructures {Structure: Structure, X: number, Y: number}[] | nil -- Optional initial structures for each team
 ---@return T
-function Map:new(Size, Paths, Boundaries, TeamStarts, TeamResources, TeamIncomes, TeamStructures)
+function Map:new(Size, BuildZones, Paths, Boundaries, TeamStarts, TeamResources, TeamIncomes, TeamStructures)
 	local newMap = setmetatable({}, self)
 	newMap.Size = Size or { width = 0, height = 0 }
+	newMap.BuildZones = BuildZones or {}
 	newMap.Boundaries = Boundaries or {}
 	newMap.Paths = Paths or {}
 	newMap.TeamStarts = TeamStarts or {}
@@ -130,6 +133,7 @@ function Map:Setup()
 	end
 
 	structureHashGrid:SetMapSize(self.Size.width, self.Size.height)
+	structureHashGrid:SetBuildZones(self.BuildZones)
 	structureHashGrid:Rebuild()
 	unitHashGrid:Rebuild()
 end

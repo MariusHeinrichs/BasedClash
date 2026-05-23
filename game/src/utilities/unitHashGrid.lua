@@ -1,4 +1,5 @@
 local entityManager = require("src.managers.entities").getInstance()
+local GridData = require("src.data.gridData").UnitHashGrid
 
 local DEFAULTS = {
 	CellSize = 128 -- Size of each cell in the spatial hash grid
@@ -167,7 +168,7 @@ end
 local function getInstance()
 	if not instance then
 		instance = setmetatable({
-			CellSize = DEFAULTS.CellSize,
+			CellSize = GridData.CellSize or DEFAULTS.CellSize,
 			Cells = {}
 		}, UnitHashGrid)
 	end

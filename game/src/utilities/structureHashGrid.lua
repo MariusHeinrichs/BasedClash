@@ -1,4 +1,6 @@
 local entityManager = require("src.managers.entities").getInstance()
+local MathUtils = require("src.utilities.mathUtils")
+local GridData = require("src.data.gridData").StructureHashGrid
 
 local DEFAULTS = {
 	MapSize = { Width = 1280, Height = 720 },
@@ -11,6 +13,7 @@ local instance = nil
 --- Structure grid for tracking occupied cells and facilitating structure placement.
 ---@class StructureHashGrid
 ---@field MapSize { Width: number, Height: number } -- Size of the map in pixels.
+---@field BuildZones table<integer, {X: number, Y: number}[]> | nil -- Optional build zones defined as polygons per team
 ---@field CellSize number -- Size of each cell in the map grid, in pixels.
 ---@field Cells table<string, boolean> -- Table of cells, where the key is "cellX:cellY" and the value indicates if the cell is occupied.
 local StructureHashGrid = {}
@@ -49,6 +52,12 @@ function StructureHashGrid:SetMapSize(Width, Height)
 	self.MapSize = { Width = Width, Height = Height }
 end
 
+---Sets the BuildZones for the map, which can be used to restrict where structures can be placed.
+---@param BuildZones table<integer, {X: number, Y: number}[]> | nil -- Optional build zones defined as polygons per team
+function StructureHashGrid:SetBuildZones(BuildZones)
+	self.BuildZones = BuildZones
+end
+
 ---@param X number -- The x-coordinate in world space.
 ---@param Y number -- The y-coordinate in world space.
 function StructureHashGrid:MarkCellAsOccupied(X, Y)
@@ -60,18 +69,31 @@ function StructureHashGrid:MarkCellAsOccupied(X, Y)
 	self.Cells[key] = true
 end
 
---- Checks if a cell is occupied, meaning a structure is present or it is outside the map boundaries.
+--- Checks if a cell is occupied, meaning a structure is present or it is outside the map boundaries or build zones.
+---@param PlayerID number -- The ID of the player attempting to place a structure (used for build zone checks).
 ---@param X number -- The x-coordinate in world space.
 ---@param Y number -- The y-coordinate in world space.
----@return boolean -- True if the cell is occupied, false otherwise.
-function StructureHashGrid:IsCellOccupied(X, Y)
+---@return boolean -- True if the cell is available, false otherwise.
+function StructureHashGrid:IsCellAvailable(PlayerID, X, Y)
 	local cellX, cellY = self:GetCellCoords(X, Y)
 	local key = self:GetCellKey(cellX, cellY)
+
 	-- Check if the cell is outside the map boundaries
 	if cellX < 0 or cellY < 0 or cellX >= self.MapSize.Width / self.CellSize or cellY >= self.MapSize.Height / self.CellSize then
-		return true
+		return false
 	end
-	return self.Cells[key] == true
+
+	-- Check if the cell is outside the build zones
+	if self.BuildZones then
+		for playerID, zone in pairs(self.BuildZones) do
+			if playerID == PlayerID and not MathUtils.PointInPolygon({ X = X, Y = Y }, zone) then
+				return false
+			end
+		end
+	end
+
+	-- Check if the cell is occupied by a structure
+	return self.Cells[key] ~= true
 end
 
 --- Rebuilds the map grid by clearing existing cells and re-inserting all structures based on their current positions.
@@ -87,7 +109,7 @@ local function getInstance()
 	if not instance then
 		instance = setmetatable({
 			MapSize = DEFAULTS.MapSize,
-			CellSize = DEFAULTS.CellSize,
+			CellSize = GridData.CellSize or DEFAULTS.CellSize,
 			Cells = {}
 		}, StructureHashGrid)
 	end

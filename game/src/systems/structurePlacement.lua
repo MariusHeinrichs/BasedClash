@@ -25,19 +25,19 @@ end
 --- @param PlayerID number the ID of the player placing the structure
 function StructurePlacement:PlaceStructure(Position, PlayerID)
 	structureHashGrid:Rebuild() -- Ensure the structure hash grid is up to date before checking for occupied cells.
-	
+
 	if Position == nil or PlayerID == nil then
 		error("Position and PlayerID must be provided to place a structure.")
 	end
 
+	--- Check if a structure type is selected for placement.
 	if not self.SelectedStructureType then
 		return -- No structure type selected, do nothing.
 	end
 
-	if not structureHashGrid:IsCellOccupied(Position.X, Position.Y) then
-		structureHashGrid:MarkCellAsOccupied(Position.X, Position.Y)
-	else
-		return -- Cell is already occupied, do not place the structure.
+	--- Check if the cell is available for placement (not occupied, within boundaries, and within build zones).
+	if not structureHashGrid:IsCellAvailable(PlayerID, Position.X, Position.Y) then
+		return -- Cell is not available, do not place the structure.
 	end
 
 	--- create the strucutre and set its position to the center of the cell
@@ -45,12 +45,14 @@ function StructurePlacement:PlaceStructure(Position, PlayerID)
 	local cellCenterX, cellCenterY = structureHashGrid:GetCellCenter(Position.X, Position.Y)
 	newStructure.Position = { X = cellCenterX, Y = cellCenterY }
 
+	--- Check if the player has enough resources to place the structure.
 	if not resourceManager:SubstractPlayerResources(PlayerID, newStructure.Costs) then
 		return -- Not enough resources, do not place the structure in the world.
 	end
 
 	-- structure passed all checks we can place it in the world
 	entityManager:SetStructure(newStructure)
+	structureHashGrid:MarkCellAsOccupied(Position.X, Position.Y)
 
 	-- Add the structure's income bonus to the player's resources
 	resourceManager:AddPlayerIncome(PlayerID, newStructure.IncomeBonus)

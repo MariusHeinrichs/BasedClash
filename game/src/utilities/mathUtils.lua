@@ -27,4 +27,23 @@ function MathUtils.Clamp(value, minValue, maxValue)
 	return value
 end
 
+---Checks if a point is in the given polygon
+---@param point { X: number, Y: number }
+---@param polygon { X: number, Y: number }[] 
+---@return boolean
+function MathUtils.PointInPolygon(point, polygon)
+    local inside = false
+    local j = #polygon
+    for i = 1, #polygon do
+        local xi, yi = polygon[i].X, polygon[i].Y
+        local xj, yj = polygon[j].X, polygon[j].Y
+        if ((yi > point.Y) ~= (yj > point.Y)) and
+           (point.X < (xj - xi) * (point.Y - yi) / (yj - yi + 0.00001) + xi) then
+            inside = not inside
+        end
+        j = i
+    end
+    return inside
+end
+
 return MathUtils
