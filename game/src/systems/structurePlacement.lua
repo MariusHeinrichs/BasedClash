@@ -23,8 +23,8 @@ end
 --- Places the currently selected Structure at the given position if possible
 --- @param Position { X: number, Y: number } the position to place the structure
 --- @param PlayerID number the ID of the player placing the structure
+--- @return string | nil failureMessage - returns a string describing the reason for failure, or nil if placement was successful
 function StructurePlacement:PlaceStructure(Position, PlayerID)
-	structureHashGrid:Rebuild() -- Ensure the structure hash grid is up to date before checking for occupied cells.
 
 	if Position == nil or PlayerID == nil then
 		error("Position and PlayerID must be provided to place a structure.")
@@ -32,12 +32,12 @@ function StructurePlacement:PlaceStructure(Position, PlayerID)
 
 	--- Check if a structure type is selected for placement.
 	if not self.SelectedStructureType then
-		return -- No structure type selected, do nothing.
+		return "No structure type selected" -- No structure type selected, do nothing.
 	end
 
 	--- Check if the cell is available for placement (not occupied, within boundaries, and within build zones).
 	if not structureHashGrid:IsCellAvailable(Position.X, Position.Y) then
-		return -- Cell is not available, do not place the structure.
+		return "Cell is not available" -- Cell is not available, do not place the structure.
 	end
 
 	--- create the strucutre and set its position to the center of the cell
@@ -47,7 +47,7 @@ function StructurePlacement:PlaceStructure(Position, PlayerID)
 
 	--- Check if the player has enough resources to place the structure.
 	if not resourceManager:SubstractPlayerResources(PlayerID, newStructure.Costs) then
-		return -- Not enough resources, do not place the structure in the world.
+		return "Not enough resources" -- Not enough resources, do not place the structure in the world.
 	end
 
 	-- structure passed all checks we can place it in the world
@@ -64,22 +64,6 @@ end
 --- Resets the structure placement state, clearing any selected structure type.
 function StructurePlacement:CancelPlacement()
 	self.SelectedStructureType = nil
-end
-
---- Handles a MousePressed Event
---- @param x number mouse x position
---- @param y number mouse y position
---- @param button number mouse button pressed
-function StructurePlacement:HandleMousePressed(x, y, button)
-	if self.SelectedStructureType then
-		if button == 1 then
-			-- Left mouse button: Place structure at the clicked position.
-			self:PlaceStructure({ X = x, Y = y }, 1)
-		elseif button == 2 then
-			-- Right mouse button: Cancel structure placement.
-			self:CancelPlacement()
-		end
-	end
 end
 
 local function getInstance()

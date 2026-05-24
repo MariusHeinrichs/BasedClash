@@ -30,8 +30,8 @@ function InterfaceManager:Draw()
 		if self.Interfaces.BattleHUD then
 			self.Interfaces.BattleHUD:Draw()
 		end
-		if self.Interfaces.StructurePlacementHud then
-			self.Interfaces.StructurePlacementHud:Draw()
+		if self.Interfaces.StructurePlacementHUD then
+			self.Interfaces.StructurePlacementHUD:Draw()
 		end
 	end
 end
@@ -48,6 +48,16 @@ function InterfaceManager:Resize()
 	end
 end
 
+function InterfaceManager:Update(dt)
+	local gameState = gameStateManager:GetGameState()
+	if gameState == GameStateEnums.Names.RUNNING then
+		if self.Interfaces.StructurePlacementHUD then
+			--- update Placement HUD for any dynamic elements (e.g., failure messages) that need to be shown for a limited time after a placement attempt.
+			self.Interfaces.StructurePlacementHUD:Update(dt)
+		end
+	end
+end
+
 local function getInstance()
 	if not instance then
 		instance = setmetatable({}, InterfaceManager)
@@ -55,7 +65,7 @@ local function getInstance()
 			MainMenu = MainMenu:new(),
 			StartMenu = StartMenu:new(),
 			BattleHUD = BattleHUD:new(),
-			StructurePlacementHud = StructurePlacementHud:new(),
+			StructurePlacementHUD = StructurePlacementHud:new(),
 			Pause = nil,
 			GameOver = nil,
 		}

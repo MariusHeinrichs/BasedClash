@@ -10,6 +10,7 @@ end
 
 function love.update(dt)
 	worldManager:Update(dt)
+	interfaceManager:Update(dt)
 end
 
 function love.draw()
