@@ -1,5 +1,3 @@
-local Unit = require("src.objects.units.unit")
-local Structure = require("src.objects.structures.structure")
 local entityManager = require("src.managers.entities").getInstance()
 local unitHashGrid = require("src.utilities.unitHashGrid").getInstance()
 local CollisionUtils = require("src.utilities.collisions")

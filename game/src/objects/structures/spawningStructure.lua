@@ -1,7 +1,9 @@
-
 local Structure = require("src.objects.structures.structure")
 local UnitFactory = require("src.objects.units.unitFactory")
 local EntityEnums = require("src.enums.entities")
+local Collisions = require("src.utilities.collisions")
+local unitHashGrid = require("src.utilities.unitHashGrid").getInstance()
+
 
 --- SpawningStructure class, representing a structure that can spawn units in the game.
 ---@class SpawningStructure : Structure
@@ -31,7 +33,8 @@ setmetatable(SpawningStructure, { __index = Structure })
 --- @param Bounty number | nil -- The bounty awarded for defeating the structure.
 --- @param PlayerID number | nil -- The ID of the player controlling the structure.
 --- @return T
-function SpawningStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, IncomeBonus, Size, SpawnUnit, SpawnAmount, SpawnRate, Bounty, PlayerID)
+function SpawningStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, IncomeBonus, Size, SpawnUnit, SpawnAmount,
+							   SpawnRate, Bounty, PlayerID)
 	local newSpawningStructure = Structure.new(self,
 		Name,
 		MaxHealth,
@@ -68,13 +71,39 @@ function SpawningStructure:Spawn(dt)
 		self.SpawnTimer = self.SpawnTimer - self.SpawnRate
 		for i = 1, self.SpawnAmount do
 			local newUnit = UnitFactory:CreateUnit(self.SpawnUnit, self.PlayerID)
+			local pos = self:FindFreeSpawnPosition(newUnit.Size or 1)
+			newUnit.Position = pos
 			table.insert(newUnits, newUnit)
-			-- Position the new unit at the structure's location
-			newUnit.Position = { X = self.Position.X + self.Size + 5, Y = self.Position.Y }
 		end
 	end
 
 	return newUnits
+end
+
+---Finds a free spawnposition around the structure
+---@param unitSize number
+---@return { X: number, Y: number }
+function SpawningStructure:FindFreeSpawnPosition(unitSize)
+	local maxTries = 10
+	local radius = self.Size + unitSize + 5
+	for _ = 1, maxTries do
+		local angle = math.random() * 2 * math.pi
+		local x = self.Position.X + math.cos(angle) * radius
+		local y = self.Position.Y + math.sin(angle) * radius
+		local collides = false
+		local entities = unitHashGrid:GetEntitiesInRadius({ X = x, Y = y }, unitSize + 2)
+		for _, entity in ipairs(entities) do
+			if entity.Position and Collisions.CirclesOverlap(x, y, unitSize, entity.Position.X, entity.Position.Y, entity.Size or 1) then
+				collides = true
+				break
+			end
+		end
+		if not collides then
+			return { X = x, Y = y }
+		end
+	end
+	-- Fallback: Standardposition
+	return { X = self.Position.X + radius, Y = self.Position.Y }
 end
 
 return SpawningStructure
