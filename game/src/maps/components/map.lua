@@ -134,6 +134,8 @@ function Map:Setup()
 
 	structureHashGrid:SetMapSize(self.Size.width, self.Size.height)
 	structureHashGrid:SetBuildZones(self.BuildZones)
+	structureHashGrid:SetBoundaries(self.Boundaries)
+	structureHashGrid:SetPaths(self.Paths)
 	structureHashGrid:Rebuild()
 	unitHashGrid:Rebuild()
 end

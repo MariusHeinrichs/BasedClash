@@ -36,7 +36,7 @@ function StructurePlacement:PlaceStructure(Position, PlayerID)
 	end
 
 	--- Check if the cell is available for placement (not occupied, within boundaries, and within build zones).
-	if not structureHashGrid:IsCellAvailable(PlayerID, Position.X, Position.Y) then
+	if not structureHashGrid:IsCellAvailable(Position.X, Position.Y) then
 		return -- Cell is not available, do not place the structure.
 	end
 

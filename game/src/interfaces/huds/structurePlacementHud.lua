@@ -28,7 +28,7 @@ function StructurePlacementHUD:Draw()
 		for y = 0, rows - 1 do
 			local cellX = x * cellSize
 			local cellY = y * cellSize
-			if structureHashGrid:IsCellAvailable(1, cellX, cellY) then
+			if structureHashGrid:IsCellAvailable(cellX, cellY) then
 				love.graphics.setColor(1, 1, 0, 0.25)
 			else
 				love.graphics.setColor(1, 0, 0, 0.5)
