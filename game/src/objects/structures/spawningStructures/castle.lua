@@ -6,6 +6,7 @@ local StructureStats = require("src.data.structureStats").SpawningStructures.Cas
 ---@class Castle : SpawningStructure
 local Castle = {}
 Castle.__index = Castle
+Castle.__type = "Castle"
 
 setmetatable(Castle, { __index = SpawningStructure })
 

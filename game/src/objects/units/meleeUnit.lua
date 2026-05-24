@@ -8,6 +8,7 @@ local EntityEnums = require("src.enums.entities")
 ---@field DamageType EntityEnums.DamageTypes -- The type of damage dealt by the melee unit.
 local MeleeUnit = {}
 MeleeUnit.__index = MeleeUnit
+MeleeUnit.__type = "MeleeUnit"
 
 setmetatable(MeleeUnit, { __index = Unit })
 

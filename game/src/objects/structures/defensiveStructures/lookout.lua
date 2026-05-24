@@ -7,6 +7,7 @@ local RangeDefenseStructure = require("src.objects.structures.rangeDefenseStruct
 ---@class Lookout : RangeDefenseStructure
 local Lookout = {}
 Lookout.__index = Lookout
+Lookout.__type = "Lookout"
 
 setmetatable(Lookout, { __index = RangeDefenseStructure })
 

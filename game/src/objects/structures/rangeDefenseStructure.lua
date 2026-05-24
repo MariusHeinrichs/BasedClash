@@ -13,6 +13,7 @@ local ProjectileFactory = require("src.objects.projectiles.projectileFactory")
 ---@field AttackTimer number -- Timer to manage attack cooldowns.
 local RangeDefenseStructure = {}
 RangeDefenseStructure.__index = RangeDefenseStructure
+RangeDefenseStructure.__type = "RangeDefenseStructure"
 
 setmetatable(RangeDefenseStructure, { __index = Structure })
 

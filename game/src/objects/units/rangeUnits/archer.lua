@@ -6,6 +6,7 @@ local UnitStats = require("src.data.unitStats").RangeUnits.Archer
 --- @class Archer : RangeUnit
 local Archer = {}
 Archer.__index = Archer
+Archer.__type = "Archer"
 
 setmetatable(Archer, { __index = RangeUnit })
 

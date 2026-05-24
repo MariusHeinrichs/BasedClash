@@ -6,6 +6,7 @@ local StructureStats = require("src.data.structureStats").SpawningStructures.Arc
 ---@class ArcherCamp : SpawningStructure
 local ArcherCamp = {}
 ArcherCamp.__index = ArcherCamp
+ArcherCamp.__type = "ArcherCamp"
 
 setmetatable(ArcherCamp, { __index = SpawningStructure })
 

@@ -11,6 +11,7 @@ local EntityEnums = require("src.enums.entities")
 ---@field SpawnTimer number
 local SpawningStructure = {}
 SpawningStructure.__index = SpawningStructure
+SpawningStructure.__type = "SpawningStructure"
 
 setmetatable(SpawningStructure, { __index = Structure })
 
@@ -69,7 +70,7 @@ function SpawningStructure:Spawn(dt)
 			local newUnit = UnitFactory:CreateUnit(self.SpawnUnit, self.PlayerID)
 			table.insert(newUnits, newUnit)
 			-- Position the new unit at the structure's location
-			newUnit.Position = { X = self.Position.X + 5, Y = self.Position.Y }
+			newUnit.Position = { X = self.Position.X + self.Size + 5, Y = self.Position.Y }
 		end
 	end
 

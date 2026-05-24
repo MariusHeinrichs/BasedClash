@@ -14,6 +14,7 @@ local EntityEnums = require("src.enums.entities")
 ---@field Target Unit | Structure | nil
 local Projectile = {}
 Projectile.__index = Projectile
+Projectile.__type = "Projectile"
 
 setmetatable(Projectile, { __index = Object })
 

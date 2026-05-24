@@ -121,12 +121,12 @@ function Collisions.PointOnPath(point, path)
 end
 
 --- Returns true if two circles overlap.
----@param ax number
----@param ay number
----@param ar number
----@param bx number
----@param by number
----@param br number
+---@param ax number x-coordinate of the center of the first circle
+---@param ay number y-coordinate of the center of the first circle
+---@param ar number radius of the first circle
+---@param bx number x-coordinate of the center of the second circle
+---@param by number y-coordinate of the center of the second circle
+---@param br number radius of the second circle
 ---@return boolean
 function Collisions.CirclesOverlap(ax, ay, ar, bx, by, br)
 	local dx = ax - bx
@@ -136,13 +136,13 @@ function Collisions.CirclesOverlap(ax, ay, ar, bx, by, br)
 end
 
 --- Returns true if a circle intersects an axis-aligned rectangle.
----@param cx number
----@param cy number
----@param radius number
----@param rx number
----@param ry number
----@param rw number
----@param rh number
+---@param cx number x-coordinate of the center of the circle
+---@param cy number y-coordinate of the center of the circle
+---@param radius number radius of the circle
+---@param rx number x-coordinate of the top-left corner of the rectangle
+---@param ry number y-coordinate of the top-left corner of the rectangle
+---@param rw number width of the rectangle
+---@param rh number height of the rectangle
 ---@return boolean
 function Collisions.CircleIntersectsRect(cx, cy, radius, rx, ry, rw, rh)
 	local closestX = math.max(rx, math.min(cx, rx + rw))

@@ -8,6 +8,7 @@ local EntityEnums = require("src.enums.entities")
 ---@field Projectile EntityEnums.ProjectileTypes -- The projectile used by the ranged unit.
 local RangeUnit = {}
 RangeUnit.__index = RangeUnit
+RangeUnit.__type = "RangeUnit"
 
 setmetatable(RangeUnit, { __index = Unit })
 

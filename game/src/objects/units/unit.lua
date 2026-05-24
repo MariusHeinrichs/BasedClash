@@ -23,6 +23,7 @@ local Object = require("src.objects.object")
 ---@field CurrentWayPointIndex number
 local Unit = {}
 Unit.__index = Unit
+Unit.__type = "Unit"
 
 setmetatable(Unit, { __index = Object })
 

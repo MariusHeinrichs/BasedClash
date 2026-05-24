@@ -6,6 +6,7 @@ local ProjectileStats = require("src.data.projectileStats").Arrow
 --- @class Arrow : Projectile
 local Arrow = {}
 Arrow.__index = Arrow
+Arrow.__type = "Arrow"
 
 setmetatable(Arrow, { __index = Projectile })
 

@@ -15,6 +15,7 @@ local Object = require("src.objects.object")
 ---@field PlayerID number
 local Structure = {}
 Structure.__index = Structure
+Structure.__type = "Structure"
 
 setmetatable(Structure, { __index = Object })
 

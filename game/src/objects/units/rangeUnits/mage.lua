@@ -6,6 +6,7 @@ local UnitStats = require("src.data.unitStats").RangeUnits.Mage
 --- @class Mage : RangeUnit
 local Mage = {}
 Mage.__index = Mage
+Mage.__type = "Mage"
 
 setmetatable(Mage, { __index = RangeUnit })
 

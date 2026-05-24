@@ -6,6 +6,7 @@ local StructureStats = require("src.data.structureStats").SpawningStructures.Lib
 ---@class Library : SpawningStructure
 local Library = {}
 Library.__index = Library
+Library.__type = "Library"
 
 setmetatable(Library, { __index = SpawningStructure })
 

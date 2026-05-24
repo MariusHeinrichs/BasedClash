@@ -6,6 +6,7 @@ local StructureStats = require("src.data.structureStats").RangeDefenseStructures
 ---@class Townhall : RangeDefenseStructure
 local Townhall = {}
 Townhall.__index = Townhall
+Townhall.__type = "Townhall"
 
 setmetatable(Townhall, { __index = RangeDefenseStructure })
 

@@ -6,6 +6,7 @@ local UnitStats = require("src.data.unitStats").MeleeUnits.Barbarian
 --- @class Barbarian : MeleeUnit
 local Barbarian = {}
 Barbarian.__index = Barbarian
+Barbarian.__type = "Barbarian"
 
 setmetatable(Barbarian, { __index = MeleeUnit })
 
