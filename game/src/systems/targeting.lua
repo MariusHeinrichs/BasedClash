@@ -17,7 +17,7 @@ function TargetingSystem:Update(dt)
 	end
 
 	for _, structure in ipairs(structures) do
-		if structure:IsInstanceOf(RangeDefenseStructure) then
+		if structure:IsInstanceOf("RangeDefenseStructure") then
 			---@cast structure RangeDefenseStructure
 			structure:SetTarget(unitHashGrid:FindClosestEnemyInAggroRange(structure))
 		end
