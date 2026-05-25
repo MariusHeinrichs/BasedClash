@@ -72,14 +72,14 @@ function InputManager:HandleMousePressed(x, y, button)
 
 	if GameState == GameStateEnums.Names.PAUSE then
 		if interfaceManager.Interfaces.Pause then
-			-- InterfaceManager.Interfaces.Pause:HandleMousePressed(x, y, button)
+			interfaceManager.Interfaces.Pause:HandleMousePressed(x, y, button)
 		end
 		return true
 	end
 
 	if GameState == GameStateEnums.Names.GAME_OVER then
 		if interfaceManager.Interfaces.GameOver then
-			-- InterfaceManager.Interfaces.GameOver:HandleMousePressed(x, y, button)
+			-- interfaceManager.Interfaces.GameOver:HandleMousePressed(x, y, button)
 		end
 		return true
 	end

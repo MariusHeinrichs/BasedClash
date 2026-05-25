@@ -1,5 +1,6 @@
 local MainMenu = require("src.interfaces.menus.mainMenu")
 local StartMenu = require("src.interfaces.menus.startMenu")
+local PauseMenu = require("src.interfaces.menus.pauseMenu")
 local BattleHUD = require("src.interfaces.huds.battleHud")
 local StructurePlacementHud = require("src.interfaces.huds.structurePlacementHud")
 local GameStateEnums = require("src.enums.gameStates")
@@ -26,6 +27,10 @@ function InterfaceManager:Draw()
 		if self.Interfaces.MainMenu then
 			self.Interfaces.MainMenu:Draw()
 		end
+	elseif gameState == GameStateEnums.Names.PAUSE then
+		if self.Interfaces.Pause then
+			self.Interfaces.Pause:Draw()
+		end
 	elseif gameState == GameStateEnums.Names.RUNNING then
 		if self.Interfaces.BattleHUD then
 			self.Interfaces.BattleHUD:Draw()
@@ -45,6 +50,9 @@ function InterfaceManager:Resize()
 	end
 	if self.Interfaces.BattleHUD then
 		self.Interfaces.BattleHUD:RebuildLayout()
+	end
+	if self.Interfaces.Pause then
+		self.Interfaces.Pause:RebuildLayout()
 	end
 end
 
@@ -66,7 +74,7 @@ local function getInstance()
 			StartMenu = StartMenu:new(),
 			BattleHUD = BattleHUD:new(),
 			StructurePlacementHUD = StructurePlacementHud:new(),
-			Pause = nil,
+			Pause = PauseMenu:new(),
 			GameOver = nil,
 		}
 	end
