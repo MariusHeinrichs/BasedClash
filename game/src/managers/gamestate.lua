@@ -34,9 +34,14 @@ function GameStateManager:EnterPause()
 	self.CurrentGameState = GameStateEnums.Names.PAUSE
 end
 
---- Transitions to the game over gamestate
-function GameStateManager:EnterGameOver()
-	self.CurrentGameState = GameStateEnums.Names.GAME_OVER
+--- Transitions to the game won gamestate
+function GameStateManager:EnterGameWon()
+	self.CurrentGameState = GameStateEnums.Names.GAME_WON
+end
+
+--- Transitions to the game lost gamestate
+function GameStateManager:EnterGameLost()
+	self.CurrentGameState = GameStateEnums.Names.GAME_LOST
 end
 
 --- Returns the current game state
