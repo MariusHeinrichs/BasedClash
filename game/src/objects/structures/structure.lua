@@ -10,7 +10,6 @@ local Object = require("src.objects.object")
 ---@field ArmorType EntityEnums.ArmorTypes
 ---@field Costs {Gold: number, Metal: number, Aether: number}
 ---@field IncomeBonus {Gold: number, Metal: number, Aether: number}
----@field Size number
 ---@field Bounty number
 ---@field PlayerID number
 local Structure = {}
@@ -33,14 +32,13 @@ setmetatable(Structure, { __index = Object })
 --- @param PlayerID number | nil -- The ID of the player controlling the structure.
 --- @return T
 function Structure:new(Name, MaxHealth, Armor, ArmorType, Costs, IncomeBonus, Size, Bounty, PlayerID)
-	local newStructure = Object.new(self, Name or "Structure")
+	local newStructure = Object.new(self, Name or "Structure", Size)
 	newStructure.MaxHealth = MaxHealth or 500
 	newStructure.Health = newStructure.MaxHealth
 	newStructure.Armor = Armor or 5
 	newStructure.ArmorType = ArmorType or EntityEnums.ArmorTypes.STRUCTURE
 	newStructure.Costs = Costs or { Gold = 100, Metal = 50, Aether = 25 }
 	newStructure.IncomeBonus = IncomeBonus or { Gold = 0, Metal = 0, Aether = 0 }
-	newStructure.Size = Size or 4
 	newStructure.Bounty = Bounty or 50
 	newStructure.PlayerID = PlayerID or 0
 	return newStructure

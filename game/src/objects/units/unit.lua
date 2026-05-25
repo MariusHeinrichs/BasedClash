@@ -14,12 +14,12 @@ local Object = require("src.objects.object")
 ---@field Armor number
 ---@field ArmorType EntityEnums.ArmorTypes
 ---@field MovementSpeed number
----@field Size number
 ---@field IsFlying boolean
 ---@field Bounty number
 ---@field PlayerID number
 ---@field AttackTimer number
 ---@field Path Path | nil
+---@field AvoidancePoint {X: number, Y: number} | nil
 ---@field CurrentWayPointIndex number
 local Unit = {}
 Unit.__index = Unit
@@ -46,7 +46,7 @@ setmetatable(Unit, { __index = Object })
 --- @return T
 function Unit:new(Name, MaxHealth, AttackSpeed, AttackRange, AggroRange, TargetPriority, Armor,
 				  ArmorType, MovementSpeed, Size, IsFlying, Bounty, PlayerID)
-	local newUnit = Object.new(self, Name or "Unit")
+	local newUnit = Object.new(self, Name or "Unit", Size)
 	newUnit.MaxHealth = MaxHealth or 100
 	newUnit.Health = newUnit.MaxHealth
 	newUnit.AttackSpeed = AttackSpeed or 1
@@ -57,13 +57,13 @@ function Unit:new(Name, MaxHealth, AttackSpeed, AttackRange, AggroRange, TargetP
 	newUnit.Armor = Armor or 0
 	newUnit.ArmorType = ArmorType or EntityEnums.ArmorTypes.LEATHER
 	newUnit.MovementSpeed = MovementSpeed or 1
-	newUnit.Size = Size or 1
 	newUnit.IsFlying = IsFlying or false
 	newUnit.Bounty = Bounty or 10
 	newUnit.PlayerID = PlayerID or 0
 	newUnit.AttackTimer = 0
 	newUnit.Path = nil
 	newUnit.CurrentWayPointIndex = nil
+	newUnit.AvoidancePoint = nil
 	return newUnit
 end
 
@@ -87,6 +87,28 @@ function Unit:MoveToTarget(dt)
 			local moveY = (dy / distance) * self.MovementSpeed * dt
 
 			self:SetPosition({ X = self.Position.X + moveX, Y = self.Position.Y + moveY })
+		end
+	end
+end
+
+--- Moves the unit towards its avoidance point.
+---@param dt any
+function Unit:MoveToAvoidancePoint(dt)
+	if self.AvoidancePoint then
+		local dx = self.AvoidancePoint.X - self.Position.X
+		local dy = self.AvoidancePoint.Y - self.Position.Y
+		local distance = math.sqrt(dx * dx + dy * dy)
+
+		if distance > 0 then
+			local moveX = (dx / distance) * self.MovementSpeed * dt
+			local moveY = (dy / distance) * self.MovementSpeed * dt
+
+			self:SetPosition({ X = self.Position.X + moveX, Y = self.Position.Y + moveY })
+		end
+
+		-- If we are close enough to the avoidance point, we can clear it.
+		if distance < self.Size then
+			self.AvoidancePoint = nil
 		end
 	end
 end
@@ -145,6 +167,12 @@ function Unit:SetPath(Path)
 	self.Path = Path
 end
 
+---Sets the current avoidance point if a collision has been detected
+---@param Point {X: number, Y: number}
+function Unit:SetAvoidancePoint(Point)
+	self.AvoidancePoint = Point
+end
+
 ---Returns the current target of the unit
 ---@return Structure|Unit|nil
 function Unit:GetTarget()
@@ -155,6 +183,43 @@ end
 ---@return Path|nil
 function Unit:GetPath()
 	return self.Path
+end
+
+--- Returns the direction the unit is currently moving in as a normalized vector (dx, dy).
+--- @return {X: number, Y: number} -- The normalized direction vector (dx, dy) representing the direction the unit is moving in.
+function Unit:GetMovementDirection()
+	if self.AvoidancePoint then
+		local dx = self.AvoidancePoint.X - self.Position.X
+		local dy = self.AvoidancePoint.Y - self.Position.Y
+		local distance = math.sqrt(dx * dx + dy * dy)
+		if distance > 0 then
+			return { X = dx / distance, Y = dy / distance }
+		end
+	elseif self.Target then
+		local dx = self.Target.Position.X - self.Position.X
+		local dy = self.Target.Position.Y - self.Position.Y
+		local distance = math.sqrt(dx * dx + dy * dy)
+		if distance > 0 then
+			return { X = dx / distance, Y = dy / distance }
+		end
+	elseif self.Path and self.CurrentWayPointIndex then
+		local waypoint = self.Path:GetWaypoint(self.CurrentWayPointIndex)
+		if waypoint then
+			local dx = waypoint.X - self.Position.X
+			local dy = waypoint.Y - self.Position.Y
+			local distance = math.sqrt(dx * dx + dy * dy)
+			if distance > 0 then
+				return { X = dx / distance, Y = dy / distance }
+			end
+		end
+	end
+	return { X = 0, Y = 0 }
+end
+
+--- Returns the point a unit will move to when a collision was detected
+--- @return { X: number, Y: number } | nil -- The avoidance point, or nil if none exists.
+function Unit:GetAvoidancePoint()
+	return self.AvoidancePoint
 end
 
 --- Executes an attack on the unit's current target.

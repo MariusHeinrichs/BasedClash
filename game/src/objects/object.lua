@@ -8,6 +8,7 @@ local DEFAULTS = {
 ---@class Object
 ---@field Name string
 ---@field Position {X: number, Y: number}
+---@field Size number
 local Object = {}
 Object.__index = Object
 Object.__type = "Object"
@@ -16,12 +17,14 @@ Object.__type = "Object"
 ---@generic T : Object
 ---@param self T
 ---@param Name string | nil
+---@param Size number | nil
 ---@return T
-function Object:new(Name)
+function Object:new(Name, Size)
 	local newObj = {}
 	setmetatable(newObj, self)
 	newObj.Name = Name or DEFAULTS.Name
 	newObj.Position = { X = DEFAULTS.Position.X, Y = DEFAULTS.Position.Y }
+	newObj.Size = Size or 1
 	return newObj
 end
 

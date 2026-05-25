@@ -1,9 +1,6 @@
 local entityManager = require("src.managers.entities").getInstance()
 local unitHashGrid = require("src.utilities.unitHashGrid").getInstance()
 local resourceManager = require("src.managers.resources").getInstance()
-local MeleeUnit = require("src.objects.units.meleeUnit")
-local RangeUnit = require("src.objects.units.rangeUnit")
-local RangeDefenseStructure = require("src.objects.structures.rangeDefenseStructure")
 
 -- Handles the combat phase of the game, iterating through entities and applying combat logic such as damage and health updates.
 local CombatSystem = {}
@@ -21,11 +18,11 @@ function CombatSystem:AttackPhase(dt)
 
 	for _, unit in ipairs(units) do
 		if unit.Target then
-			if unit:IsInstanceOf(MeleeUnit) then
+			if unit:IsInstanceOf("MeleeUnit") then
 				--- trigger the unit's attack logic, which will apply damage to its target and update health values accordingly.
 				unit:Attack(dt)
 			end
-			if unit:IsInstanceOf(RangeUnit) then
+			if unit:IsInstanceOf("RangeUnit") then
 				--- trigger the unit's attack logic, which will create a projectile that moves towards the target and applies damage upon impact.
 				local projectile = unit:Attack(dt)
 				if projectile then
@@ -36,7 +33,7 @@ function CombatSystem:AttackPhase(dt)
 	end
 
 	for _, structure in ipairs(structures) do
-		if structure:IsInstanceOf(RangeDefenseStructure) then
+		if structure:IsInstanceOf("RangeDefenseStructure") then
 			---@cast structure RangeDefenseStructure
 			if structure.Target then
 				--- trigger the structure's attack logic, which will create a projectile that moves towards the target and applies damage upon impact.

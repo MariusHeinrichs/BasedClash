@@ -74,7 +74,7 @@ function UnitHashGrid:FindClosestEnemyInAggroRange(Object)
 	local cellX, cellY = self:GetCellCoords(px, py)
 	local cellsToCheck = {}
 
-	-- Bestimme, wie viele Zellen im AggroRange liegen
+	-- Determine how many cells are within the aggro range and add those cell keys to the list of cells to check
 	local cellRadius = math.ceil(aggroRange / self.CellSize)
 	for dx = -cellRadius, cellRadius do
 		for dy = -cellRadius, cellRadius do
@@ -82,7 +82,7 @@ function UnitHashGrid:FindClosestEnemyInAggroRange(Object)
 		end
 	end
 
-	-- Zuerst: Suche nach Ziel mit passender TargetPriority
+	-- First check for enemies that match the TargetPriority, then if no such enemies are found, check for any enemy regardless of TargetPriority. This allows units to prioritize certain targets (e.g., structures over units) while still being able to attack other targets if no preferred targets are available.
 	for _, key in ipairs(cellsToCheck) do
 		local cell = self.Cells[key]
 		if cell then
@@ -103,7 +103,7 @@ function UnitHashGrid:FindClosestEnemyInAggroRange(Object)
 			end
 		end
 	end
-	-- Falls kein Ziel mit TargetPriority gefunden wurde: Suche beliebigen Gegner
+	-- If no enemies matching the TargetPriority were found, check for any enemy regardless of TargetPriority
 	if not closestEnemy then
 		closestDistSq = math.huge
 		for _, key in ipairs(cellsToCheck) do
@@ -126,6 +126,37 @@ function UnitHashGrid:FindClosestEnemyInAggroRange(Object)
 		end
 	end
 	return closestEnemy
+end
+
+--- Returns all entities in a rectangular area in the movement direction of the object.
+--- @param Object Unit -- The moving object (must have Position.X, Position.Y, MovementSpeed, and a direction vector dx, dy)
+--- @return table -- List of entities in the area
+function UnitHashGrid:GetEntitiesInMovementDirection(Object)
+    local width = Object.Size and Object.Size*2 or 2
+    local length = Object.MovementSpeed or 1
+    -- direction vector (dx, dy) should be normalized
+    local moveDir = Object:GetMovementDirection()
+    local dx, dy = moveDir.X, moveDir.Y
+    local px, py = Object.Position.X, Object.Position.Y
+    -- center of the rectangle is in front of the object
+    local cx = px + dx * length/2
+    local cy = py + dy * length/2
+    -- get all entities in a radius that covers the rectangle
+    local radius = math.sqrt((width/2)^2 + (length/2)^2)
+    local candidates = self:GetEntitiesInRadius({X = cx, Y = cy}, radius)
+    local entities = {}
+    for _, entity in ipairs(candidates) do
+        if entity ~= Object and entity.Position then
+            -- project entity onto movement axis
+            local relX, relY = entity.Position.X - px, entity.Position.Y - py
+            local proj = relX * dx + relY * dy
+            local side = -relX * dy + relY * dx
+            if proj > 0 and proj < length and math.abs(side) < width/2 then
+                table.insert(entities, entity)
+            end
+        end
+    end
+    return entities
 end
 
 ---Returns all entities in the radius at the given position
