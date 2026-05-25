@@ -17,7 +17,7 @@ function defaultMap:new()
 		{ X = 300, Y = 100 },
 		{ X = 300, Y = 300 },
 		{ X = 500, Y = 300 }
-	})
+	}, 20)
 
 	local boundary = Boundary:new({
 		{ X = 200, Y = 200 },

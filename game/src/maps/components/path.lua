@@ -3,6 +3,7 @@
 ---@class Path
 ---@field Id string -- Unique identifier for the path graph
 ---@field Waypoints { X: number, Y: number }[] -- List of waypoints, each with X and Y coordinates
+---@field PathWidth number -- The width of the path for collision purposes (optional)
 local Path = {}
 Path.__index = Path
 
@@ -10,11 +11,13 @@ Path.__index = Path
 --- Creates a new Path.
 ---@param Id string | nil
 ---@param Waypoints { X: number, Y: number }[] | nil
+---@param PathWidth number | nil
 ---@return Path
-function Path:new(Id, Waypoints)
+function Path:new(Id, Waypoints, PathWidth)
 	return setmetatable({
 		Id = Id or "path",
 		Waypoints = Waypoints or {},
+		PathWidth = PathWidth or 1,
 	}, self)
 end
 
@@ -55,6 +58,12 @@ function Path:GetClosestWaypointIndex(x, y)
 	return bestIndex
 end
 
+---Returns the width or tolerance of the path
+---@return number
+function Path:GetPathWidth()
+	return self.PathWidth
+end
+
 --- Returns the waypoint at the given index.
 ---@param index number
 ---@return { X: number, Y: number } | nil
@@ -75,7 +84,8 @@ function Path:IsAtWaypoint(index, x, y)
 	local dx = waypoint.X - x
 	local dy = waypoint.Y - y
 	local distanceSq = dx * dx + dy * dy
-	return distanceSq < 10
+	local tolerance = self.PathWidth or 1
+	return distanceSq < (tolerance * tolerance)
 end
 
 --- Draws the path graph.
