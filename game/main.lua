@@ -5,7 +5,6 @@ local inputManager = require("src.systems.inputs").getInstance()
 
 function love.load()
 	worldManager:SetMap(require("src.maps.maps.defaultMap"):new())
-	worldManager:Setup()
 end
 
 function love.update(dt)

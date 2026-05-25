@@ -21,7 +21,7 @@ end
 
 --- Transitions to the newgame gamestate
 function GameStateManager:EnterNewGame()
-	self.CurrentGameState = GameStateEnums.Names.RUNNING
+	self.CurrentGameState = GameStateEnums.Names.NEWGAME
 end
 
 --- Transitions to the running gamestate

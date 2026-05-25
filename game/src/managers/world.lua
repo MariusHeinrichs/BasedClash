@@ -20,6 +20,11 @@ WorldManager.__index = WorldManager
 
 -- Update game logic, entities, etc. based on the current game state.
 function WorldManager:Update(dt)
+	-- Setup the world and transition to the RUNNING state if we are in the NEWGAME state. This allows us to have a separate setup phase where we can initialize the world without immediately starting the game loop, which can be useful for things like showing a loading screen or allowing the player to configure settings before the game starts.
+	if gameStateManager:GetGameState() == GameStateEnums.Names.NEWGAME then
+		self:Setup()
+		gameStateManager:EnterRunning()
+	end
 	-- Only update the game world when in the RUNNING state.
 	if gameStateManager:GetGameState() ~= GameStateEnums.Names.RUNNING then
 		return

@@ -21,14 +21,22 @@ end
 --- @param PlayerID number
 --- @param Resources {Gold: number, Metal: number, Aether: number}
 function ResourceManager:SetPlayerResources(PlayerID, Resources)
-	self.Resources[PlayerID] = Resources
+    self.Resources[PlayerID] = {
+        Gold = Resources.Gold or 0,
+        Metal = Resources.Metal or 0,
+        Aether = Resources.Aether or 0
+    }
 end
 
 --- Sets the income for a player.
 --- @param PlayerID number
 --- @param Income {Gold: number, Metal: number, Aether: number}
 function ResourceManager:SetPlayerIncome(PlayerID, Income)
-	self.Income[PlayerID] = Income
+	self.Income[PlayerID] = {
+		Gold = Income.Gold or 0,
+		Metal = Income.Metal or 0,
+		Aether = Income.Aether or 0
+	}
 end
 
 --- Gets the resources for a player.

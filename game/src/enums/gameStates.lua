@@ -8,6 +8,7 @@ GameStateEnums.Names = {
 	RUNNING = "running",
 	PAUSE = "pause",
 	GAME_OVER = "game_over",
+	NEWGAME = "new_game"
 }
 
 return GameStateEnums
