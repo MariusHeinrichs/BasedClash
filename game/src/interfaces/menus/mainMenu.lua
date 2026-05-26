@@ -33,7 +33,7 @@ function MainMenu:new()
 			definition.name,
 			BASE_BUTTON_WIDTH,
 			BASE_BUTTON_HEIGHT,
-			{ R = 0.5, G = 0.5, B = 0.5 },
+			{ R = 0.5, G = 0.5, B = 0.5, A = 1 },
 			definition.text or "placeholder_text",
 			{ X = 0, Y = 0 },
 			{ X = 0, Y = 15 },

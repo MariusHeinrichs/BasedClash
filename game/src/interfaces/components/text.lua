@@ -4,7 +4,7 @@ local DEFAULTS = {
 	Content = "",
 	Position = { X = 0, Y = 0 },
 	Width = 0,
-	Color = { 1, 1, 1, 1 },
+	Color = { R = 1, G = 1, B = 1, A = 1 },
 	Align = "left",
 }
 
@@ -12,7 +12,7 @@ local DEFAULTS = {
 ---@field Content string
 ---@field Position {X: number, Y: number}
 ---@field Width number
----@field Color number[]
+---@field Color {R: number, G: number, B: number, A: number}
 ---@field Align "left" | "center" | "right" | "justify"
 local Text = {}
 Text.__index = Text
@@ -22,7 +22,7 @@ Text.__index = Text
 ---@param content string | nil
 ---@param position {X: number, Y: number} | nil
 ---@param width number | nil
----@param color number[] | nil
+---@param color {R: number, G: number, B: number, A: number} | nil
 ---@param align "left" | "center" | "right" | "justify" | nil
 ---@return T
 function Text:new(content, position, width, color, align)
@@ -37,7 +37,7 @@ end
 
 --- Draws the text using its current properties.
 function Text:Draw()
-	love.graphics.setColor(self.Color)
+	love.graphics.setColor(self.Color.R, self.Color.G, self.Color.B, self.Color.A)
 	love.graphics.printf(self.Content, self.Position.X, self.Position.Y, self.Width, self.Align)
 	love.graphics.setColor(1, 1, 1, 1)
 end

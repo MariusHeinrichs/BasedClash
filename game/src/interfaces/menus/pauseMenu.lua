@@ -40,7 +40,7 @@ function PauseMenu:new()
 			definition.key,
 			BASE_BUTTON_WIDTH,
 			BASE_BUTTON_HEIGHT,
-			{ R = 0.5, G = 0.5, B = 0.5 },
+			{ R = 0.5, G = 0.5, B = 0.5, A = 1 },
 			definition.text,
 			{ X = 0, Y = 0 },
 			{ X = 0, Y = 15 },
@@ -48,8 +48,8 @@ function PauseMenu:new()
 		)
 	end
 
-	pauseMenu.TitleText = Text:new("Paused", { X = 0, Y = 0 }, 0, { 1, 1, 1, 1 }, "center")
-	pauseMenu.SubtitleText = Text:new("Press ESC to resume", { X = 0, Y = 0 }, 0, { 1, 1, 1, 1 }, "center")
+	pauseMenu.TitleText = Text:new("Paused", { X = 0, Y = 0 }, 0, { R = 1, G = 1, B = 1, A = 1 }, "center")
+	pauseMenu.SubtitleText = Text:new("Press ESC to resume", { X = 0, Y = 0 }, 0, { R = 1, G = 1, B = 1, A = 1 }, "center")
 
 	pauseMenu:RebuildLayout()
 	return pauseMenu

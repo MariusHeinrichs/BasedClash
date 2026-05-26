@@ -38,7 +38,12 @@ function InputManager:HandleKeyPressed(key)
 			gameStateManager:EnterRunning()
 			return true
 		end
-	elseif GameState == GameStateEnums.Names.GAME_OVER then
+	elseif GameState == GameStateEnums.Names.GAME_WON then
+		if key == "escape" then
+			gameStateManager:EnterMainMenu()
+			return true
+		end
+	elseif GameState == GameStateEnums.Names.GAME_LOST then
 		if key == "escape" then
 			gameStateManager:EnterMainMenu()
 			return true
@@ -77,9 +82,16 @@ function InputManager:HandleMousePressed(x, y, button)
 		return true
 	end
 
-	if GameState == GameStateEnums.Names.GAME_OVER then
-		if interfaceManager.Interfaces.GameOver then
-			-- interfaceManager.Interfaces.GameOver:HandleMousePressed(x, y, button)
+	if GameState == GameStateEnums.Names.GAME_WON then
+		if interfaceManager.Interfaces.GameWon then
+			interfaceManager.Interfaces.GameWon:HandleMousePressed(x, y, button)
+		end
+		return true
+	end
+
+	if GameState == GameStateEnums.Names.GAME_LOST then
+		if interfaceManager.Interfaces.GameLost then
+			interfaceManager.Interfaces.GameLost:HandleMousePressed(x, y, button)
 		end
 		return true
 	end

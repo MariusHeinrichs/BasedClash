@@ -7,7 +7,7 @@ local DEFAULTS = {
 	Text = "Button",
 	PositionButton = { X = 0, Y = 0 },
 	PositionText = { X = 0, Y = 0 },
-	Color = { R = 0.5, G = 0.5, B = 0.5 },
+	Color = { R = 0.5, G = 0.5, B = 0.5, A = 1 },
 	Action = function() end,
 }
 
@@ -15,7 +15,7 @@ local DEFAULTS = {
 ---@field Name string
 ---@field Width number
 ---@field Height number
----@field Color {R: number, G: number, B: number}
+---@field Color {R: number, G: number, B: number, A: number}
 ---@field Text string
 ---@field PositionButton {X: number, Y: number}
 ---@field PositionText {X: number, Y: number}
@@ -28,7 +28,7 @@ Button.__index = Button
 ---@param Name string | nil
 ---@param Width number | nil
 ---@param Height number | nil
----@param Color {R: number, G: number, B: number} | nil
+---@param Color {R: number, G: number, B: number, A: number} | nil
 ---@param Text string | nil
 ---@param PositionButton {X: number, Y: number} | nil
 ---@param PositionText {X: number, Y: number} | nil
@@ -50,9 +50,9 @@ end
 
 --- Draws the button on the screen.
 function Button:Draw()
-	love.graphics.setColor(self.Color.R, self.Color.G, self.Color.B)
+	love.graphics.setColor(self.Color.R, self.Color.G, self.Color.B, self.Color.A)
 	love.graphics.rectangle("fill", self.PositionButton.X, self.PositionButton.Y, self.Width, self.Height)
-	love.graphics.setColor(1, 1, 1)
+	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.printf(self.Text, self.PositionButton.X + self.PositionText.X,
 		self.PositionButton.Y + self.PositionText.Y, self.Width, "center")
 end

@@ -10,8 +10,8 @@ StartMenu.__index = StartMenu
 ---@return StartMenu
 function StartMenu:new()
 	local startMenu = setmetatable({}, self)
-	startMenu.TitleText = Text:new("Based Clash", { X = 0, Y = 0 }, 0, { 1, 1, 1, 1 }, "center")
-	startMenu.PromptText = Text:new("Press enter to start the game.", { X = 0, Y = 0 }, 0, { 1, 1, 1, 1 }, "center")
+	startMenu.TitleText = Text:new("Based Clash", { X = 0, Y = 0 }, 0, { R = 1, G = 1, B = 1, A = 1 }, "center")
+	startMenu.PromptText = Text:new("Press enter to start the game.", { X = 0, Y = 0 }, 0, { R = 1, G = 1, B = 1, A = 1 }, "center")
 	startMenu:RebuildLayout()
 	return startMenu
 end
