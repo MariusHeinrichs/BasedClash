@@ -1,4 +1,4 @@
----
+--- Spatial hash grid configurations for efficient unit and structure management.
 
 return {
 	UnitHashGrid = {

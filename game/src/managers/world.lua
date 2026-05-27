@@ -6,6 +6,7 @@ local TargetingSystem = require("src.systems.targeting")
 local CombatSystem = require("src.systems.combat")
 local IncomeSystem = require("src.systems.income")
 local GameOutcomeSystem = require("src.systems.gameOutcome")
+local AbilitySystem = require("src.systems.abilities")
 
 
 local GameStateEnums = require("src.enums.gameStates")
@@ -43,10 +44,13 @@ function WorldManager:Update(dt)
 	-- Phase 4: direct combat resolution.
 	CombatSystem:Update(dt)
 
-	-- Phase 5: income generation.
+	-- Phase 5: ability updates and effects.
+	AbilitySystem:Update(dt)
+
+	-- Phase 6: income generation.
 	IncomeSystem:Update(dt)
 
-	-- Phase 6: win condition checks and game state transitions.
+	-- Phase 7: win condition checks and game state transitions.
 	GameOutcomeSystem:Update(dt)
 end
 
