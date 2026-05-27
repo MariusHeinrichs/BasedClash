@@ -1,15 +1,15 @@
 -- TargetingMixin: Adds targeting logic to abilities.
 local TargetingMixin = {}
 
-function TargetingMixin:initTargeting()
+function TargetingMixin:InitTargeting()
     self.Target = nil
 end
 
-function TargetingMixin:setTarget(target)
+function TargetingMixin:SetTarget(target)
     self.Target = target
 end
 
-function TargetingMixin:getTarget()
+function TargetingMixin:GetTarget()
     return self.Target
 end
 

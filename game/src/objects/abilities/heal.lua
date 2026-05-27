@@ -3,45 +3,49 @@ local Ability = require("src.objects.abilities.ability")
 local HealMixin = require("src.objects.abilities.mixins.healMixin")
 local CooldownMixin = require("src.objects.abilities.mixins.cooldownMixin")
 local TargetingMixin = require("src.objects.abilities.mixins.targetingMixin")
+local AbilityStats = require("src.data.abilityStats")
 
 ---@class Heal : Ability
 ---@field HealAmount number
 ---@field Cooldown number
 ---@field CooldownTimer number
 ---@field Target any
-local Heal = setmetatable({}, { __index = Ability })
+local Heal = {}
 Heal.__index = Heal
 Heal.__type = "Heal"
 
----Creates a new Heal abilitie
+setmetatable(Heal, { __index = Ability })
+
+---Creates a new Heal ability
 ---@param Name string | nil
 ---@param Owner Structure | Unit | nil
----@param HealAmount number | nil
----@param Cooldown number | nil
----@return Ability
-function Heal:new(Name, Owner, HealAmount, Cooldown)
-    local newAbility = Ability:new(Name or "Heal", Owner)
+---@return Heal
+function Heal:new(Name, Owner)
+	local newAbility = Ability.new(self, Name or "Heal", Owner)
 
-    -- Add mixins
-    for k, v in pairs(HealMixin) do newAbility[k] = v end
-    for k, v in pairs(CooldownMixin) do newAbility[k] = v end
-    for k, v in pairs(TargetingMixin) do newAbility[k] = v end
-    newAbility:initHeal(HealAmount or 20)
-    newAbility:initCooldown(Cooldown or 5)
-    newAbility:initTargeting()
-    return newAbility
+	-- Add mixins
+	for k, v in pairs(HealMixin) do newAbility[k] = v end
+	for k, v in pairs(CooldownMixin) do newAbility[k] = v end
+	for k, v in pairs(TargetingMixin) do newAbility[k] = v end
+
+	-- Initialize mixin properties
+	newAbility:InitHeal(AbilityStats.Heal.HealAmount)
+	newAbility:InitCooldown(AbilityStats.Heal.Cooldown)
+	newAbility:StartCooldown()
+	newAbility:InitTargeting()
+	return newAbility
 end
 
-function Heal:activate(target)
-    if self:isReady() then
-        local tgt = target or self:getTarget() or self.Owner
-        self:heal(tgt)
-        self:startCooldown()
-    end
+function Heal:Activate(target)
+	if self:IsReady() then
+		local tgt = target or self:GetTarget() or self.Owner
+		self:Heal(tgt)
+		self:StartCooldown()
+	end
 end
 
-function Heal:update(dt)
-    self:updateCooldown(dt)
+function Heal:Update(dt)
+	self:UpdateCooldown(dt)
 end
 
 return Heal

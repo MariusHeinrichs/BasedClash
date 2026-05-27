@@ -1,22 +1,22 @@
 -- CooldownMixin: Adds cooldown logic to abilities.
 local CooldownMixin = {}
 
-function CooldownMixin:initCooldown(cooldown)
+function CooldownMixin:InitCooldown(cooldown)
     self.Cooldown = cooldown or 1
     self.CooldownTimer = 0
 end
 
-function CooldownMixin:startCooldown()
+function CooldownMixin:StartCooldown()
     self.CooldownTimer = self.Cooldown
 end
 
-function CooldownMixin:updateCooldown(dt)
+function CooldownMixin:UpdateCooldown(dt)
     if self.CooldownTimer and self.CooldownTimer > 0 then
         self.CooldownTimer = math.max(0, self.CooldownTimer - dt)
     end
 end
 
-function CooldownMixin:isReady()
+function CooldownMixin:IsReady()
     return not self.CooldownTimer or self.CooldownTimer <= 0
 end
 

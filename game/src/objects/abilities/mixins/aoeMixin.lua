@@ -1,20 +1,20 @@
 -- AoEMixin: Adds area-of-effect logic to abilities.
 local AoEMixin = {}
 
-function AoEMixin:initAoE(radius)
+function AoEMixin:InitAoE(radius)
     self.AoERadius = radius or 1
     self.AoECenter = nil
 end
 
-function AoEMixin:setAoECenter(center)
+function AoEMixin:SetAoECenter(center)
     self.AoECenter = center
 end
 
-function AoEMixin:getAoECenter()
+function AoEMixin:GetAoECenter()
     return self.AoECenter
 end
 
-function AoEMixin:getUnitsInRadius(units)
+function AoEMixin:GetUnitsInRadius(units)
     local result = {}
     if not self.AoECenter or not units then return result end
     for _, unit in ipairs(units) do

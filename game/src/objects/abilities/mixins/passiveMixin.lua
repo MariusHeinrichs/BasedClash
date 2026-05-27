@@ -1,12 +1,12 @@
 -- PassiveMixin: Adds passive effect logic to abilities.
 local PassiveMixin = {}
 
-function PassiveMixin:initPassive()
+function PassiveMixin:InitPassive()
     self.IsPassive = true
 end
 
 -- Called every update tick for passive effects (e.g. regen, aura)
-function PassiveMixin:updatePassive(dt, owner)
+function PassiveMixin:UpdatePassive(dt, owner)
     -- To be implemented by the ability using this mixin
 end
 

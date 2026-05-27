@@ -9,6 +9,7 @@ local Object = require("src.objects.object")
 ---@field AttackSpeed number
 ---@field AttackRange number
 ---@field AggroRange number
+---@field Abilities Ability[] -- List of abilities the unit has
 ---@field Target Unit | Structure | nil
 ---@field TargetPriority EntityEnums.TargetPriorities
 ---@field Armor number
@@ -64,6 +65,7 @@ function Unit:new(Name, MaxHealth, AttackSpeed, AttackRange, AggroRange, TargetP
 	newUnit.Path = nil
 	newUnit.CurrentWayPointIndex = nil
 	newUnit.AvoidancePoint = nil
+	newUnit.Abilities = {}
 	return newUnit
 end
 
@@ -220,6 +222,12 @@ end
 --- @return { X: number, Y: number } | nil -- The avoidance point, or nil if none exists.
 function Unit:GetAvoidancePoint()
 	return self.AvoidancePoint
+end
+
+---Returns the list of abilities the unit has
+---@return Ability[]
+function Unit:GetAbilities()
+	return self.Abilities
 end
 
 --- Executes an attack on the unit's current target.

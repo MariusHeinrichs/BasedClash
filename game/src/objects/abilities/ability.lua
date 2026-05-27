@@ -26,14 +26,14 @@ function Ability:Update(dt)
 end
 
 --- Stub methods for mixin functionality (to avoid errors if mixins are not properly added)
-function Ability:initHeal(HealAmount) end
-function Ability:heal(target) end
-function Ability:initCooldown(Cooldown) end
-function Ability:startCooldown() end
-function Ability:updateCooldown(dt) end
-function Ability:isReady() return false end
-function Ability:initTargeting() end
-function Ability:getTarget() return nil end
+function Ability:InitHeal(HealAmount) end
+function Ability:Heal(target) end
+function Ability:InitCooldown(Cooldown) end
+function Ability:StartCooldown() end
+function Ability:UpdateCooldown(dt) end
+function Ability:IsReady() return false end
+function Ability:InitTargeting() end
+function Ability:GetTarget() return nil end
 
 
 return Ability

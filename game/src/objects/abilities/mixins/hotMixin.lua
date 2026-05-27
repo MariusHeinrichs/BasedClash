@@ -1,7 +1,7 @@
 -- HoTMixin: Adds heal-over-time logic to abilities.
 local HoTMixin = {}
 
-function HoTMixin:initHoT(healAmount, duration, tickInterval)
+function HoTMixin:InitHoT(healAmount, duration, tickInterval)
     self.HoTHealAmount = healAmount or 1
     self.HoTDuration = duration or 5
     self.HoTTickInterval = tickInterval or 1
@@ -9,7 +9,7 @@ function HoTMixin:initHoT(healAmount, duration, tickInterval)
     self.HoTTimeSinceLastTick = 0
 end
 
-function HoTMixin:updateHoT(dt, target)
+function HoTMixin:UpdateHoT(dt, target)
     self.HoTTimeElapsed = self.HoTTimeElapsed + dt
     self.HoTTimeSinceLastTick = self.HoTTimeSinceLastTick + dt
     if self.HoTTimeElapsed <= self.HoTDuration and self.HoTTimeSinceLastTick >= self.HoTTickInterval then

@@ -2,6 +2,7 @@
 
 local RangeUnit = require("src.objects.units.rangeUnit")
 local UnitStats = require("src.data.unitStats").RangeUnits.Mage
+local HealAbility = require("src.objects.abilities.heal")
 
 --- @class Mage : RangeUnit
 local Mage = {}
@@ -30,6 +31,8 @@ function Mage:new(PlayerID)
 		UnitStats.Bounty,
 		PlayerID
 	)
+	-- Add the Heal ability to the mage's abilities list
+	table.insert(newMage:GetAbilities(), HealAbility:new("Heal", newMage))
 	return newMage
 end
 

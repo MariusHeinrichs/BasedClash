@@ -1,7 +1,7 @@
 -- DoTMixin: Adds damage-over-time logic to abilities.
 local DoTMixin = {}
 
-function DoTMixin:initDoT(damage, duration, tickInterval)
+function DoTMixin:InitDoT(damage, duration, tickInterval)
     self.DoTDamage = damage or 1
     self.DoTDuration = duration or 5
     self.DoTTickInterval = tickInterval or 1
@@ -9,7 +9,7 @@ function DoTMixin:initDoT(damage, duration, tickInterval)
     self.DoTTimeSinceLastTick = 0
 end
 
-function DoTMixin:updateDoT(dt, target)
+function DoTMixin:UpdateDoT(dt, target)
     self.DoTTimeElapsed = self.DoTTimeElapsed + dt
     self.DoTTimeSinceLastTick = self.DoTTimeSinceLastTick + dt
     if self.DoTTimeElapsed <= self.DoTDuration and self.DoTTimeSinceLastTick >= self.DoTTickInterval then
