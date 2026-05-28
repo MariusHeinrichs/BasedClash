@@ -4,6 +4,7 @@ local HealMixin = require("src.objects.abilities.mixins.healMixin")
 local CooldownMixin = require("src.objects.abilities.mixins.cooldownMixin")
 local TargetingMixin = require("src.objects.abilities.mixins.targetingMixin")
 local AbilityStats = require("src.data.abilityStats")
+local EntityEnums = require("src.enums.entities")
 
 ---@class Heal : Ability
 ---@field HealAmount number
@@ -32,20 +33,37 @@ function Heal:new(Name, Owner)
 	newAbility:InitHeal(AbilityStats.Heal.HealAmount)
 	newAbility:InitCooldown(AbilityStats.Heal.Cooldown)
 	newAbility:StartCooldown()
-	newAbility:InitTargeting()
+	newAbility:InitTargeting(EntityEnums.Unit, AbilityStats.Heal.TargetEnemy, AbilityStats.Heal.AbilityRange)
+
 	return newAbility
 end
 
-function Heal:Activate(target)
+function Heal:Activate()
 	if self:IsReady() then
-		local tgt = target or self:GetTarget() or self.Owner
-		self:Heal(tgt)
-		self:StartCooldown()
+		if self.Owner then
+			local tgt = nil
+			-- If a target is set, heal that target. Otherwise, heal self if self is damaged.
+			if self.Target then
+				tgt = self.Target
+			else
+				if self.Owner.Health > 0 and self.Owner.Health < self.Owner.MaxHealth then
+					tgt = self.Owner
+				end
+			end
+			if tgt then
+				self:Heal(tgt)
+				self:StartCooldown()
+			end
+		end
 	end
 end
 
 function Heal:Update(dt)
 	self:UpdateCooldown(dt)
+end
+
+function Heal:Target(Target)
+	self:SetTarget(Target)
 end
 
 return Heal
