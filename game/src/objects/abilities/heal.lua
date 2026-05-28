@@ -10,7 +10,8 @@ local EntityEnums = require("src.enums.entities")
 ---@field HealAmount number
 ---@field Cooldown number
 ---@field CooldownTimer number
----@field Target any
+---@field AbilityRange number
+---@field Target Unit | Structure | nil
 local Heal = {}
 Heal.__index = Heal
 Heal.__type = "Heal"
@@ -33,7 +34,7 @@ function Heal:new(Name, Owner)
 	newAbility:InitHeal(AbilityStats.Heal.HealAmount)
 	newAbility:InitCooldown(AbilityStats.Heal.Cooldown)
 	newAbility:StartCooldown()
-	newAbility:InitTargeting(EntityEnums.Unit, AbilityStats.Heal.TargetEnemy, AbilityStats.Heal.AbilityRange)
+	newAbility:InitTargeting(AbilityStats.Heal.TargetType, AbilityStats.Heal.TargetCriterias, AbilityStats.Heal.AbilityRange)
 
 	return newAbility
 end
@@ -41,11 +42,9 @@ end
 function Heal:Activate()
 	if self:IsReady() then
 		if self.Owner then
-			local tgt = nil
+			local tgt = self:GetTarget()
 			-- If a target is set, heal that target. Otherwise, heal self if self is damaged.
-			if self.Target then
-				tgt = self.Target
-			else
+			if not tgt then
 				if self.Owner.Health > 0 and self.Owner.Health < self.Owner.MaxHealth then
 					tgt = self.Owner
 				end
@@ -56,14 +55,6 @@ function Heal:Activate()
 			end
 		end
 	end
-end
-
-function Heal:Update(dt)
-	self:UpdateCooldown(dt)
-end
-
-function Heal:Target(Target)
-	self:SetTarget(Target)
 end
 
 return Heal
