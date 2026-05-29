@@ -1,5 +1,6 @@
 local entityManager = require("src.managers.entities").getInstance()
 local unitHashGrid = require("src.utilities.unitHashGrid").getInstance()
+local abilityManager = require("src.managers.abilities").getInstance()
 local EntityEnums = require("src.enums.entities")
 
 --- AbilitySystem: Handles all abilities in the game, including their updates and interactions.
@@ -7,30 +8,30 @@ local AbilitySystem = {}
 
 function AbilitySystem:Update(dt)
 	for _, unit in pairs(entityManager:GetUnits()) do
-		self:UpdateCooldowns(dt, unit)
-		self:TargetingPhase(dt, unit)
-		self:ActivationPhase(dt, unit)
+		self:UpdateAbility(dt, unit)
+		self:TargetingPhase(unit)
+		self:ActivationPhase(unit)
 	end
 end
 
+--- Updates the abilities of a unit. f.e cooldowns, visual durations, etc.
 --- @param dt any
 --- @param Unit Unit
-function AbilitySystem:UpdateCooldowns(dt, Unit)
+function AbilitySystem:UpdateAbility(dt, Unit)
 	if Unit:GetAbilities() then
 		for _, ability in pairs(Unit:GetAbilities()) do
-			ability:UpdateCooldown(dt)
+			ability:Update(dt)
 		end
 	end
 end
 
 --- Selects targets for abilities that require targeting.
---- @param dt any
 --- @param Unit Unit
-function AbilitySystem:TargetingPhase(dt, Unit)
+function AbilitySystem:TargetingPhase(Unit)
 	if Unit:GetAbilities() then
 		for _, ability in pairs(Unit:GetAbilities()) do
 			-- Only process abilities that are ready and require targeting
-			if ability.IsReady then
+			if ability:IsReady() then
 				local criterias = ability:GetTargetCriterias()
 				if criterias then
 					local target = self:FindTargetsThatMeetCriteria(ability, criterias)
@@ -120,18 +121,23 @@ function AbilitySystem:FindTargetsThatMeetCriteria(Ability, TargetCriterias)
 		end
 	end
 
+	-- If no target was selected based on the criteria, but there are still viable targets, select the first one.
+	if not target and #viableTargets > 0 then
+		target = viableTargets[1]
+	end
+
 	return target
 end
 
 --- Activates abilities that are ready and have valid targets.
---- @param dt any
 --- @param Unit Unit
-function AbilitySystem:ActivationPhase(dt, Unit)
+function AbilitySystem:ActivationPhase(Unit)
 	if Unit:GetAbilities() then
 		for _, ability in pairs(Unit:GetAbilities()) do
 			-- Only activate abilities that are ready
 			if ability.IsReady and ability.Activate then
 				ability:Activate()
+				abilityManager:SetAbility(ability)
 			end
 		end
 	end

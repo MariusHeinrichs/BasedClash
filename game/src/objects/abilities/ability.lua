@@ -28,6 +28,9 @@ end
 function Ability:Activate()
 end
 
+function Ability:Draw(dt)
+end
+
 --- Stub methods for mixin functionality (to avoid errors if mixins are not properly added)
 
 -- heal mixin
@@ -80,5 +83,22 @@ function Ability:GetTarget() return nil end
 --- Gets the range of the ability
 ---@return integer | nil
 function Ability:GetAbilityRange() return nil end
+
+--- visual mixin
+
+--- Initializes the visual duration for the ability
+--- @param VisualDuration number
+function Ability:InitVisualDuration(VisualDuration) end
+
+--- Starts the visual duration timer for the ability
+function Ability:StartVisualDuration() end
+
+--- Updates the visual duration timer for the ability
+--- @param dt number
+function Ability:UpdateVisualDuration(dt) end
+
+--- Checks if the visual duration has ended for the ability
+--- @return boolean | nil
+function Ability:VisualDurationEnded() return nil end
 
 return Ability

@@ -5,6 +5,7 @@ local resourceManager = require("src.managers.resources").getInstance()
 local entityManager = require("src.managers.entities").getInstance()
 local structureHashGrid = require("src.utilities.structureHashGrid").getInstance()
 local unitHashGrid = require("src.utilities.unitHashGrid").getInstance()
+local abilityManager = require("src.managers.abilities").getInstance()
 
 ---@class Map
 ---@field Size { width: number, height: number } -- Dimensions of the map
@@ -112,6 +113,7 @@ end
 function Map:Setup()
 	entityManager:ClearAll()
 	resourceManager:ClearAll()
+	abilityManager:ClearAll()
 
 	for playerID, resources in pairs(self.TeamResources) do
 		resourceManager:SetPlayerResources(playerID, resources)

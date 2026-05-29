@@ -1,5 +1,15 @@
 bei restart bleiben structures mit ihren jetztigen hps stehen
-abilities
+
+unit collision überarbeiten
+einheiten laufen durch gebäude
+	-> wenn sie sich den avoidance punkt nähern laufen sie durch
+
+heals werden noch gecastes obwohl kein target vorhanden sein sollte
+
+Bounty systes
+
 bosses
+
 utilitie structures
+
 retaliation targeting

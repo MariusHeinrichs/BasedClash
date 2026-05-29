@@ -46,6 +46,12 @@ end
 
 --- draws the structure on the screen 
 function Structure:Draw()
+	if self.PlayerID == 1 then
+		love.graphics.setColor(0, 1, 0) -- Green for player 1
+	else
+		love.graphics.setColor(1, 0, 0) -- Red for player 2
+	end
+
 	love.graphics.rectangle("fill", self.Position.X - self.Size / 2, self.Position.Y - self.Size / 2, self.Size,
 		self.Size)
 	love.graphics.setColor(1, 1, 1)

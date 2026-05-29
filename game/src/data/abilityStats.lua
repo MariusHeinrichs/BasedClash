@@ -12,5 +12,6 @@ return {
 			TargetType = AbilityEnums.TargetCriteria.TargetTypeCriteria.UNIT,
 		},
 		AbilityRange = 200,
+		VisualDuration = 1
 	}
 }

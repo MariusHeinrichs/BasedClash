@@ -1,4 +1,5 @@
 local entityManager = require("src.managers.entities").getInstance()
+local abilityManager = require("src.managers.abilities").getInstance()
 local gameStateManager = require("src.managers.gamestate").getInstance()
 local SpawnSystem = require("src.systems.spawn")
 local MovementSystem = require("src.systems.movement")
@@ -69,6 +70,8 @@ function WorldManager:Draw()
 	end
 	-- Draw entities
 	entityManager:Draw()
+	-- Draw abilities
+	abilityManager:Draw()
 	-- Draw the map components.
 	if self.Map then
 		self.Map:Draw()

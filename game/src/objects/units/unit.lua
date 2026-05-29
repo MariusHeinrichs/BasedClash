@@ -71,6 +71,11 @@ end
 
 --- draws the unit on the screen
 function Unit:Draw()
+	if self.PlayerID == 1 then
+		love.graphics.setColor(0, 1, 0) -- Green for player 1
+	else
+		love.graphics.setColor(1, 0, 0) -- Red for player 2
+	end
 	love.graphics.circle("fill", self.Position.X, self.Position.Y, self.Size)
 
 	love.graphics.setColor(1, 1, 1)

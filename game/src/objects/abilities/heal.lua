@@ -3,14 +3,16 @@ local Ability = require("src.objects.abilities.ability")
 local HealMixin = require("src.objects.abilities.mixins.healMixin")
 local CooldownMixin = require("src.objects.abilities.mixins.cooldownMixin")
 local TargetingMixin = require("src.objects.abilities.mixins.targetingMixin")
+local VisualMixin = require("src.objects.abilities.mixins.visualMixin")
 local AbilityStats = require("src.data.abilityStats")
-local EntityEnums = require("src.enums.entities")
 
 ---@class Heal : Ability
 ---@field HealAmount number
 ---@field Cooldown number
 ---@field CooldownTimer number
 ---@field AbilityRange number
+---@field VisualDuration number
+---@field VisualDurationTimer number
 ---@field Target Unit | Structure | nil
 local Heal = {}
 Heal.__index = Heal
@@ -22,7 +24,7 @@ setmetatable(Heal, { __index = Ability })
 for k, v in pairs(HealMixin) do Heal[k] = v end
 for k, v in pairs(CooldownMixin) do Heal[k] = v end
 for k, v in pairs(TargetingMixin) do Heal[k] = v end
-
+for k, v in pairs(VisualMixin) do Heal[k] = v end
 ---Creates a new Heal ability
 ---@param Name string | nil
 ---@param Owner Structure | Unit | nil
@@ -35,9 +37,15 @@ function Heal:new(Name, Owner)
 	newAbility:InitCooldown(AbilityStats.Heal.Cooldown)
 	newAbility:StartCooldown()
 	newAbility:InitTargeting(AbilityStats.Heal.TargetType, AbilityStats.Heal.TargetCriterias,
-	AbilityStats.Heal.AbilityRange)
+		AbilityStats.Heal.AbilityRange)
+	newAbility:InitVisualDuration(AbilityStats.Heal.VisualDuration)
 
 	return newAbility
+end
+
+function Heal:Update(dt)
+	self:UpdateCooldown(dt)
+	self:UpdateVisualDuration(dt)
 end
 
 function Heal:Activate()
@@ -53,7 +61,19 @@ function Heal:Activate()
 			if tgt then
 				self:Heal(tgt)
 				self:StartCooldown()
+				self:StartVisualDuration()
 			end
+		end
+	end
+end
+
+function Heal:Draw()
+	if not self:VisualDurationEnded() then
+		local target = self:GetTarget()
+		if target then
+			love.graphics.setColor(1, 1, 0, 1 * (self.VisualDurationTimer / self.VisualDuration)) -- Semi-transparent yellow
+			love.graphics.circle("line", target.Position.X, target.Position.Y, 15)
+			love.graphics.setColor(1, 1, 1) -- Reset color
 		end
 	end
 end
