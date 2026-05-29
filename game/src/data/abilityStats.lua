@@ -8,7 +8,8 @@ return {
 		TargetType = AbilityEnums.TargetTypes.UNIT,
 		TargetCriterias = {
 			HPCriteria = AbilityEnums.TargetCriteria.HPCriteria.LOWEST_HEALTH,
-			TeamCriteria = AbilityEnums.TargetCriteria.TeamCriteria.ALLY
+			TeamCriteria = AbilityEnums.TargetCriteria.TeamCriteria.ALLY,
+			TargetType = AbilityEnums.TargetCriteria.TargetTypeCriteria.UNIT,
 		},
 		AbilityRange = 200,
 	}

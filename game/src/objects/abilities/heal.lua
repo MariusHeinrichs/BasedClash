@@ -18,6 +18,11 @@ Heal.__type = "Heal"
 
 setmetatable(Heal, { __index = Ability })
 
+-- Add mixins
+for k, v in pairs(HealMixin) do Heal[k] = v end
+for k, v in pairs(CooldownMixin) do Heal[k] = v end
+for k, v in pairs(TargetingMixin) do Heal[k] = v end
+
 ---Creates a new Heal ability
 ---@param Name string | nil
 ---@param Owner Structure | Unit | nil
@@ -25,16 +30,12 @@ setmetatable(Heal, { __index = Ability })
 function Heal:new(Name, Owner)
 	local newAbility = Ability.new(self, Name or "Heal", Owner)
 
-	-- Add mixins
-	for k, v in pairs(HealMixin) do newAbility[k] = v end
-	for k, v in pairs(CooldownMixin) do newAbility[k] = v end
-	for k, v in pairs(TargetingMixin) do newAbility[k] = v end
-
 	-- Initialize mixin properties
 	newAbility:InitHeal(AbilityStats.Heal.HealAmount)
 	newAbility:InitCooldown(AbilityStats.Heal.Cooldown)
 	newAbility:StartCooldown()
-	newAbility:InitTargeting(AbilityStats.Heal.TargetType, AbilityStats.Heal.TargetCriterias, AbilityStats.Heal.AbilityRange)
+	newAbility:InitTargeting(AbilityStats.Heal.TargetType, AbilityStats.Heal.TargetCriterias,
+	AbilityStats.Heal.AbilityRange)
 
 	return newAbility
 end

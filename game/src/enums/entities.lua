@@ -9,6 +9,19 @@ EntityEnums.DamageTypes = {
 	PURE = "Pure",
 }
 
+--- @enum EntityEnums.EntityTypes
+EntityEnums.EntityTypes = {
+	UNIT = "Unit",
+	STRUCTURE = "Structure",
+	PROJECTILE = "Projectile",
+}
+
+--- @enum EntityEnums.UnitTypes
+EntityEnums.UnitTypes = {
+	MELEE = "MeleeUnit",
+	RANGED = "RangeUnit",
+}
+
 --- @enum EntityEnums.ProjectileTypes
 EntityEnums.ProjectileTypes = {
 	ARROW = "Arrow",
