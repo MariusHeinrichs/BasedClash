@@ -1,6 +1,6 @@
 --- Class representing the burn DoT effect.
 
-local DamageOverTime = require("src.objects.Effects.dots.dot")
+local DamageOverTime = require("src.objects.effects.dots.dot")
 local DotStats = require("src.data.dotStats").Burn
 
 ---@class Burn : DamageOverTime

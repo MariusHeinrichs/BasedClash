@@ -1,6 +1,6 @@
 --- Damage over time class, representing a damage over time effect applied to a unit.
 
-local Effect = require("src.objects.Effects.effect")
+local Effect = require("src.objects.effects.effect")
 
 ---@class DamageOverTime : Effect
 ---@field Damage number
@@ -8,7 +8,6 @@ local Effect = require("src.objects.Effects.effect")
 ---@field TickInterval number
 ---@field ElapsedTime number
 ---@field TicksApplied number
----@field Target Unit | Structure | nil
 local DamageOverTime = {}
 DamageOverTime.__index = DamageOverTime
 DamageOverTime.__type = "DamageOverTime"

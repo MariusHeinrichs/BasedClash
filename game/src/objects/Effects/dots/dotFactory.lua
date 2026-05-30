@@ -1,5 +1,5 @@
 --- Factory for creating damage over time (DoT) effects.
-local Burn = require("src.objects.Effects.dots.burn")
+local Burn = require("src.objects.effects.dots.burn")
 local DoTEnums = require("src.enums.dots")
 
 local DoTFactory = {}

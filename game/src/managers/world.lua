@@ -10,6 +10,7 @@ local IncomeSystem = require("src.systems.income")
 local GameOutcomeSystem = require("src.systems.gameOutcome")
 local AbilitySystem = require("src.systems.abilities")
 local EffectSystem = require("src.systems.effectSystem")
+local CleanUpSystem = require("src.systems.cleanupSystem")
 
 
 local GameStateEnums = require("src.enums.gameStates")
@@ -54,6 +55,7 @@ function WorldManager:Update(dt)
 	EffectSystem:Update(dt)
 
 	-- Phase 7: Cleanup of expired effects, dead units, etc.
+	CleanUpSystem:Update(dt)
 
 	-- Phase 8: income generation.
 	IncomeSystem:Update(dt)

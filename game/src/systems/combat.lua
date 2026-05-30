@@ -7,7 +7,6 @@ local CombatSystem = {}
 
 function CombatSystem:Update(dt)
 	self:AttackPhase(dt)
-	self:CleanupPhase()
 end
 
 --- Trigger attacks from units, projectiles and structures
@@ -38,31 +37,6 @@ function CombatSystem:AttackPhase(dt)
 		if projectile:HasReachedTarget() then
 			projectile:Attack()
 			self:ApplyProjectileSplash(projectile)
-		end
-	end
-end
-
---- Removes any entities that have been reduced to 0 or less health during the attack phase, ensuring that the game state remains accurate and up-to-date.
-function CombatSystem:CleanupPhase()
-	local units = entityManager:GetUnits()
-	local structures = entityManager:GetStructures()
-	local projectiles = entityManager:GetProjectiles()
-
-	for _, structure in ipairs(structures) do
-		if structure.Health <= 0 then
-			-- Before removing the structure, we need to substract its income bonus from the player's resources to ensure that the player's income is updated correctly after losing the structure.
-			resourceManager:SubstractPlayerIncome(structure.PlayerID, structure.IncomeBonus)
-			entityManager:RemoveStructure(structure)
-		end
-	end
-	for _, unit in ipairs(units) do
-		if unit.Health <= 0 then
-			entityManager:RemoveUnit(unit)
-		end
-	end
-	for _, projectile in ipairs(projectiles) do
-		if projectile:HasReachedTarget() then
-			entityManager:RemoveProjectile(projectile)
 		end
 	end
 end

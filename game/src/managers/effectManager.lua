@@ -1,4 +1,4 @@
---- -- Singleton-Instanz
+--- Singleton-Instanz
 local instance = nil
 
 -- Manages tables for all Effects (DoTs, Hots, Buffs). Handles adding and removing of effects.
@@ -11,6 +11,12 @@ EffectManager.__index = EffectManager
 --- @param Effect Effect
 function EffectManager:SetEffect(Effect)
 	table.insert(self.Effects, Effect)
+end
+
+--- Gets all effects from the effect manager
+--- @return Effect[]
+function EffectManager:GetEffects()
+	return self.Effects
 end
 
 --- Removes an effect from the effect manager
