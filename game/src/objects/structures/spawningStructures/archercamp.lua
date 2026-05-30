@@ -34,5 +34,26 @@ function ArcherCamp:new(PlayerID)
 	return newArcherCamp
 end
 
+ArcherCamp.Draw = function(self)
+	SpawningStructure.Draw(self)
+
+	-- Draw a simple archery target on the structure
+	local pos = self.Position
+	local size = self.Size or 20
+	local x, y = pos.X, pos.Y
+
+	-- Outer circle (white)
+	love.graphics.setColor(1, 1, 1, 1)
+	love.graphics.circle("fill", x + 5, y + 5, size * 0.6)
+
+	-- Middle circle (red)
+	love.graphics.setColor(1, 0, 0, 1)
+	love.graphics.circle("fill", x + 5, y + 5, size * 0.4)
+
+	-- Inner circle (yellow)
+	love.graphics.setColor(1, 1, 0, 1)
+	love.graphics.circle("fill", x + 5, y + 5, size * 0.2)
+end
+
 
 return ArcherCamp

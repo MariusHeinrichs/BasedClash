@@ -75,9 +75,28 @@ function Heal:Draw()
 	if not self:VisualDurationEnded() then
 		local target = self:GetTarget()
 		if target then
-			love.graphics.setColor(1, 1, 0, 1 * (self.VisualDurationTimer / self.VisualDuration)) -- Semi-transparent yellow
-			love.graphics.circle("line", target.Position.X, target.Position.Y, 15)
-			love.graphics.setColor(1, 1, 1)                                              -- Reset color
+			local t = love.timer.getTime()
+			local x, y = target.Position.X, target.Position.Y
+			local baseRadius = 15
+			local pulse = 2 + math.sin(t * 4) * 2
+			local alpha = 0.5 * (self.VisualDurationTimer / self.VisualDuration)
+
+			-- -- Pulsating green circle
+			love.graphics.setColor(0.2, 1, 0.2, alpha)
+			love.graphics.setLineWidth(3)
+			love.graphics.circle("line", x, y, baseRadius + pulse)
+			love.graphics.setLineWidth(1)
+
+			-- Animated plus sign (slightly floats upwards)
+			local plusYOffset = -10 - 10 * (1 - self.VisualDurationTimer / self.VisualDuration)
+			local plusAlpha = 0.8 * (self.VisualDurationTimer / self.VisualDuration)
+			love.graphics.setColor(0.8, 1, 0.8, plusAlpha)
+			love.graphics.setLineWidth(3)
+			love.graphics.line(x - 6, y + plusYOffset, x + 6, y + plusYOffset)
+			love.graphics.line(x, y + plusYOffset - 6, x, y + plusYOffset + 6)
+			love.graphics.setLineWidth(1)
+
+			love.graphics.setColor(1, 1, 1, 1) -- Reset color
 		end
 	end
 end

@@ -11,12 +11,13 @@ Healthbar.__index = Healthbar
 --- @param Object Unit | Structure The unit or structure to create the healthbar for.
 --- @return Healthbar
 function Healthbar:new(Object)
-	local newHealthbar = {}
+	local newHealthbar = {
+		MaxHealth = Object.MaxHealth or 100,
+		Health = Object.Health or (Object.MaxHealth or 100),
+		Object = Object,
+		PlayerID = Object.PlayerID or 1
+	}
 	setmetatable(newHealthbar, self)
-	newHealthbar.MaxHealth = Object.MaxHealth or 100
-	newHealthbar.Health = Object.Health or newHealthbar.MaxHealth
-	newHealthbar.Object = Object
-	newHealthbar.PlayerID = Object.PlayerID or 1
 
 	return newHealthbar
 end
@@ -29,7 +30,7 @@ function Healthbar:Draw()
 		return -- Don't draw if the unit is dead.
 	end
 	if self.MaxHealth <= 0 then
-		return                    -- Avoid division by zero.
+		return -- Avoid division by zero.
 	end
 	love.graphics.setColor(1, 0, 0)
 	love.graphics.rectangle("fill", position.X - 20, position.Y - size - 10, 40, 2)

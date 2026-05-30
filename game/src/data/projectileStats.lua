@@ -5,7 +5,7 @@ local DoTEnums = require("src.enums.dots")
 return {
 	Arrow = {
 		Velocity = 50.0,
-		Damage = 20,
+		Damage = 30,
 		DamageType = EntityEnums.DamageTypes.PHYSICAL,
 		SplashRadius = 0,
 		SplashDamageMultiplier = 0,

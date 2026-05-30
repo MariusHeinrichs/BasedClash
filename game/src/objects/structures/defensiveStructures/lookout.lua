@@ -37,4 +37,18 @@ function Lookout:new(PlayerID)
 	return newLookout
 end
 
+function Lookout:Draw()
+	RangeDefenseStructure.Draw(self)
+
+	local pos = self.Position
+	local size = self.Size or 20
+	local x, y = pos.X, pos.Y
+
+	-- Draw the lookout's roof (red triangle)
+	love.graphics.setColor(0.8, 0.2, 0.2, 1)
+	love.graphics.polygon("fill", x - size * 0.6, y - size * 0.5,
+		x + size * 0.6, y - size * 0.5,
+		x, y - size * 1.2)
+end
+
 return Lookout

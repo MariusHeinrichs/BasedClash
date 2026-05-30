@@ -36,4 +36,18 @@ function Townhall:new(PlayerID)
 	return newTownhall
 end
 
+function Townhall:Draw()
+	RangeDefenseStructure.Draw(self)
+
+	local pos = self.Position
+	local size = self.Size or 30
+	local x, y = pos.X, pos.Y
+
+	-- Draw the townhall's roof (dark gray triangle)
+	love.graphics.setColor(0.3, 0.3, 0.35, 1)
+	love.graphics.polygon("fill", x - size * 0.6, y - size * 0.5,
+		x + size * 0.6, y - size * 0.5,
+		x, y - size * 1.2)
+end
+
 return Townhall

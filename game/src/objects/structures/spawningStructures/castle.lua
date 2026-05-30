@@ -34,4 +34,23 @@ function Castle:new(PlayerID)
 	return newCastle
 end
 
+function Castle:Draw()
+	SpawningStructure.Draw(self)
+
+	-- Draw a simple castle (a square with battlements)
+	local pos = self.Position
+	local size = self.Size or 20
+	local x, y = pos.X, pos.Y
+
+	-- Battlements (evenly spaced along the top edge of the base square)
+	local baseTopY = y - size / 2
+	local battlementCount = 5
+	local battlementWidth = size / battlementCount
+	local battlementHeight = size * 0.22
+	for i = 0, battlementCount - 1 do
+		local bx = x - size / 2 + i * battlementWidth
+		love.graphics.rectangle("fill", bx, baseTopY - battlementHeight, battlementWidth * 0.8, battlementHeight)
+	end
+end
+
 return Castle

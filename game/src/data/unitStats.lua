@@ -14,7 +14,7 @@ return {
 			Armor = 2,
 			ArmorType = UnitConstants.ArmorTypes.LEATHER,
 			MovementSpeed = 15,
-			Size = 8,
+			Size = 6,
 			IsFlying = false,
 			Bounty = 15
 		},
@@ -29,7 +29,7 @@ return {
 			Armor = 5,
 			ArmorType = UnitConstants.ArmorTypes.PLATE,
 			MovementSpeed = 10,
-			Size = 10,
+			Size = 6,
 			IsFlying = false,
 			Bounty = 30
 		}
@@ -45,7 +45,7 @@ return {
 			Armor = 0,
 			ArmorType = UnitConstants.ArmorTypes.LEATHER,
 			MovementSpeed = 15,
-			Size = 5,
+			Size = 6,
 			IsFlying = false,
 			Bounty = 10,
 		},
@@ -59,7 +59,7 @@ return {
 			Armor = 0,
 			ArmorType = UnitConstants.ArmorTypes.LEATHER,
 			MovementSpeed = 15,
-			Size = 4,
+			Size = 6,
 			IsFlying = false,
 			Bounty = 20,
 		}
