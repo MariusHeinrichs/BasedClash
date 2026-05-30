@@ -2,6 +2,7 @@
 
 local Arrow = require("src.objects.projectiles.arrow")
 local Fireball = require("src.objects.projectiles.fireball")
+local FireArrow = require("src.objects.projectiles.fireArrow")
 
 local EntityEnums = require("src.enums.entities")
 
@@ -17,6 +18,8 @@ function ProjectileFactory:CreateProjectile(ProjectileType, Source, Target)
 		return Arrow:new(Source, Target)
 	elseif ProjectileType == EntityEnums.ProjectileTypes.FIREBALL then
 		return Fireball:new(Source, Target)
+	elseif ProjectileType == EntityEnums.ProjectileTypes.FIRE_ARROW then
+		return FireArrow:new(Source, Target)
 	else
 		error("Unknown projectile type: " .. tostring(ProjectileType))
 	end

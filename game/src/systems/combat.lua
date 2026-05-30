@@ -18,17 +18,8 @@ function CombatSystem:AttackPhase(dt)
 
 	for _, unit in ipairs(units) do
 		if unit.Target then
-			if unit:IsInstanceOf("MeleeUnit") then
-				--- trigger the unit's attack logic, which will apply damage to its target and update health values accordingly.
-				unit:Attack(dt)
-			end
-			if unit:IsInstanceOf("RangeUnit") then
-				--- trigger the unit's attack logic, which will create a projectile that moves towards the target and applies damage upon impact.
-				local projectile = unit:Attack(dt)
-				if projectile then
-					entityManager:SetProjectile(projectile)
-				end
-			end
+			--- trigger the unit's attack logic, which will apply damage to its target and update health values accordingly.
+			unit:Attack(dt)
 		end
 	end
 
@@ -37,10 +28,7 @@ function CombatSystem:AttackPhase(dt)
 			---@cast structure RangeDefenseStructure
 			if structure.Target then
 				--- trigger the structure's attack logic, which will create a projectile that moves towards the target and applies damage upon impact.
-				local projectile = structure:Attack(dt)
-				if projectile then
-					entityManager:SetProjectile(projectile)
-				end
+				structure:Attack(dt)
 			end
 		end
 	end
@@ -50,6 +38,7 @@ function CombatSystem:AttackPhase(dt)
 		if projectile:HasReachedTarget() then
 			projectile:Attack()
 			self:ApplyProjectileSplash(projectile)
+			self:ApplyProjectileDoT(projectile)
 		end
 	end
 end
@@ -93,6 +82,18 @@ function CombatSystem:ApplyProjectileSplash(projectile)
 					entity:TakeDamage(splashDamage)
 				end
 			end
+		end
+	end
+end
+
+--- Apply damage over time (DoT) effects to target unit based on the projectile's DoT properties, reducing their health over time.
+function CombatSystem:ApplyProjectileDoT(projectile)
+	--- find surounding units and structures within the projectile's DoT radius and apply damage over time based on the projectile's DoTDamage and DoTDuration
+	if projectile.DoTDamage and projectile.DoTDuration and projectile.DoTTickInterval then
+		local target = projectile.Target
+		if target then
+			--- apply DoT to the entity based on the projectile's DoTDamage and DoTDuration, reducing its health over time.
+			target:ApplyDoT(projectile.DoTDamage, projectile.DoTDuration, projectile.DoTTickInterval)
 		end
 	end
 end

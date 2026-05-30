@@ -253,4 +253,8 @@ function Unit:TakeDamage(Amount)
 	return dead
 end
 
+function Unit:ApplyDoT(Damage, Duration, TickInterval)
+
+end
+
 return Unit

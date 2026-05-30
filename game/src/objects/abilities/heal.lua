@@ -52,6 +52,10 @@ function Heal:Activate()
 	if self:IsReady() then
 		if self.Owner then
 			local tgt = self:GetTarget()
+			-- If the target is at full health, ignore the target and attempt to heal self if self is damaged.
+			if tgt and tgt.Health >= tgt.MaxHealth then
+				tgt = nil
+			end
 			-- If a target is set, heal that target. Otherwise, heal self if self is damaged.
 			if not tgt then
 				if self.Owner.Health > 0 and self.Owner.Health < self.Owner.MaxHealth then
@@ -73,7 +77,7 @@ function Heal:Draw()
 		if target then
 			love.graphics.setColor(1, 1, 0, 1 * (self.VisualDurationTimer / self.VisualDuration)) -- Semi-transparent yellow
 			love.graphics.circle("line", target.Position.X, target.Position.Y, 15)
-			love.graphics.setColor(1, 1, 1) -- Reset color
+			love.graphics.setColor(1, 1, 1)                                              -- Reset color
 		end
 	end
 end

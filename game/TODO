@@ -1,12 +1,12 @@
-bei restart bleiben structures mit ihren jetztigen hps stehen
-
 unit collision überarbeiten
 einheiten laufen durch gebäude
 	-> wenn sie sich den avoidance punkt nähern laufen sie durch
 
-heals werden noch gecastes obwohl kein target vorhanden sein sollte
+units schöner drawn
 
-Bounty systes
+Projectile Abilities
+
+Bounty system
 
 bosses
 

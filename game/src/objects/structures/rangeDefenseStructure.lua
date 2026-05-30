@@ -1,6 +1,7 @@
 local Structure = require("src.objects.structures.structure")
 local EntityEnums = require("src.enums.entities")
 local ProjectileFactory = require("src.objects.projectiles.projectileFactory")
+local entityManager = require("src.managers.entities").getInstance()
 
 --- RangeDefenseStructure class, representing a structure that can attack units at a range in the game.
 ---@class RangeDefenseStructure : Structure
@@ -35,7 +36,8 @@ setmetatable(RangeDefenseStructure, { __index = Structure })
 --- @param Bounty number | nil -- The bounty awarded for defeating the structure.
 --- @param PlayerID number | nil -- The ID of the player controlling the structure.
 --- @return T
-function RangeDefenseStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, IncomeBonus, Size, Projectile, AttackSpeed, AttackRange, AggroRange, TargetPriority, Bounty, PlayerID)
+function RangeDefenseStructure:new(Name, MaxHealth, Armor, ArmorType, Costs, IncomeBonus, Size, Projectile, AttackSpeed,
+								   AttackRange, AggroRange, TargetPriority, Bounty, PlayerID)
 	local newRangeDefenseStructure = Structure.new(self,
 		Name,
 		MaxHealth,
@@ -62,7 +64,6 @@ end
 function RangeDefenseStructure:SetTarget(Target)
 	self.Target = Target
 end
-
 
 function RangeDefenseStructure:IsTargetInRange()
 	if not self.Target then
@@ -94,7 +95,9 @@ function RangeDefenseStructure:Attack(dt)
 	self.AttackTimer = 0
 	-- Create a projectile
 	local projectile = ProjectileFactory:CreateProjectile(self.Projectile, self, self.Target)
-	return projectile
+	if projectile then
+		entityManager:SetProjectile(projectile)
+	end
 end
 
 return RangeDefenseStructure

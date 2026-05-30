@@ -26,6 +26,7 @@ EntityEnums.UnitTypes = {
 EntityEnums.ProjectileTypes = {
 	ARROW = "Arrow",
 	FIREBALL = "Fireball",
+	FIRE_ARROW = "FireArrow",
 }
 
 --- @enum EntityEnums.ArmorTypes

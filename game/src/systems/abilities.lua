@@ -135,7 +135,7 @@ function AbilitySystem:ActivationPhase(Unit)
 	if Unit:GetAbilities() then
 		for _, ability in pairs(Unit:GetAbilities()) do
 			-- Only activate abilities that are ready
-			if ability.IsReady and ability.Activate then
+			if ability:IsReady() then
 				ability:Activate()
 				abilityManager:SetAbility(ability)
 			end

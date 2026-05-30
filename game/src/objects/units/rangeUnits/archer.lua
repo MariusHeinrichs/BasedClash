@@ -2,6 +2,7 @@
 
 local RangeUnit = require("src.objects.units.rangeUnit")
 local UnitStats = require("src.data.unitStats").RangeUnits.Archer
+local BlazeShotAbility = require("src.objects.abilities.blazeShot")
 
 --- @class Archer : RangeUnit
 local Archer = {}
@@ -30,6 +31,8 @@ function Archer:new(PlayerID)
 		UnitStats.Bounty,
 		PlayerID
 	)
+	-- Add the BlazeShot ability to the archer's abilities list
+	table.insert(newArcher:GetAbilities(), BlazeShotAbility:new("BlazeShot", newArcher))
 	return newArcher
 end
 

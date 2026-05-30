@@ -1,22 +1,22 @@
---- Arrow class, represents an arrow projectile in the game.
+--- FireArrow class, represents a fire arrow projectile in the game.
 
 local Projectile = require("src.objects.projectiles.projectile")
-local ProjectileStats = require("src.data.projectileStats").Arrow
+local ProjectileStats = require("src.data.projectileStats").FireArrow
 
---- @class Arrow : Projectile
-local Arrow = {}
-Arrow.__index = Arrow
-Arrow.__type = "Arrow"
+--- @class FireArrow : Projectile
+local FireArrow = {}
+FireArrow.__index = FireArrow
+FireArrow.__type = "FireArrow"
 
-setmetatable(Arrow, { __index = Projectile })
+setmetatable(FireArrow, { __index = Projectile })
 
---- Creates a new Arrow.
+--- Creates a new FireArrow.
 --- @param Source Unit | Structure | nil -- The source unit or structure that fired the arrow.
 --- @param Target Unit | Structure | nil -- The target unit or structure that the arrow is aimed at.
---- @return Arrow
-function Arrow:new(Source, Target)
+--- @return FireArrow
+function FireArrow:new(Source, Target)
 	local newArrow = Projectile.new(self,
-		"Arrow",
+		"FireArrow",
 		ProjectileStats.Velocity,
 		ProjectileStats.Damage,
 		ProjectileStats.DamageType,
@@ -31,7 +31,7 @@ function Arrow:new(Source, Target)
 	return newArrow
 end
 
-function Arrow:Draw()
+function FireArrow:Draw()
 	local x, y = self.Position.X, self.Position.Y
 	local dx = self.Velocity
 	local dy = self.Velocity
@@ -43,9 +43,10 @@ function Arrow:Draw()
 	local ux, uy = dx / len, dy / len
 	local px, py = -uy, ux
 	local shaft = 2.5 * 3.0
-	local wing = 2.5 * 0.9
+	local wing = 3 * 0.9
 
 	love.graphics.line(x - ux * shaft * 0.5, y - uy * shaft * 0.5, x + ux * shaft * 0.5, y + uy * shaft * 0.5)
+	love.graphics.setColor(1, 0.5, 0, 1) -- Orange color for fire arrow
 	love.graphics.polygon(
 		"fill",
 		x + ux * shaft * 0.5,
@@ -55,6 +56,7 @@ function Arrow:Draw()
 		x - px * wing,
 		y - py * wing
 	)
+	love.graphics.setColor(1, 1, 1) -- Reset color
 end
 
-return Arrow
+return FireArrow

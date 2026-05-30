@@ -101,4 +101,24 @@ function Ability:UpdateVisualDuration(dt) end
 --- @return boolean | nil
 function Ability:VisualDurationEnded() return nil end
 
+--- projectile mixin
+
+--- Sets the type of projectile to be used by the ability.
+---@param Projectile EntityEnums.ProjectileTypes
+function Ability:InitProjectile(Projectile) end
+
+--- Creates and fires a projectile towards the target.
+---@param Target Unit | Structure
+function Ability:FireProjectile(Target) end
+
+--- DoT mixin
+
+--- Initializes the DoT parameters for the ability
+---@param DoTDamage number
+---@param DoTDuration number
+---@param DoTTickInterval number
+function Ability:InitDoT(DoTDamage, DoTDuration, DoTTickInterval) end
+
+function Ability:UpdateDoT(dt) end
+
 return Ability

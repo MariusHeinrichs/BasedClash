@@ -39,8 +39,8 @@ function defaultMap:new()
 		[2] = { Gold = 10, Metal = 5, Aether = 0 }
 	}
 	local teamStructures = {
-		{ Structure = StructureFactory:CreateStructure(EntityEnums.Structures.LIBRARY, 2), X = GridData.CellSize * 9 - GridData.CellSize / 2, Y = GridData.CellSize * 8 - GridData.CellSize / 2 },
-		{ Structure = StructureFactory:CreateStructure(EntityEnums.Structures.LOOKOUT, 2), X = GridData.CellSize * 9 - GridData.CellSize / 2, Y = GridData.CellSize * 7 - GridData.CellSize / 2 }
+		{ Structure = EntityEnums.Structures.CASTLE, X = GridData.CellSize * 9 - GridData.CellSize / 2, Y = GridData.CellSize * 8 - GridData.CellSize / 2, PlayerID = 2 },
+		{ Structure = EntityEnums.Structures.LOOKOUT, X = GridData.CellSize * 9 - GridData.CellSize / 2, Y = GridData.CellSize * 7 - GridData.CellSize / 2 , PlayerID = 2}
 	}
 	local buildZones = {
 		[1] = {

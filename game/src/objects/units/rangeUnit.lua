@@ -2,6 +2,7 @@
 
 local Unit = require("src.objects.units.unit")
 local ProjectileFactory = require("src.objects.projectiles.projectileFactory")
+local EntityManager = require("src.managers.entities").getInstance()
 local EntityEnums = require("src.enums.entities")
 
 ---@class RangeUnit : Unit
@@ -51,7 +52,6 @@ end
 
 --- Executes a ranged attack, shooting a projectile at the target.
 --- @param dt number -- The delta time since the last update, used for timing attacks based on attack speed.
---- @return Projectile | nil projectile -- Returns the created projectile if an attack was executed, nil otherwise.
 function RangeUnit:Attack(dt)
 	-- No target to attack.
 	if not self.Target then
@@ -69,7 +69,9 @@ function RangeUnit:Attack(dt)
 	self.AttackTimer = 0
 	-- Create a projectile
 	local projectile = ProjectileFactory:CreateProjectile(self.Projectile, self, self.Target)
-	return projectile
+	if projectile then
+		EntityManager:SetProjectile(projectile)
+	end
 end
 
 return RangeUnit

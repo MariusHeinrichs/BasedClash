@@ -15,7 +15,7 @@ local abilityManager = require("src.managers.abilities").getInstance()
 ---@field TeamStarts table<integer, { X: number, Y: number }> -- Start points for teams
 ---@field TeamResources table<integer, { Gold: number, Metal: number, Aether: number }> -- Start resources per team
 ---@field TeamIncomes table<integer, { Gold: number, Metal: number, Aether: number }> -- Start income per team
----@field TeamStructures {Structure: Structure, X: number, Y: number}[] | nil -- Optional initial structures for each team
+---@field TeamStructures{Structure: EntityEnums.Structures, X: number, Y: number, PlayerID: number}[] | nil
 local Map = {}
 Map.__index = Map
 
@@ -28,7 +28,7 @@ Map.__index = Map
 ---@param TeamStarts table<integer, { X: number, Y: number }> -- Start points for teams townhalls
 ---@param TeamResources table<integer, { Gold: number, Metal: number, Aether: number }>
 ---@param TeamIncomes table<integer, { Gold: number, Metal: number, Aether: number }> -- Start income per team
----@param TeamStructures {Structure: Structure, X: number, Y: number}[] | nil -- Optional initial structures for each team
+---@param TeamStructures {Structure: EntityEnums.Structures, X: number, Y: number, PlayerID: number}[] | nil -- Optional initial structures for each team
 ---@return T
 function Map:new(Size, BuildZones, Paths, Boundaries, TeamStarts, TeamResources, TeamIncomes, TeamStructures)
 	local newMap = setmetatable({}, self)
@@ -130,8 +130,9 @@ function Map:Setup()
 	end
 
 	for _, structureData in pairs(self.TeamStructures) do
-		entityManager:SetStructure(structureData.Structure)
-		structureData.Structure.Position = { X = structureData.X, Y = structureData.Y }
+		local structure = StructureFactory:CreateStructure(structureData.Structure, structureData.PlayerID)
+		entityManager:SetStructure(structure)
+		structure.Position = { X = structureData.X, Y = structureData.Y }
 	end
 
 	structureHashGrid:SetMapSize(self.Size.width, self.Size.height)

@@ -9,6 +9,9 @@ local EntityEnums = require("src.enums.entities")
 ---@field DamageType EntityEnums.DamageTypes
 ---@field SplashRadius number
 ---@field SplashDamageMultiplier number
+---@field DoTDamage number
+---@field DoTDuration number
+---@field DoTTickInterval number
 ---@field Position { X: number, Y: number }
 ---@field Source Unit | Structure | nil
 ---@field Target Unit | Structure | nil
@@ -27,10 +30,13 @@ setmetatable(Projectile, { __index = Object })
 --- @param DamageType EntityEnums.DamageTypes | nil -- The type of damage dealt by the projectile.
 --- @param SplashRadius number | nil -- The radius of the splash damage.
 --- @param SplashDamageMultiplier number | nil -- The multiplier for the splash damage.
+--- @param DoTDamage number | nil -- The damage over time applied by the projectile.
+--- @param DoTDuration number | nil -- The duration of the damage over time effect.
+--- @param DoTTickInterval number | nil -- The interval at which the damage over time effect ticks.
 --- @param Source Unit | Structure | nil -- The source unit or structure that fired the projectile.
 --- @param Target Unit | Structure | nil -- The target unit or structure that the projectile is aimed at.
 --- @return T
-function Projectile:new(Name, Velocity, Damage, DamageType, SplashRadius, SplashDamageMultiplier, Source, Target)
+function Projectile:new(Name, Velocity, Damage, DamageType, SplashRadius, SplashDamageMultiplier, DoTDamage, DoTDuration, DoTTickInterval, Source, Target)
 	local newProjectile = Object.new(self, Name or "Projectile")
 	newProjectile.Velocity = Velocity or 100
 	newProjectile.DamageType = DamageType or EntityEnums.DamageTypes.PHYSICAL
@@ -39,6 +45,9 @@ function Projectile:new(Name, Velocity, Damage, DamageType, SplashRadius, Splash
 	newProjectile.SplashRadius = SplashRadius or 0
 	newProjectile.SplashDamageMultiplier = SplashDamageMultiplier or 0
 	newProjectile.Damage = Damage or 0
+	newProjectile.DoTDamage = DoTDamage or 0
+	newProjectile.DoTDuration = DoTDuration or 0
+	newProjectile.DoTTickInterval = DoTTickInterval or 0
 	newProjectile.Position = { X = newProjectile.Source.Position.X, Y = newProjectile.Source.Position.Y }
 	return newProjectile
 end

@@ -22,6 +22,9 @@ function Fireball:new(Source, Target)
 		ProjectileStats.DamageType,
 		ProjectileStats.SplashRadius,
 		ProjectileStats.SplashDamageMultiplier,
+		ProjectileStats.DoTDamage,
+		ProjectileStats.DoTDuration,
+		ProjectileStats.DoTTickInterval,
 		Source,
 		Target
 	)
