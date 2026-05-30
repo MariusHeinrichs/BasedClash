@@ -62,6 +62,10 @@ function CleanUpSystem:CleanUpDoTs()
 		if effect.Target == nil then
 			effectManager:RemoveEffect(effect)
 		end
+		if effect.Target and effect.Target.Health <= 0 then
+			effect.Target = nil
+			effectManager:RemoveEffect(effect)
+		end
 	end
 end
 

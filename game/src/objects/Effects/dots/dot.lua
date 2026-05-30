@@ -36,9 +36,16 @@ end
 function DamageOverTime:Update(dt)
 	self.ElapsedTime = self.ElapsedTime + dt
 	if self.Target and self.ElapsedTime >= self.TickInterval then
-		self.Target:TakeDamage(self.Damage)
+		if self.Target.Health <= 0 then
+			self.Target = nil -- Clear target if it's already dead
+			return
+		end
+		local targetKilled = self.Target:TakeDamage(self.Damage)
 		self.ElapsedTime = self.ElapsedTime - self.TickInterval
 		self.TicksApplied = self.TicksApplied + 1
+		if targetKilled then
+			self.Target = nil -- Clear target if it's killed
+		end
 	end
 end
 

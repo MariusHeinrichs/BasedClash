@@ -2,8 +2,6 @@ unit collision überarbeiten
 
 es gibt keinen schaden mehr an gebäuden
 
-lingering dot effect
-
 einheiten laufen durch gebäude
 	-> wenn sie sich den avoidance punkt nähern laufen sie durch
 
