@@ -2,6 +2,7 @@
 
 local EntityEnums = require("src.enums.entities")
 local Object = require("src.objects.object")
+local DoTEnums = require("src.enums.dots")
 
 ---@class Structure : Object
 ---@field Health number
@@ -11,6 +12,7 @@ local Object = require("src.objects.object")
 ---@field Costs {Gold: number, Metal: number, Aether: number}
 ---@field IncomeBonus {Gold: number, Metal: number, Aether: number}
 ---@field Bounty number
+---@field DoTEffects DoTEnums.DoTTypes[] -- List of DoT effects currently applied to the structure
 ---@field PlayerID number
 local Structure = {}
 Structure.__index = Structure
@@ -41,10 +43,11 @@ function Structure:new(Name, MaxHealth, Armor, ArmorType, Costs, IncomeBonus, Si
 	newStructure.IncomeBonus = IncomeBonus or { Gold = 0, Metal = 0, Aether = 0 }
 	newStructure.Bounty = Bounty or 50
 	newStructure.PlayerID = PlayerID or 0
+	newStructure.DoTEffects = {} -- Initialize the list of DoT effects
 	return newStructure
 end
 
---- draws the structure on the screen 
+--- draws the structure on the screen
 function Structure:Draw()
 	if self.PlayerID == 1 then
 		love.graphics.setColor(0, 1, 0) -- Green for player 1
@@ -75,6 +78,29 @@ function Structure:TakeDamage(Amount)
 		dead = true
 	end
 	return dead
+end
+
+---Applies a DoT effect on to the Structure
+---@param DoT DamageOverTime -- The damage over time effect to apply to the structure.
+function Structure:ApplyDoT(DoT)
+	table.insert(self.DoTEffects, DoT)
+end
+
+---Removes the DoT from the Structure
+---@param DoT DamageOverTime
+function Structure:RemoveDoT(DoT)
+	for i, activeDoT in ipairs(self.DoTEffects) do
+		if activeDoT == DoT then
+			table.remove(self.DoTEffects, i)
+			break
+		end
+	end
+end
+
+---Returns all currently applied DoT effects
+---@return DamageOverTime[]
+function Structure:GetDoTs()
+	return self.DoTEffects
 end
 
 return Structure

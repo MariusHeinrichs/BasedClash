@@ -1,6 +1,7 @@
 local entityManager = require("src.managers.entities").getInstance()
 local abilityManager = require("src.managers.abilities").getInstance()
 local gameStateManager = require("src.managers.gamestate").getInstance()
+local effectManager = require("src.managers.effectManager").getInstance()
 local SpawnSystem = require("src.systems.spawn")
 local MovementSystem = require("src.systems.movement")
 local TargetingSystem = require("src.systems.targeting")
@@ -8,6 +9,7 @@ local CombatSystem = require("src.systems.combat")
 local IncomeSystem = require("src.systems.income")
 local GameOutcomeSystem = require("src.systems.gameOutcome")
 local AbilitySystem = require("src.systems.abilities")
+local EffectSystem = require("src.systems.effectSystem")
 
 
 local GameStateEnums = require("src.enums.gameStates")
@@ -45,13 +47,18 @@ function WorldManager:Update(dt)
 	-- Phase 4: direct combat resolution.
 	CombatSystem:Update(dt)
 
-	-- Phase 5: ability updates and effects.
+	-- Phase 5: ability updates.
 	AbilitySystem:Update(dt)
 
-	-- Phase 6: income generation.
+	-- Phase 6: effect updates (e.g., damage over time, buffs, debuffs).
+	EffectSystem:Update(dt)
+
+	-- Phase 7: Cleanup of expired effects, dead units, etc.
+
+	-- Phase 8: income generation.
 	IncomeSystem:Update(dt)
 
-	-- Phase 7: win condition checks and game state transitions.
+	-- Phase 9: win condition checks and game state transitions.
 	GameOutcomeSystem:Update(dt)
 end
 
@@ -72,6 +79,8 @@ function WorldManager:Draw()
 	entityManager:Draw()
 	-- Draw abilities
 	abilityManager:Draw()
+	-- Draw effects
+	effectManager:Draw()
 	-- Draw the map components.
 	if self.Map then
 		self.Map:Draw()

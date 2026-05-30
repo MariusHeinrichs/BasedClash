@@ -14,7 +14,7 @@ return {
 		AbilityRange = 200,
 		VisualDuration = 1
 	},
-	FireArrow = {
+	Blaze_Shot = {
 		Cooldown = 12,
 		Projectile = EntityEnums.ProjectileTypes.FIRE_ARROW,
 		TargetCriterias = {
@@ -23,9 +23,6 @@ return {
 			DistanceCriteria = AbilityEnums.TargetCriteria.DistanceCriteria.FARTHEST,
 		},
 		AbilityRange = 400,
-		DoTDamage = 5,
-		DoTDuration = 5,
-		DoTTickInterval = 1,
 		VisualDuration = 5
 	}
 }

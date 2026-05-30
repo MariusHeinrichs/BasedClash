@@ -10,6 +10,7 @@ local Object = require("src.objects.object")
 ---@field AttackRange number
 ---@field AggroRange number
 ---@field Abilities Ability[] -- List of abilities the unit has
+---@field DoTEffects DamageOverTime[] -- Table to track active damage over time effects on the unit
 ---@field Target Unit | Structure | nil
 ---@field TargetPriority EntityEnums.TargetPriorities
 ---@field Armor number
@@ -66,6 +67,7 @@ function Unit:new(Name, MaxHealth, AttackSpeed, AttackRange, AggroRange, TargetP
 	newUnit.CurrentWayPointIndex = nil
 	newUnit.AvoidancePoint = nil
 	newUnit.Abilities = {}
+	newUnit.DoTEffects = {}
 	return newUnit
 end
 
@@ -253,8 +255,27 @@ function Unit:TakeDamage(Amount)
 	return dead
 end
 
-function Unit:ApplyDoT(Damage, Duration, TickInterval)
+---Applies a DoT effect on to the Unit
+---@param DotEffect DamageOverTime -- The damage over time effect to apply to the unit.
+function Unit:ApplyDoT(DotEffect)
+	table.insert(self.DoTEffects, DotEffect)
+end
 
+---Removes the DoT from the Unit
+---@param DotEffect DamageOverTime
+function Unit:RemoveDoT(DotEffect)
+	for i, activeDoT in ipairs(self.DoTEffects) do
+		if activeDoT == DotEffect then
+			table.remove(self.DoTEffects, i)
+			break
+		end
+	end
+end
+
+---Returns all currently applied DoT effects
+---@return DamageOverTime[]
+function Unit:GetDoTs()
+	return self.DoTEffects
 end
 
 return Unit

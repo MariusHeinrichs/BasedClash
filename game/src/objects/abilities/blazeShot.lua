@@ -3,7 +3,7 @@ local Ability = require("src.objects.abilities.ability")
 local CooldownMixin = require("src.objects.abilities.mixins.cooldownMixin")
 local TargetingMixin = require("src.objects.abilities.mixins.targetingMixin")
 local ProjectileMixin = require("src.objects.abilities.mixins.projectileMixin")
-local AbilityStats = require("src.data.abilityStats")
+local AbilityStats = require("src.data.abilityStats").Blaze_Shot
 
 ---@class BlazeShot : Ability
 ---@field Cooldown number
@@ -29,11 +29,11 @@ for k, v in pairs(ProjectileMixin) do BlazeShot[k] = v end
 function BlazeShot:new(Name, Owner)
 	local newAbility = Ability.new(self, Name or "BlazeShot", Owner)
 
-	newAbility:InitCooldown(AbilityStats.FireArrow.Cooldown)
+	newAbility:InitCooldown(AbilityStats.Cooldown)
 	newAbility:StartCooldown()
-	newAbility:InitTargeting(AbilityStats.FireArrow.TargetType, AbilityStats.FireArrow.TargetCriterias,
-		AbilityStats.FireArrow.AbilityRange)
-	newAbility:InitProjectile(AbilityStats.FireArrow.Projectile)
+	newAbility:InitTargeting(AbilityStats.TargetType, AbilityStats.TargetCriterias,
+		AbilityStats.AbilityRange)
+	newAbility:InitProjectile(AbilityStats.Projectile)
 
 	return newAbility
 end

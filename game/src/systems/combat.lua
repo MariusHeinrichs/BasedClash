@@ -38,7 +38,6 @@ function CombatSystem:AttackPhase(dt)
 		if projectile:HasReachedTarget() then
 			projectile:Attack()
 			self:ApplyProjectileSplash(projectile)
-			self:ApplyProjectileDoT(projectile)
 		end
 	end
 end
@@ -82,18 +81,6 @@ function CombatSystem:ApplyProjectileSplash(projectile)
 					entity:TakeDamage(splashDamage)
 				end
 			end
-		end
-	end
-end
-
---- Apply damage over time (DoT) effects to target unit based on the projectile's DoT properties, reducing their health over time.
-function CombatSystem:ApplyProjectileDoT(projectile)
-	--- find surounding units and structures within the projectile's DoT radius and apply damage over time based on the projectile's DoTDamage and DoTDuration
-	if projectile.DoTDamage and projectile.DoTDuration and projectile.DoTTickInterval then
-		local target = projectile.Target
-		if target then
-			--- apply DoT to the entity based on the projectile's DoTDamage and DoTDuration, reducing its health over time.
-			target:ApplyDoT(projectile.DoTDamage, projectile.DoTDuration, projectile.DoTTickInterval)
 		end
 	end
 end

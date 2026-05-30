@@ -11,7 +11,8 @@ AbilityEnums.TargetTypes = {
 
 ---@enum AbilityEnums.Abilities
 AbilityEnums.Abilities = {
-	HEAL = "Heal"
+	HEAL = "Heal",
+	BLAZE_SHOT = "BlazeShot",
 }
 
 ---@enum AbilityEnums.TargetCriteria

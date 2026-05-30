@@ -1,10 +1,19 @@
 unit collision überarbeiten
+
+clean up system
+
 einheiten laufen durch gebäude
 	-> wenn sie sich den avoidance punkt nähern laufen sie durch
 
 units schöner drawn
 
-Projectile Abilities
+weitere abilities mit verschiedenen mix ins
+
+Mangers und Systems refactorn mit endings
+
+Enums refactorn mit endings
+
+Factories in eigenen folder packen
 
 Bounty system
 
